@@ -7,7 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>No CopyRight, viva la revolution</copyright>
-    <lastBuildDate>Tue, 05 Jul 2022 12:00:00 -0300</lastBuildDate><atom:link href="https://blog.midnighthackings.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Aug 2022 19:15:14 -0300</lastBuildDate><atom:link href="https://blog.midnighthackings.com/tags/index.xml" rel="self" type="application/rss+xml" />
+      <item>
+        <title>injection</title>
+        <link>https://blog.midnighthackings.com/tags/injection/</link>
+        <pubDate>Mon, 01 Aug 2022 19:15:14 -0300</pubDate>
+        
+        <guid>https://blog.midnighthackings.com/tags/injection/</guid>
+        <description></description>
+      </item>
+    
+      <item>
+        <title>malware-dev</title>
+        <link>https://blog.midnighthackings.com/tags/malware-dev/</link>
+        <pubDate>Mon, 01 Aug 2022 19:15:14 -0300</pubDate>
+        
+        <guid>https://blog.midnighthackings.com/tags/malware-dev/</guid>
+        <description></description>
+      </item>
+    
       <item>
         <title>pentest</title>
         <link>https://blog.midnighthackings.com/tags/pentest/</link>
