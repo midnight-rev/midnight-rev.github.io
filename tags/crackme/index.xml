@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Midnight Hackings</title>
+    <link>https://blog.midnighthackings.com/tags/crackme/</link>
+    <description>Midnight Hackings - Yet another security blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>No CopyRight, viva la revolution</copyright>
+    <lastBuildDate>Tue, 15 Nov 2022 20:11:51 -0300</lastBuildDate><atom:link href="https://blog.midnighthackings.com/tags/crackme/index.xml" rel="self" type="application/rss+xml" />
+      <item>
+        <title>Crackme 0x00 - BruteVerse: Análise estática com radare2</title>
+        <link>https://blog.midnighthackings.com/posts/crackme-0x00/</link>
+        <pubDate>Tue, 15 Nov 2022 20:11:51 -0300</pubDate>
+        
+        <guid>https://blog.midnighthackings.com/posts/crackme-0x00/</guid>
+        <description>Introdução Como toda pessoa que atua com engenharia reversa, sempre senti vontade de aprofundar meus conhecimentos no framework radare2, e talvez utilizá-lo como framework padrão para minhas análises e CTFs. Por esse motivo, resolvi esse crackme, chamado BruteVerse, postado no site crackmes.one utilizando o radare2. Esse post também dará início a uma série de postagens de resolução de CTFs.
+A quem interessar, o link para o desafio está aqui. Créditos para o ThePhilosopher, por ter criado e postado o desafio.</description>
+      </item>
+    
+  </channel>
+</rss>

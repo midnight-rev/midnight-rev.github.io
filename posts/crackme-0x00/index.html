@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark">
+  <head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="Hugo 0.101.0">
+<meta name="theme" content="Color Your World -- gitlab.com/rmaguiar/hugo-theme-color-your-world">
+
+
+<title>Crackme 0x00 - BruteVerse: Análise estática com radare2 | Midnight Hackings</title>
+
+<meta name="author" content="Midnight Reverser">
+
+
+
+<meta name="robots" content="index follow">
+
+
+
+
+  
+    <link rel="canonical" href="https://blog.midnighthackings.com/posts/crackme-0x00/">
+  
+
+
+
+
+
+
+
+
+<meta property="og:site_name" content="Midnight Hackings">
+<meta property="og:title" content="Crackme 0x00 - BruteVerse: Análise estática com radare2">
+
+  <meta property="og:url" content="https://blog.midnighthackings.com/posts/crackme-0x00/">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:type" content="article">
+  
+  
+    <meta property="article:published_time" content="2022-11-15">
+    <meta property="article:modified_time" content="2022-11-15">
+    <meta property="og:updated_time" content="2022-11-15">
+  
+
+  
+  
+  
+    <meta name="twitter:creator" content="@&lt;username&gt;">
+  
+  
+
+  <meta name="twitter:site" content="@&lt;username&gt;">
+
+
+
+
+
+
+
+  <meta name="twitter:dnt" content="on">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="theme-color" content="#222">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebSite",
+        "@id": "https://blog.midnighthackings.com/"
+      },
+      "headline": "Crackme 0x00 - BruteVerse: Análise estática com radare2",
+      "description": "",
+      
+      "url": "https://blog.midnighthackings.com/posts/crackme-0x00/",
+      "inLanguage": "en",
+      "datePublished": "2022-11-15",
+      "dateModified": "2022-11-15",
+      "wordCount" : "1279",
+      "publisher": {
+        "@type": "Person",
+        "name": "Midnight Reverser"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Midnight Reverser",
+        "description": "IT Sec professional and low level lover S2",
+        "sameAs": ["https://facebook.com/\u003cusername\u003e","https://www.flickr.com/\u003cusername\u003e","https://open.audio/\u003cusername\u003e","https://github.com/\u003cusername\u003e","https://gitlab.com/\u003cusername\u003e","https://www.instagram.com/\u003cusername\u003e","https://keybase.io/\u003cusername\u003e","https://www.linkedin.com/in/mateus-gualberto-santos","https://mastodon.social/\u003cusername\u003e","https://mastodon.too/\u003cusername\u003e","https://yet.another.one/\u003cusername\u003e","https://matrix.to/#/\u003cusername\u003e:matrix.org","https://matrix.to/#/\u003cusername\u003e:other.org","https://medium.com/\u003cusername\u003e","https://peertube.something/accounts/\u003cusername\u003e","https://pixelfed.social/\u003cusername\u003e","https://www.reddit.com/user/\u003cusername\u003e","https://app.element.io/#/user/\u003cusername\u003e:matrix.org","https://www.snapchat.com/add/\u003cusername\u003e","https://soundcloud.com/\u003cusername\u003e","https://stackoverflow.com/users/\u003cusername\u003e","https://www.strava.com/athletes/\u003cusername\u003e","https://t.me/\u003cusername\u003e","https://www.twitch.tv/\u003cusername\u003e","https://twitter.com/\u003cusername\u003e","https://vimeo.com/\u003cusername\u003e","https://wa.me/\u003cnumber\u003e","https://www.xing.com/profile/\u003cusername\u003e","https://youtube.com/channel/\u003cchannelid\u003e"]
+      }
+    }
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="https://blog.midnighthackings.com/css/main.min.e09e15333e480955cd0b2649c89e0712619f98abaa58782ae5c40252066d99d8.css" integrity="sha256-4J4VMz5ICVXNCyZJyJ4HEmGfmKuqWHgq5cQCUgZtmdg=" crossorigin="anonymous">
+
+
+
+<noscript>
+
+  
+  
+
+  
+    <meta name="theme-color" content="#1dbc91" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#1f676b" media="(prefers-color-scheme: light)">
+  
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/noscript.min.3f3b95436b19eaeb9223fb12c0b86737d53ee0a47fdba271a886c244bc03975c.css" integrity="sha256-PzuVQ2sZ6uuSI/sSwLhnN9U&#43;4KR/26JxqIbCRLwDl1w=" crossorigin="anonymous">
+
+</noscript>
+
+
+
+<link rel="preload" href="/fonts/open-sans-v17-latin-700.woff2" as="font" crossorigin="anonymous">
+<link rel="preload" href="/fonts/open-sans-v17-latin-italic.woff2" as="font" crossorigin="anonymous">
+<link rel="preload" href="/fonts/open-sans-v17-latin-regular.woff2" as="font" crossorigin="anonymous">
+<link rel="preload" href="/fonts/oswald-v29-latin-700.woff2" as="font" crossorigin="anonymous">
+
+
+
+
+
+
+
+
+
+<link rel="me" href="https://facebook.com/%3cusername%3e"> 
+<link rel="me" href="https://www.flickr.com/%3cusername%3e"> 
+<link rel="me" href="https://open.audio/%3cusername%3e"> 
+<link rel="me" href="https://github.com/%3cusername%3e"> 
+<link rel="me" href="https://gitlab.com/%3cusername%3e"> 
+<link rel="me" href="https://www.instagram.com/%3cusername%3e"> 
+<link rel="me" href="https://keybase.io/%3cusername%3e"> 
+<link rel="me" href="https://www.linkedin.com/in/mateus-gualberto-santos"> 
+<link rel="me" href="https://mastodon.social/%3cusername%3e"> 
+<link rel="me" href="https://mastodon.too/%3cusername%3e"> 
+<link rel="me" href="https://yet.another.one/%3cusername%3e"> 
+<link rel="me" href="https://matrix.to/#/%3cusername%3e:matrix.org"> 
+<link rel="me" href="https://matrix.to/#/%3cusername%3e:other.org"> 
+<link rel="me" href="https://medium.com/%3cusername%3e"> 
+<link rel="me" href="https://peertube.something/accounts/%3cusername%3e"> 
+<link rel="me" href="https://pixelfed.social/%3cusername%3e"> 
+<link rel="me" href="https://www.reddit.com/user/%3cusername%3e"> 
+<link rel="me" href="https://app.element.io/#/user/%3cusername%3e:matrix.org"> 
+<link rel="me" href="https://www.snapchat.com/add/%3cusername%3e"> 
+<link rel="me" href="https://soundcloud.com/%3cusername%3e"> 
+<link rel="me" href="https://stackoverflow.com/users/%3cusername%3e"> 
+<link rel="me" href="https://www.strava.com/athletes/%3cusername%3e"> 
+<link rel="me" href="https://t.me/%3cusername%3e"> 
+<link rel="me" href="https://www.twitch.tv/%3cusername%3e"> 
+<link rel="me" href="https://twitter.com/%3cusername%3e"> 
+<link rel="me" href="https://vimeo.com/%3cusername%3e"> 
+<link rel="me" href="https://wa.me/%3cnumber%3e"> 
+<link rel="me" href="https://www.xing.com/profile/%3cusername%3e"> 
+<link rel="me" href="https://youtube.com/channel/%3cchannelid%3e"> 
+
+
+
+
+  
+  
+
+
+<script src="https://blog.midnighthackings.com/js/main.f1da21dfea83dc0c36cea0b202c14a97e00aedab567e32702eb120f5ab8d974b.js" integrity="sha256-8doh3&#43;qD3Aw2zqCyAsFKl&#43;AK7atWfjJwLrEg9auNl0s=" crossorigin="anonymous"></script>
+
+  </head>
+
+  <body>
+
+    <header>
+      
+
+  <a href="/">Midnight Hackings</a>
+
+
+
+
+  
+    <nav aria-label="Main menu.">
+      <ul>
+        
+          <li>
+            <a class="btn" href="/privacy/">About</a>
+          </li>
+        
+          <li>
+            <a class="btn" href="/posts/">Posts</a>
+          </li>
+        
+          <li>
+            <a class="btn" href="/contacts/">Contact</a>
+          </li>
+        
+      </ul>
+    </nav>
+  
+
+
+    </header>
+
+    <div class="filler">
+      
+
+  <main>
+    <article>
+      <header>
+        
+        <h1>Crackme 0x00 - BruteVerse: Análise estática com radare2</h1>
+
+        
+          <div class="terms">
+            <ul><li><a class="btn" href="/tags/crackme/">crackme</a></li><li><a class="btn" href="/tags/ctf/">ctf</a></li></ul>
+          </div>
+          <p>
+            
+              Published on <time datetime="2022-11-15">2022-11-15</time>
+            
+          </p>
+        
+        
+        
+        
+      </header>
+    
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1 id="introdução">Introdução</h1> 
+
+<p>Como toda pessoa que atua com engenharia reversa, sempre senti vontade de aprofundar meus conhecimentos no framework radare2, e talvez utilizá-lo como framework padrão para minhas análises e CTFs. Por esse motivo, resolvi esse crackme, chamado BruteVerse, postado no site <a href="https://crackmes.one">crackmes.one</a> utilizando o radare2. Esse post também dará início a uma série de postagens de resolução de CTFs.</p>
+<p>A quem interessar, <a href="https://crackmes.one/crackme/634bdec633c5d4425e2cd8ee">o link para o desafio está aqui.</a> Créditos para o <a href="https://crackmes.one/user/ThePhilosopher">ThePhilosopher</a>, por ter criado e postado o desafio.</p>
+
+
+
+
+
+
+
+
+
+  <h1 id="primeiras-impressões">Primeiras impressões</h1> 
+
+<p>A análise do comando file informa que o binário trata-se de um ELF de 64 bits, para Linux e com símbolos de debugging (not stripped). Além disso, o próprio criador do desafio informou na plataforma crackmes.one que a linguagem utilizada para criação foi o Assembly.</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/3f30400342dff512c44ee99b0c1938e6.png"
+          alt="3f30400342dff512c44ee99b0c1938e6.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Mesmo em casos nos quais não há informações do programador com relação ao uso de linguagem de montagem diretamente, é possível suspeitar do uso de Assembly para criação de um software, especialmente desafios de CTF, devido ao tamanho do binário gerado, como indicado na imagem abaixo. Assembly gera um código enxuto, no qual cada mnemônico é traduzido para um código de máquina específico.</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/63bffb74b57fff54d76ba372cd894390.png"
+          alt="63bffb74b57fff54d76ba372cd894390.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Um outro ponto é importante verificar são as cadeias de caracteres (strings) que estão contidas em um binário. Existem diversas codificações para strings - ASCII, UTF8, entre outras - e as mais comuns podem ser identificadas com o uso do argumento <code>-z</code> no binário <code>rabin2</code>. Abaixo, podemos verificar que nesse desafio consta apenas uma string interessante em texto plano no endereço virtual <code>0x0040202c</code>.</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/6481ea71d3df5255262f770a99439f81.png"
+          alt="6481ea71d3df5255262f770a99439f81.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Outro ponto importante de binários pequenos e <em>not stripped</em> são os símbolos, que tratam-se de um mapeamento de strings legíveis para certos endereços de memória. Símbolos podem referenciar endereços de variáveis globais, endereços de funções, entre outras informações contidas nos binários ELF.</p>
+<p>No desafio, é possível encontrar certos símbolos locais interessantes. Por exemplo, os símbolos &ldquo;msg&rdquo; e &ldquo;data&rdquo; sugerem dados que poderão sofrer interação por alguma função, como escrever na tela ou descriptografar.</p>
+<p>Já os símbolos <code>l1</code>, <code>l2</code>, <code>l3</code> e <code>exit</code> sugerem referências a determinado endereços de código.</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/30b80f58ef145d0fd4ca41c9fe87ccb5.png"
+          alt="30b80f58ef145d0fd4ca41c9fe87ccb5.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Tendo em vista essas informações iniciais, vamos executar o programa.</p>
+<p>Na execução, não é pedido nenhuma entrada do usuário e o programa simplesmente escreve na tela a frase &ldquo;You need another path to get the precious flag!&rdquo;, terminando logo em seguida.</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/8ae574c4cedfd97454620925d2426f8a.png"
+          alt="8ae574c4cedfd97454620925d2426f8a.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Já estando na shell do radare2, após uma análise profunda do arquivo com o comando <code>aaa</code>, é possível buscar funções na <em>flagspace</em> &ldquo;functions&rdquo;. Nenhuma função identificada na análise é retornada, logo o binário não têm funções definidas.</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/ad9111349835854126a59ad6857ad1c8.png"
+          alt="ad9111349835854126a59ad6857ad1c8.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Buscando por cross references da string &ldquo;You need another path to get the precious flag!&rdquo;, com o comando <code>axt</code>, é retornado apenas uma referência para a <code>entry0</code>, que é o entrypoint do binário ELF. Logo, devemos analisá-lo para entender o fluxo de execução do desafio.</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/e1abe9450bd112adbd4479a50b858833.png"
+          alt="e1abe9450bd112adbd4479a50b858833.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+
+
+
+
+
+
+
+
+
+  <h1 id="o-poder-da-análise-estática-com-radare2">O poder da análise estática com radare2</h1> 
+
+<p>Após realizar um seek para o endereço do entrypoint (<code>s entry0</code>) e entrar no modo visual com <code>VV</code>, foi possível identificar três conjuntos de blocos de códigos que chamam syscalls. Eles são fundamentais para entender o funcionamento do binário.</p>
+
+
+
+
+
+
+
+
+
+  <h2 id="primeiro-bloco"><a class="anchor" href="#primeiro-bloco" title='Anchor for: Primeiro bloco.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Primeiro bloco</h2> 
+
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/b6d786ea8911dc72cc8945776afa33ff.png"
+          alt="b6d786ea8911dc72cc8945776afa33ff.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Nesse bloco, é possível perceber que o número da syscall, identificado por RAX, é o valor 1, que se traduz para a syscall write. Seus argumentos são:</p>
+<pre aria-label="Box containing code sample." tabindex=0><code>RDI = File Descriptor
+RSI = Buffer a ser escrito no File Descriptor
+RDX = Quantidade de bytes a serem escritos
+</code></pre><p>Analisando o bloco, sabemos que RDI tem valor 1, ou <em>stdout</em>, RDX tem valor 1 e RSI recebe o valor guardado em R9. O valor de R9 é modificado pela última vez no endereço <code>0x00401000</code>, pela instrução <code>movabs</code>, atribuindo um ponteiro para <code>loc.msg</code>. Isso efetivamente está escrevendo em <em>stdout</em> um byte de <code>loc.msg</code>. Na imagem abaixo está o valor apontado por <code>loc.msg</code>:</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/b20d1b662d1b4756d3adf7b046caf701.png"
+          alt="b20d1b662d1b4756d3adf7b046caf701.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Logo após a syscall, o ponteiro de R9 é incrementado e há uma comparação em <code>0x00401021</code> para verificar se o valor apontado por R9 é nulo. Caso negativo, o RIP apontará para o início do loop <code>l1</code>, em <code>0x0040100a</code>, escrevendo o próximo byte de <code>loc.msg</code> na tela.</p>
+
+
+
+
+
+
+
+
+
+  <h2 id="segundo-bloco"><a class="anchor" href="#segundo-bloco" title='Anchor for: Segundo bloco.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Segundo bloco</h2> 
+
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/dc322a1a8969949db962a0317cf706fc.png"
+          alt="dc322a1a8969949db962a0317cf706fc.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Esse segundo bloco, que começa em <code>0x00401031</code> (<code>loc.data</code>) é executada logo após o loop <code>l1</code>. A syscall <code>0x3c</code>, junto com o valor 0 em RDI, se traduz para <code>exit(0)</code>. Isso efetivamente irá fazer com que o programa termine sua execução. No entanto, logo após a chamada da syscall, há o início do label <code>l2</code>, carregando o valor de <code>loc.data</code> no registrador R9. Note que esse código nunca será executado normalmente.</p>
+
+
+
+
+
+
+
+
+
+  <h2 id="terceiro-bloco"><a class="anchor" href="#terceiro-bloco" title='Anchor for: Terceiro bloco.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Terceiro bloco</h2> 
+
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/6239849e5e1c87b34b2d94a34707f276.png"
+          alt="6239849e5e1c87b34b2d94a34707f276.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>O terceiro bloco começa no endereço <code>0x00401033</code>, ou <code>l2</code>, movendo o o valor de <code>loc.data</code> para o registrador R9.</p>
+<p>Logo após, há a chamada da syscall <code>write</code>, só que dessa vez, para o byte apontado por R9. Note que o valor apontado por R9 é modificado por um XOR com 0xa3, no endereço <code>0x00401047</code>.</p>
+<p>Após a execução da syscall, o ponteiro de R9 é incrementado e há uma comparação com o valor do byte apontado por R9 com 0. Caso seja positivo, a execução será redirecionada para <code>loc.exit</code>, ou seja, o segundo bloco, que irá terminar o programa.</p>
+<p>Caso negativo, o próximo valor de R9 será escrito em <code>stdout</code>. Com o comando <code>px</code>, é possível verificar os bytes que estão em <code>loc.data</code>, conforme imagem abaixo.</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/9371ef8bf5ead8e8c12a8d6e420036ae.png"
+          alt="9371ef8bf5ead8e8c12a8d6e420036ae.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+
+
+
+
+
+
+
+
+
+  <h1 id="patching-e-resolução">Patching e resolução</h1> 
+
+<p>Uma forma de resolução simples desse desafio é realizar um <em>binary patching</em> no arquivo. Podemos alterar o valor do endereço na instrução JNE em <code>0x00401025</code> para pular para <code>l2</code> (<code>0x00401033</code>). Para isso, devemos obedecer as condições de um <em>jump short</em> em x86/amd64, que deverá contabilizar a quantidade de bytes entre a instrução <em>Jcc/JMP</em> até o endereço especificado.</p>
+<p>Calculando a quantidade de bytes entre o JNE até o endereço de <code>l2</code>, temos 0x0c bytes. Abaixo está o patching que queremos realizar.</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/cb3230c1a4d48bc8210e59c46fa8d3e8.png"
+          alt="cb3230c1a4d48bc8210e59c46fa8d3e8.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Para aplicarmos o patch, devemos reabrir o arquivo em modo de escrita (<code>oo+</code>) e configurar a variável io.cache para false (<code>e io.cache=false</code>). Essa configuração permitirá que o radare2 escreva alterações diretamente no binário, e não em um cache.</p>
+<p>Por fim, podemos aplicar o patch utilizando o comando <code>wx 750c @ 0x00401025</code>, que irá escrever a word 0x750c (<code>JNE</code> para <code>0x00401033</code>) no endereço do JNE.</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/f1341e8157e0ad408eaf9164b10a7c13.png"
+          alt="f1341e8157e0ad408eaf9164b10a7c13.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Dessa forma, a execução irá escrever a string identificada em <code>loc.data</code>, com XOR 0xA3, na tela. Note que da forma que foi realizado o patch, o primeiro byte da string original &ldquo;You need another path to get the precious flag!&rdquo; ainda será escrito na tela. Vamos levar isso em consideração ao tentar executar o arquivo.</p>
+<p>Para isso, podemos utilizar o utiltário <code>cut</code> para retornar apenas o valor após o &lsquo;Y&rsquo;. Note que mesmo na execução sem o <code>cut</code>, o valor retornado não se parece com uma flag.</p>
+<p>Para coveniência da próxima fase, foi utilizado o utilitário <code>base64</code> para codificar a string.
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/e27ac4c72d24f0239fac224e8ba85716.png"
+          alt="e27ac4c72d24f0239fac224e8ba85716.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Como o nome do desafio é &ldquo;BruteVerse&rdquo;, e utilizamos uma criptografia com XOR no código, podemos pensar em testar a string obtida utilizando XOR com valores de 0x00 a 0xFF. Para isso, podemos construir um script ou utilizar o cyberchef, com as operações &ldquo;From Base64&rdquo; e &ldquo;XOR Brute Force&rdquo;.</p>
+<p>Como mostrado na imagem abaixo, o valor 0x50 decodifica com sucesso a flag. <a href="https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)XOR_Brute_Force(1,100,0,'Standard',false,true,false,'')&amp;input=R0RVaU5YQTVJM0FwUHlVaWNEWThNVGR3YW5BQ1lnWmlBbVVaSG1VUFpBTVBBbVJpSEJ4bkR4WmlIZ289">Clique aqui para a resolução no CyberChef</a>.</p>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/f35d3ecf1c8325902783194ac144970d.png"
+          alt="f35d3ecf1c8325902783194ac144970d.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+<p>Sabendo do valor 0x50, também é possível utilizar o radare2 para escrever o valor em texto plano da flag:</p>
+<ul>
+<li>carregar o binário e analisá-lo (<code>aaa</code>);</li>
+<li>habilitar o cache (<code>e io.cache=true</code>);</li>
+<li>verificar o valor de 0x2B bytes em <code>loc.data</code>, com <code>px 0x2b @ loc.data</code>;</li>
+<li>realizar uma operação de XOR com 0xA3 na localização de <code>loc.data</code> (<code>wox 0xa3 @ loc.data</code>);</li>
+<li>verificar o valor de <code>loc.data</code> novamente, confirmando que sofreram tal operação;</li>
+<li>realizar uma nova operação XOR em <code>loc.data</code>, agora com o valor 0x50 (<code>wox 0x50 @ loc.data</code>);</li>
+<li>usar <code>px 0x2b @ loc.data</code> para printar a flag.</li>
+</ul>
+<p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+        <img
+          
+          loading="lazy"
+          src="../img/crackme-0x00/5ae090e20ae94690509ce476bb3b5ecb.png"
+          alt="5ae090e20ae94690509ce476bb3b5ecb.png"
+        />
+      
+    
+    
+  
+  
+
+</p>
+
+
+
+    </article>
+  </main>
+
+
+    </div>
+    
+    <footer>
+      
+
+
+  
+
+    
+
+    
+      
+      
+    
+    
+    <p>Midnight Hackings - Yet another small blog about IT Sec</p>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="req-js">
+  <button class="outline-dashed" title="Change to light/dark mode."><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#adjust"/></svg></button><input class="outline-dashed" type="color" list="presets" value="#1dbc91" title="Change accent color." aria-label="Change accent color."><datalist id="presets"><option value="#1f676b"><option value="#1dbc91"><option value="#225670"><option value="#dd587c"><option value="#902b37"><option value="#f3a530"><option value="#754e85"><option value="#7fc121"><option value="#a8314a"><option value="#ff7433"><option value="#3e6728"><option value="#c063bd"><option value="#805080"><option value="#9d629d"><option value="#a064a0"><option value="#7daa50"><option value="#284531"><option value="#285790"><option value="#F5A83D"><option value="#88aa33"><option value="#015660"><option value="#bf274e"><option value="#bf4242"><option value="#51b37c"></datalist>
+</div>
+
+
+
+  <noscript>
+    <p class="noscript">Unable to execute JavaScript. Some features were disabled.</p>
+  </noscript>
+
+
+
+    </footer>
+    
+    
+    
+
+    
+    
+
+  </body>
+</html>
