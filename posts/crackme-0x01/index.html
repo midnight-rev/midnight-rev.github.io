@@ -1,1309 +1,205 @@
 <!DOCTYPE html>
-<html lang="en" data-mode="dark">
-  <head prefix="og: http://ogp.me/ns#">
-    <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="Hugo 0.101.0">
-<meta name="theme" content="Color Your World -- gitlab.com/rmaguiar/hugo-theme-color-your-world">
-
-
-<title>Crackme 0x01 - timotei crackme#7: código mutante e porque não devemos confiar apenas na descompilação | Midnight Hackings</title>
-
-<meta name="author" content="Midnight Reverser">
-
-
-
-<meta name="robots" content="index follow">
-
-
-
-
-  
-    <link rel="canonical" href="https://blog.midnighthackings.com/posts/crackme-0x01/">
-  
-
-
-
-
-
-
-
-
-<meta property="og:site_name" content="Midnight Hackings">
-<meta property="og:title" content="Crackme 0x01 - timotei crackme#7: código mutante e porque não devemos confiar apenas na descompilação">
-
-  <meta property="og:url" content="https://blog.midnighthackings.com/posts/crackme-0x01/">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <meta property="og:type" content="article">
-  
-  
-    <meta property="article:published_time" content="2023-06-29">
-    <meta property="article:modified_time" content="2023-06-29">
-    <meta property="og:updated_time" content="2023-06-29">
-  
-
-  
-  
-  
-    <meta name="twitter:creator" content="@&lt;username&gt;">
-  
-  
-
-  <meta name="twitter:site" content="@&lt;username&gt;">
-
-
-
-
-
-
-
-  <meta name="twitter:dnt" content="on">
-
-
-
-
-
-
-
-
-
-
-
-
-<meta name="theme-color" content="#222">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-
-
-
-
-
-
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "mainEntityOfPage": {
-        "@type": "WebSite",
-        "@id": "https://blog.midnighthackings.com/"
-      },
-      "headline": "Crackme 0x01 - timotei crackme#7: código mutante e porque não devemos confiar apenas na descompilação",
-      "description": "",
-      
-      "url": "https://blog.midnighthackings.com/posts/crackme-0x01/",
-      "inLanguage": "en",
-      "datePublished": "2023-06-29",
-      "dateModified": "2023-06-29",
-      "wordCount" : "1213",
-      "publisher": {
-        "@type": "Person",
-        "name": "Midnight Reverser"
-      },
-      "author": {
-        "@type": "Person",
-        "name": "Midnight Reverser",
-        "description": "IT Sec professional and low level lover S2",
-        "sameAs": ["https://facebook.com/\u003cusername\u003e","https://www.flickr.com/\u003cusername\u003e","https://open.audio/\u003cusername\u003e","https://github.com/\u003cusername\u003e","https://gitlab.com/\u003cusername\u003e","https://www.instagram.com/\u003cusername\u003e","https://keybase.io/\u003cusername\u003e","https://www.linkedin.com/in/mateus-gualberto-santos","https://mastodon.social/\u003cusername\u003e","https://mastodon.too/\u003cusername\u003e","https://yet.another.one/\u003cusername\u003e","https://matrix.to/#/\u003cusername\u003e:matrix.org","https://matrix.to/#/\u003cusername\u003e:other.org","https://medium.com/\u003cusername\u003e","https://peertube.something/accounts/\u003cusername\u003e","https://pixelfed.social/\u003cusername\u003e","https://www.reddit.com/user/\u003cusername\u003e","https://app.element.io/#/user/\u003cusername\u003e:matrix.org","https://www.snapchat.com/add/\u003cusername\u003e","https://soundcloud.com/\u003cusername\u003e","https://stackoverflow.com/users/\u003cusername\u003e","https://www.strava.com/athletes/\u003cusername\u003e","https://t.me/\u003cusername\u003e","https://www.twitch.tv/\u003cusername\u003e","https://twitter.com/\u003cusername\u003e","https://vimeo.com/\u003cusername\u003e","https://wa.me/\u003cnumber\u003e","https://www.xing.com/profile/\u003cusername\u003e","https://youtube.com/channel/\u003cchannelid\u003e"]
-      }
-    }
-  </script>
-
-
-
-
-
-
-<link rel="stylesheet" href="https://blog.midnighthackings.com/css/main.min.e09e15333e480955cd0b2649c89e0712619f98abaa58782ae5c40252066d99d8.css" integrity="sha256-4J4VMz5ICVXNCyZJyJ4HEmGfmKuqWHgq5cQCUgZtmdg=" crossorigin="anonymous">
-
-
-
-<noscript>
-
-  
-  
-
-  
-    <meta name="theme-color" content="#1dbc91" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#1f676b" media="(prefers-color-scheme: light)">
-  
-
-  
-  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/noscript.min.3f3b95436b19eaeb9223fb12c0b86737d53ee0a47fdba271a886c244bc03975c.css" integrity="sha256-PzuVQ2sZ6uuSI/sSwLhnN9U&#43;4KR/26JxqIbCRLwDl1w=" crossorigin="anonymous">
-
-</noscript>
-
-
-
-<link rel="preload" href="/fonts/open-sans-v17-latin-700.woff2" as="font" crossorigin="anonymous">
-<link rel="preload" href="/fonts/open-sans-v17-latin-italic.woff2" as="font" crossorigin="anonymous">
-<link rel="preload" href="/fonts/open-sans-v17-latin-regular.woff2" as="font" crossorigin="anonymous">
-<link rel="preload" href="/fonts/oswald-v29-latin-700.woff2" as="font" crossorigin="anonymous">
-
-
-
-
-
-
-
-
-
-<link rel="me" href="https://facebook.com/%3cusername%3e"> 
-<link rel="me" href="https://www.flickr.com/%3cusername%3e"> 
-<link rel="me" href="https://open.audio/%3cusername%3e"> 
-<link rel="me" href="https://github.com/%3cusername%3e"> 
-<link rel="me" href="https://gitlab.com/%3cusername%3e"> 
-<link rel="me" href="https://www.instagram.com/%3cusername%3e"> 
-<link rel="me" href="https://keybase.io/%3cusername%3e"> 
-<link rel="me" href="https://www.linkedin.com/in/mateus-gualberto-santos"> 
-<link rel="me" href="https://mastodon.social/%3cusername%3e"> 
-<link rel="me" href="https://mastodon.too/%3cusername%3e"> 
-<link rel="me" href="https://yet.another.one/%3cusername%3e"> 
-<link rel="me" href="https://matrix.to/#/%3cusername%3e:matrix.org"> 
-<link rel="me" href="https://matrix.to/#/%3cusername%3e:other.org"> 
-<link rel="me" href="https://medium.com/%3cusername%3e"> 
-<link rel="me" href="https://peertube.something/accounts/%3cusername%3e"> 
-<link rel="me" href="https://pixelfed.social/%3cusername%3e"> 
-<link rel="me" href="https://www.reddit.com/user/%3cusername%3e"> 
-<link rel="me" href="https://app.element.io/#/user/%3cusername%3e:matrix.org"> 
-<link rel="me" href="https://www.snapchat.com/add/%3cusername%3e"> 
-<link rel="me" href="https://soundcloud.com/%3cusername%3e"> 
-<link rel="me" href="https://stackoverflow.com/users/%3cusername%3e"> 
-<link rel="me" href="https://www.strava.com/athletes/%3cusername%3e"> 
-<link rel="me" href="https://t.me/%3cusername%3e"> 
-<link rel="me" href="https://www.twitch.tv/%3cusername%3e"> 
-<link rel="me" href="https://twitter.com/%3cusername%3e"> 
-<link rel="me" href="https://vimeo.com/%3cusername%3e"> 
-<link rel="me" href="https://wa.me/%3cnumber%3e"> 
-<link rel="me" href="https://www.xing.com/profile/%3cusername%3e"> 
-<link rel="me" href="https://youtube.com/channel/%3cchannelid%3e"> 
-
-
-
-
-  
-  
-
-
-<script src="https://blog.midnighthackings.com/js/main.f1da21dfea83dc0c36cea0b202c14a97e00aedab567e32702eb120f5ab8d974b.js" integrity="sha256-8doh3&#43;qD3Aw2zqCyAsFKl&#43;AK7atWfjJwLrEg9auNl0s=" crossorigin="anonymous"></script>
-
-  </head>
-
-  <body>
-
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Security Researcher in Reversing/Malware/Low Level fields">
+    <meta name="Author" content="Midnight Reverser">
+    <meta name="keywords" content="midnighthackings midnight-rev midnight">
+    <link rel="stylesheet" href=https://blog.midnighthackings.com/css/syntax.css>
+    <link rel="stylesheet" href=https://blog.midnighthackings.com/css/style.css>
+    <script src="https://kit.fontawesome.com/1b7478c139.js" crossorigin="anonymous"></script>
+    <title>Midnight Hackings</title>
+  </head><body><aside id="sidenav">
     <header>
-      
+    
 
-  <a href="/">Midnight Hackings</a>
-
-
-
-
-  
-    <nav aria-label="Main menu.">
-      <ul>
+    <a id="branding" href=https://blog.midnighthackings.com/>
         
-          <li>
-            <a class="btn" href="/privacy/">About</a>
-          </li>
+            Midnight Hackings
         
-          <li>
-            <a class="btn" href="/posts/">Posts</a>
-          </li>
-        
-          <li>
-            <a class="btn" href="/contacts/">Contact</a>
-          </li>
-        
-      </ul>
-    </nav>
-  
-
-
+    </a>
     </header>
 
-    <div class="filler">
-      
-
-  <main>
-    <article>
-      <header>
+    <nav>
         
-        <h1>Crackme 0x01 - timotei crackme#7: código mutante e porque não devemos confiar apenas na descompilação</h1>
-
+            		
+            <a href="/posts"
+                
+            >
+                <i class="fas fa-keyboard fa-ms"></i>
+                <span>posts</span>
+            </a>
         
-          <div class="terms">
-            <ul><li><a class="btn" href="/tags/crackme/">crackme</a></li><li><a class="btn" href="/tags/ctf/">ctf</a></li></ul>
-          </div>
-          <p>
-            
-              Published on <time datetime="2023-06-29">2023-06-29</time>
-            
-          </p>
+            		
+            <a href="/tags"
+                
+            >
+                <i class="fas fa-tags fa-ms"></i>
+                <span>tags</span>
+            </a>
         
+            		
+            <a href="https://github.com/midnight-rev"
+                
+                    target="_blank"
+                
+            >
+                <i class="fab fa-github fa-ms"></i>
+                <span>github</span>
+            </a>
         
+            		
+            <a href="/index.xml"
+                
+            >
+                <i class="fas fa-rss fa-ms"></i>
+                <span>RSS</span>
+            </a>
         
+            		
+            <a href="/contact"
+                
+            >
+                <i class="far fa-envelope"></i>
+                <span>contact</span>
+            </a>
         
-      </header>
+    </nav>
+</aside>
+<main id="main">
+            <a href="javascript:void(0)" id="closebtn" onclick="navToggle()"><i class="fas fa-bars fa-lg"></i></a>
+            <div class="content">
+    
+    <h1 id="title">Crackme 0x01 - timotei crackme#7: código mutante e porque não devemos confiar apenas na descompilação</h1>
     
       
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h1 id="introdução">Introdução</h1> 
-
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#r2dec">r2dec</a></li>
+    <li><a href="#r2ghidra">r2ghidra</a></li>
+    <li><a href="#disassembly">Disassembly</a></li>
+  </ul>
+</nav>
+    <h1 id="introdução">Introdução</h1>
 <p>Nesse artigo, iremos resolver o desafio <a href="https://crackmes.one/crackme/64764cee33c5d439389134f2">crackme#7</a> do usuário <a href="https://crackmes.one/user/timotei_">timotei_</a>, disponibilizado na plataforma crackmes.one. Trataremos nas seções que seguem das análises estática e dinâmica de um código que modifica sua própria estrutura dependendo de certas condições.</p>
-
-
-
-
-
-
-
-
-
-  <h1 id="triagem-inicial">Triagem inicial</h1> 
-
+<h1 id="triagem-inicial">Triagem inicial</h1>
 <p>O binário trata-se de um <em>EXE (32-bit)</em> escrito em <em>Assembly x86</em>, montado pelo software assembler <em>MASM</em>. Há apenas três seções, sendo duas de dados e uma de código, e todas têm entropia baixa, indicando que não há dados comprimidos/ofuscados. Isso significa que podemos ir direto para o código, sem necessidade de analisar e executar stubs.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/43c8ed68cbe8b3acab33970792a77b6f.png"
-          alt="43c8ed68cbe8b3acab33970792a77b6f.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 1: indicação do montador e tipo de arquivo.</em></p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/1fd55945977377b423de3230913a1a9b.png"
-          alt="1fd55945977377b423de3230913a1a9b.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 2: entropia das seções, obtidas com o software radare2.</em></p>
+<p><img src="img/43c8ed68cbe8b3acab33970792a77b6f.png" alt="43c8ed68cbe8b3acab33970792a77b6f.png"></p>
+<p><em>Figura 1: indicação do montador e tipo de arquivo.</em></p>
+<p><img src="img/1fd55945977377b423de3230913a1a9b.png" alt="1fd55945977377b423de3230913a1a9b.png"></p>
+<p><em>Figura 2: entropia das seções, obtidas com o software radare2.</em></p>
 <p>Analisando o código estaticamente é possível verificar que não há funções implementadas, apenas o entrypoint e cinco funções importadas da <code>kernel32.dll</code>. Também há duas strings que remetem às funcionalidades de leitura de senha e realização de login.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/a7d89419436af12b093a893e8a4ff8f7.png"
-          alt="a7d89419436af12b093a893e8a4ff8f7.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 3: listagem do entry point (entry0), funções importadas e strings.</em></p>
-
-
-
-
-
-
-
-
-
-  <h1 id="execução">Execução</h1> 
-
+<p><img src="img/a7d89419436af12b093a893e8a4ff8f7.png" alt="a7d89419436af12b093a893e8a4ff8f7.png"></p>
+<p><em>Figura 3: listagem do entry point (entry0), funções importadas e strings.</em></p>
+<h1 id="execução">Execução</h1>
 <p>Quando executado, um prompt pedindo uma senha é mostrado na tela, juntamente com a mensagem <code>_.: eNter tHe pAsSw0rD : </code>.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/472601e93fb3a5113dffa772e9c31df9.png"
-          alt="472601e93fb3a5113dffa772e9c31df9.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 4: prompt de senha.</em></p>
+<p><img src="img/472601e93fb3a5113dffa772e9c31df9.png" alt="472601e93fb3a5113dffa772e9c31df9.png"></p>
+<p><em>Figura 4: prompt de senha.</em></p>
 <p>Ao digitar qualquer senha, há dois comportamentos possíveis:</p>
 <ol>
 <li>o programa fecha normalmente, sem erros;</li>
 </ol>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/cfe6d9f2cd14347e6c44e1fd39e4c8d9.png"
-          alt="cfe6d9f2cd14347e6c44e1fd39e4c8d9.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 5: programa fechando normalmente.</em></p>
+<p><img src="img/cfe6d9f2cd14347e6c44e1fd39e4c8d9.png" alt="cfe6d9f2cd14347e6c44e1fd39e4c8d9.png"></p>
+<p><em>Figura 5: programa fechando normalmente.</em></p>
 <ol start="2">
 <li>o programa irá <em>crashar</em>.</li>
 </ol>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/a0fa0ff16404b5a1067fdee6bcfcb62d.png"
-          alt="a0fa0ff16404b5a1067fdee6bcfcb62d.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 6: programa crashando.</em></p>
+<p><img src="img/a0fa0ff16404b5a1067fdee6bcfcb62d.png" alt="a0fa0ff16404b5a1067fdee6bcfcb62d.png"></p>
+<p><em>Figura 6: programa crashando.</em></p>
 <p>Esse comportamento de crash acontece independente do tamanho da senha digitada, que difere de um <em>buffer overflow</em> comum. Exemplos de casos são os caracteres <em>a</em>, que encerra o processo graciosamente, e <em>b</em>, que resulta em um encerramento abrupto. Isso pode ser um indício de que o programa provavelmente está utilizando o input para realizar alguma operação em cima da seção de texto (como, por exemplo, executar dados como código).</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/faf80a6869c25d0d480fa5f0d717ac22.png"
-          alt="faf80a6869c25d0d480fa5f0d717ac22.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 7: inputs &lsquo;a&rsquo; e &lsquo;b&rsquo; e seus respectivos códigos de retorno.</em></p>
+<p><img src="img/faf80a6869c25d0d480fa5f0d717ac22.png" alt="faf80a6869c25d0d480fa5f0d717ac22.png"></p>
+<p><em>Figura 7: inputs &lsquo;a&rsquo; e &lsquo;b&rsquo; e seus respectivos códigos de retorno.</em></p>
 <p>Como sabemos, a baixo nível códigos e dados são apenas bytes, logo esse tipo de comportamento é possível no nível de código de máquina (e é assim que <em>buffer overflows</em> ocorrem!).</p>
 <p>Entretanto, há um problema. Compiladores por padrão geram executáveis com seções de código com proteções especiais. No nosso caso, conforme a <em>Figura 2</em>, a seção <code>.text</code> está com permissões RX, que significa na prática que não é possível escrever nela.</p>
 <p>Mas nossa hipótese de uso de dados como código não está totalmente descartado. Vamos aprofundar a análise com uma análise estática.</p>
-
-
-
-
-
-
-
-
-
-  <h1 id="análise-estática-de-código">Análise estática de código</h1> 
-
+<h1 id="análise-estática-de-código">Análise estática de código</h1>
 <p>Utilizaremos o radare2 para analisar estaticamente o código. Para a análise estática de código, um engenheiro reverso pode utilizar-se de duas estratégias principais: o <em>disassembly</em> das instruções em mnemônicos e argumentos, ou a descompilação, que tenta traduzir as instruções de volta para uma linguagem de alto nível (geralmente C).</p>
 <p>O radare2 conta com dois plugins extremamente úteis para o processo de descompilação. São eles: <a href="https://github.com/wargio/r2dec-js">r2dec</a> e <a href="https://github.com/radareorg/r2ghidra">a integração do descompilador do Ghidra</a>. Vamos analisar o resultado dos dois descompiladores abaixo</p>
-
-
-
-
-
-
-
-
-
-  <h2 id="r2dec"><a class="anchor" href="#r2dec" title='Anchor for: r2dec.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> r2dec</h2> 
-
+<h2 id="r2dec">r2dec</h2>
 <p>Analisando o entrypoint, é possível perceber três blocos principais:</p>
 <ol>
 <li>o primeiro, em vermelho, que escreve a string <code>_.: eNter tHe pAsSw0rD : </code> na tela e lê <em>0x64=100</em> bytes para o endereço <code>0x40302e</code> - <a href="https://learn.microsoft.com/en-us/windows/console/readconsole">documentação da função <em>ReadConsoleA</em></a> informa esses campos;</li>
 <li>um segundo bloco, em ciano, que faz operações matemáticas utilizando o registrador <em>EAX</em>, que recebe um ponteiro para os 4 bytes de <code>0x40302e</code> - a senha digitada, além de outras operações aritméticas sem sentido;</li>
 <li>um terceiro bloco, em vermelho, que demonstra que as instruções que desejamos executar para concluir o desafio estão após uma chamada do <em>ExitProcess</em>.</li>
 </ol>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/76c08a008ffa32b974f7ab322e1c26f9.png"
-          alt="76c08a008ffa32b974f7ab322e1c26f9.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 8: descompilação com r2dec.</em></p>
+<p><img src="img/76c08a008ffa32b974f7ab322e1c26f9.png" alt="76c08a008ffa32b974f7ab322e1c26f9.png"></p>
+<p><em>Figura 8: descompilação com r2dec.</em></p>
 <p>Precisamos de uma forma de &ldquo;pular&rdquo; essa chamada a fim de evitar o término do processo. Apenas com as informações dessa descompilação, não é claro qual a forma de burlar essa execução.</p>
-
-
-
-
-
-
-
-
-
-  <h2 id="r2ghidra"><a class="anchor" href="#r2ghidra" title='Anchor for: r2ghidra.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> r2ghidra</h2> 
-
+<h2 id="r2ghidra">r2ghidra</h2>
 <p>A saída do descompilador do Ghidra é mais limpo, com os mesmos blocos destacados na <em>Figura 9</em>, mas ainda assim não deixa claro qual o meio de pular a chamada do <em>ExitProcess</em>.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/7aac801ff4e72ef7ace257c6a7e67891.png"
-          alt="7aac801ff4e72ef7ace257c6a7e67891.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 9: descompilação com r2ghidra</em></p>
+<p><img src="img/7aac801ff4e72ef7ace257c6a7e67891.png" alt="7aac801ff4e72ef7ace257c6a7e67891.png"></p>
+<p><em>Figura 9: descompilação com r2ghidra</em></p>
 <p>Após verificar dois descompiladores, talvez o disassembly nos auxilie.</p>
-
-
-
-
-
-
-
-
-
-  <h2 id="disassembly"><a class="anchor" href="#disassembly" title='Anchor for: Disassembly.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Disassembly</h2> 
-
+<h2 id="disassembly">Disassembly</h2>
 <p>Os mesmos blocos explicados na seção do r2dec estão na <em>Figura 10</em>. A vantagem de analisar com um disassembler poderoso como o disponível no framework radare2 é que é possível trabalhar com endereços (primeira coluna), <em>opcodes</em> - ou bytes das instruções (segunda coluna) e com os mnemônicos e argumentos das instruções (terceira coluna).</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/826f7497640bb880aa39624c8293102c.png"
-          alt="826f7497640bb880aa39624c8293102c.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 10: disassembly do entrypoint do binário.</em></p>
+<p><img src="img/826f7497640bb880aa39624c8293102c.png" alt="826f7497640bb880aa39624c8293102c.png"></p>
+<p><em>Figura 10: disassembly do entrypoint do binário.</em></p>
 <p>Analisando atentamente as duas instruções após a chamada de <em>ReadConsoleA</em>, é possível identificar a passagem de 4 bytes do endereço <code>0x40302e</code> (senha digitada) para o registrador EAX e após isso há uma operação XOR de 4 bytes de <em>EAX</em> com o valor apontado por <code>0x40106b</code>, <strong>que aponta para a instrução após o XOR</strong>.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/b307bddaf0909db81a463fb395013e9d.png"
-          alt="b307bddaf0909db81a463fb395013e9d.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 11: operação XOR de EAX com bytes apontados por um endereço da <code>.text</code></em></p>
+<p><img src="img/b307bddaf0909db81a463fb395013e9d.png" alt="b307bddaf0909db81a463fb395013e9d.png"></p>
+<p><em>Figura 11: operação XOR de EAX com bytes apontados por um endereço da <code>.text</code></em></p>
 <p>Além disso, tanto nas saídas dos descompiladores quanto no disassembly, a primeira função chamada é a <a href="https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect"><em>VirtualProtect</em></a>. Essa chamada com os argumentos repassados via <em>calling convention</em> torna <em>0x3e8=1000</em> bytes a partir do entrypoint executáveis, a partir da configuração do valor 0x40 (PAGE_EXECUTE_READWRITE) na execução do <em>VirtualProtect</em>. Com isso, é possível alterar 1000 bytes da seção <code>.text</code>, que por padrão não permite. Matamos a charada!</p>
 <p>Tendo isso em mente, o que precisamos para resolver o desafio é um valor digitado que XOR com os 4 bytes a partir de <code>0x40106b</code> resulte em um pulo para o endereço da primeira instrução após o <em>ExitProcess</em>, que é <code>0x0040107c</code>.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/2f2ee0c21d92d8dbe88f5add2e701eb4.png"
-          alt="2f2ee0c21d92d8dbe88f5add2e701eb4.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 12: pulo para a resolução do desafio.</em></p>
-
-
-
-
-
-
-
-
-
-  <h1 id="resolução">Resolução</h1> 
-
+<p><img src="img/2f2ee0c21d92d8dbe88f5add2e701eb4.png" alt="2f2ee0c21d92d8dbe88f5add2e701eb4.png"></p>
+<p><em>Figura 12: pulo para a resolução do desafio.</em></p>
+<h1 id="resolução">Resolução</h1>
 <p>A primeira coisa que vem à mente é utilizar um <a href="https://c9x.me/x86/html/file_module_x86_id_147.html">jump short, relativo</a> para alterar as instruções e efetuar o pulo para <code>0x0040107c</code>. Um JMP desse tipo utiliza apenas 2 bytes, um deles sendo o opcode EB e o outro sendo a quantidade de bytes entre a instrução do jump e o endereço para o qual se deseja mudar o fluxo de execução.</p>
 <p>Logo, esses dois primeiros bytes que sofrerão a operação XOR para se transformar no JMP não deverão entrar na conta da diferença relativa. Contando a quantidade de bytes que há após esses dois bytes até a chamada de <em>ExitProcess</em> (incluído), temos 15 bytes.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/09e2e4ef131c116cf85bb2e935581de6.png"
-          alt="09e2e4ef131c116cf85bb2e935581de6.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 13: bytes a serem modificados em ciano, bytes até a chamada da resolução do desafio em vermelho.</em></p>
+<p><img src="img/09e2e4ef131c116cf85bb2e935581de6.png" alt="09e2e4ef131c116cf85bb2e935581de6.png"></p>
+<p><em>Figura 13: bytes a serem modificados em ciano, bytes até a chamada da resolução do desafio em vermelho.</em></p>
 <blockquote>
 <p>Uma outra forma de contabilizar a quantidade de bytes seria subtrair os endereços: <code>0x0040107c - 0x0040106d = 15</code></p>
 </blockquote>
 <p>Agora sabemos que os 2 bytes a sofrerem o XOR devem se transformar nos bytes <code>EB 0F</code>. Trivialmente, aplicando uma operação de XOR em cada byte, obtemos a string <code>tI</code>, que é senha do desafio, conforme <em>Figura 14</em> e <em>Figura 15</em>.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/d0ab64a91988446f7fbe872128b0dc2c.png"
-          alt="d0ab64a91988446f7fbe872128b0dc2c.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 14: senha do desafio.</em></p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/ffecae914e79d6a31f00129110d35387.png"
-          alt="ffecae914e79d6a31f00129110d35387.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 15: prova da corretude da senha.</em></p>
+<p><img src="img/d0ab64a91988446f7fbe872128b0dc2c.png" alt="d0ab64a91988446f7fbe872128b0dc2c.png"></p>
+<p><em>Figura 14: senha do desafio.</em></p>
+<p><img src="img/ffecae914e79d6a31f00129110d35387.png" alt="ffecae914e79d6a31f00129110d35387.png"></p>
+<p><em>Figura 15: prova da corretude da senha.</em></p>
 <p>Na análise dinâmica, podemos verificar claramente o que acontece durante a execução:</p>
 <ul>
-<li>
-<p>após digitar <code>tI</code> como senha, mas não aplicar o XOR, ainda se mantém o código original:
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/29604b300178db7f325cba14f680c406.png"
-          alt="29604b300178db7f325cba14f680c406.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 16: execução passando <em>tI</em> como senha, antes da operação XOR.</em></p>
-</li>
-<li>
-<p>após o XOR, o código se altera e o fluxo de código também se altera.
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/crackme-0x01/5e7b8496e4b10bf99aba8095990164c3.png"
-          alt="5e7b8496e4b10bf99aba8095990164c3.png"
-        />
-      
-    
-    
-  
-  
-
-
-<em>Figura 17: execução passando <em>tI</em> como senha, após a operação XOR.</em></p>
-</li>
+<li>após digitar <code>tI</code> como senha, mas não aplicar o XOR, ainda se mantém o código original:</li>
 </ul>
-
-
-
-
-
-
-
-
-
-  <h1 id="conclusão">Conclusão</h1> 
-
+<p><img src="img/29604b300178db7f325cba14f680c406.png" alt="29604b300178db7f325cba14f680c406.png"></p>
+<p><em>Figura 16: execução passando <em>tI</em> como senha, antes da operação XOR.</em></p>
+<ul>
+<li>após o XOR, o código se altera e o fluxo de código também se altera.</li>
+</ul>
+<p><img src="img/5e7b8496e4b10bf99aba8095990164c3.png" alt="5e7b8496e4b10bf99aba8095990164c3.png"></p>
+<p><em>Figura 17: execução passando <em>tI</em> como senha, após a operação XOR.</em></p>
+<h1 id="conclusão">Conclusão</h1>
 <p>Nesse desafio foi possível perceber a capacidade de softwares para escreverem e executarem dados em regiões que a princípio seriam isentas de tais anomalias. Além disso, aprendemos um pouco mais sobre instruções e que apenas a descompilação pode não mostrar o resultado esperado, logo um engenheiro reverso tem que conhecer também assembly e ler tais códigos.</p>
 
-
-
-    </article>
-  </main>
-
-
+    
+    <div class="nav-next-prev">
+        <div class="nav-prev">
+            
+                <a href="https://blog.midnighthackings.com/posts/crackme-0x00/"><i class="fas fa-chevron-left"></i></a>
+            
+        </div>
+        <a class="nav-top" href="#">top</i></a>
+        <div class="nav-next">
+            
+                <a href="https://blog.midnighthackings.com/posts/base-0x00/"><i class="fas fa-chevron-right"></i></a>
+            
+        </div>
     </div>
     
-    <footer>
+
+            </div><footer>
+<div class="footer-content">
+
+  <div class="contact-info">
       
-
-
-  
-
-    
-
-    
+          <div class="footer-mail">
+          <i class="far fa-envelope"></i> <a href="mailto:midnight.reverser@outlook.com">midnight.reverser@outlook.com</a> </div>
       
       
-    
-    
-    <p>Midnight Hackings - Yet another small blog about IT Sec</p>
-
-  
+  </div>
 
 
+<p class="copyright meta">GPL is life, contribute to copyleft projects!</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="req-js">
-  <button class="outline-dashed" title="Change to light/dark mode."><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#adjust"/></svg></button><input class="outline-dashed" type="color" list="presets" value="#1dbc91" title="Change accent color." aria-label="Change accent color."><datalist id="presets"><option value="#1f676b"><option value="#1dbc91"><option value="#225670"><option value="#dd587c"><option value="#902b37"><option value="#f3a530"><option value="#754e85"><option value="#7fc121"><option value="#a8314a"><option value="#ff7433"><option value="#3e6728"><option value="#c063bd"><option value="#805080"><option value="#9d629d"><option value="#a064a0"><option value="#7daa50"><option value="#284531"><option value="#285790"><option value="#F5A83D"><option value="#88aa33"><option value="#015660"><option value="#bf274e"><option value="#bf4242"><option value="#51b37c"></datalist>
 </div>
-
-
-
-  <noscript>
-    <p class="noscript">Unable to execute JavaScript. Some features were disabled.</p>
-  </noscript>
-
-
-
-    </footer>
-    
-    
-    
-
-    
-    
-
-  </body>
+</footer></main>
+    </body>
+    <script src=https://blog.midnighthackings.com/js/navbutton.js></script>
 </html>

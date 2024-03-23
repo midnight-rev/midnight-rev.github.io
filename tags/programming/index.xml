@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Programming on Midnight Hackings</title>
+    <link>https://blog.midnighthackings.com/tags/programming/</link>
+    <description>Recent content in Programming on Midnight Hackings</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>GPL is life, contribute to copyleft projects!</copyright>
+    <lastBuildDate>Fri, 22 Mar 2024 21:00:00 -0300</lastBuildDate>
+    <atom:link href="https://blog.midnighthackings.com/tags/programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Base 0x00 - Procedimento de linking &amp; seus tipos</title>
+      <link>https://blog.midnighthackings.com/posts/base-0x00/</link>
+      <pubDate>Fri, 22 Mar 2024 21:00:00 -0300</pubDate>
+      <guid>https://blog.midnighthackings.com/posts/base-0x00/</guid>
+      <description>Introdução Softwares são compostos, em sua maioria, por códigos próprios, escritos pelo programador daquele software, e por códigos de bibliotecas, feito por outros programadores. Bibliotecas podem ser entendidas como códigos já escritos, reusáveis, que fornecem implementações de funções a serem utilizadas por diversos outros programas. Por exemplo, uma biblioteca de matemática fornece funções que podem ser utilizadas por um programa simples de somar dois números, um software de calculadora ou até mesmo programas para auxiliar estudos científicos em áreas que dependem de precisão de várias casas decimais.</description>
+    </item>
+  </channel>
+</rss>

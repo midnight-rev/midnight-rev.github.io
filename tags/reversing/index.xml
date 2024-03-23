@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reversing on Midnight Hackings</title>
+    <link>https://blog.midnighthackings.com/tags/reversing/</link>
+    <description>Recent content in Reversing on Midnight Hackings</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>GPL is life, contribute to copyleft projects!</copyright>
+    <lastBuildDate>Fri, 22 Mar 2024 21:00:00 -0300</lastBuildDate>
+    <atom:link href="https://blog.midnighthackings.com/tags/reversing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ARM64: Hello World! - Parte 1</title>
+      <link>https://blog.midnighthackings.com/posts/hello-world-arm-pt1/</link>
+      <pubDate>Fri, 22 Mar 2024 21:00:00 -0300</pubDate>
+      <guid>https://blog.midnighthackings.com/posts/hello-world-arm-pt1/</guid>
+      <description>Introdução Esse artigo tratará dos primeiros passos para realizar engenharia reversa em softwares escritos para a arquitetura ARMv8 (64-bits). Para esse objetivo, primeiramente precisamos entender o que é ARM, suas características principais, como executar, entre outros conceitos básicos. Após isso, serão descritos passos para a configuração de um ambiente próprio para executar instruções e programas produzidos para a plataforma Linux/ARM64.&#xA;O que é ARM? Por que estudar essa arquitetura em específico?</description>
+    </item>
+  </channel>
+</rss>
