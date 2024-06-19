@@ -20,13 +20,13 @@ html, body {
     line-height: 1.6;
     height: 100%;
     margin: 0px;
-    background-color:#1A1C1D;
+    background-color:#011635;
     color : #D8D6D0;
 }
 
 a {
     text-decoration: none;
-    color: #389DFF;
+    color: #fbff00;
 }
 
 a:hover {
@@ -34,7 +34,7 @@ a:hover {
 }
 
 aside {
-    background-color:rgb(45, 49, 51);
+    background-image:linear-gradient(to top,#011635,black);
     height: 100%;
     width: 200px;
     z-index: 1;
@@ -58,7 +58,8 @@ aside i[class^="fa"]{
 }
 
 aside header {
-    background-color:#23282E;
+    /*background-image:linear-gradient(#011635,black);*/
+    background-color: #000000;
     text-align: center;
     display: flex;
     align-items: center;
@@ -102,13 +103,14 @@ aside nav a {
 
 aside nav a:hover {
     background-color:rgb(48, 75, 102);
+    color: yellow;
 }
 
 #branding {
     font-size: 32px;
     margin-top: 10px;
     margin-bottom: 20px;
-    color: rgb(188, 188, 196);
+    color: rgb(0, 255, 55);
 }
 
 #npq{
@@ -207,6 +209,7 @@ tr:nth-child(even) {
 
 h1, h2, h3 {
     border-bottom: 1px solid #3D3D3D;
+    color:rgb(11, 201, 11);
 }
 
 #title {
@@ -304,11 +307,12 @@ ul.pagination {
     color: rgb(70, 69, 69) ;
 }
 
+
 footer{
     padding: 30px;
     margin-top: 40px;
     border-top: 1px solid #3D3D3D;
-    background-color:rgb(30, 34, 39) ;
+    background-color:#011635;
 }
 
 .footer-content{
