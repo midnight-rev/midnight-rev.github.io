@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Base-Knowledge on Midnight Hackings</title>
+    <title>base-knowledge on Midnight Hackings</title>
     <link>https://blog.midnighthackings.com/tags/base-knowledge/</link>
-    <description>Recent content in Base-Knowledge on Midnight Hackings</description>
-    <generator>Hugo</generator>
+    <description>Recent content in base-knowledge on Midnight Hackings</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>GPL is life, contribute to copyleft projects!</copyright>
     <lastBuildDate>Fri, 22 Mar 2024 21:00:00 -0300</lastBuildDate>

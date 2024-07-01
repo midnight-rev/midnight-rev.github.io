@@ -4,11 +4,18 @@
     <title>Midnight Hackings: cybersecurity &amp; software livre on Midnight Hackings</title>
     <link>https://blog.midnighthackings.com/</link>
     <description>Recent content in Midnight Hackings: cybersecurity &amp; software livre on Midnight Hackings</description>
-    <generator>Hugo</generator>
+    <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>GPL is life, contribute to copyleft projects!</copyright>
-    <lastBuildDate>Fri, 22 Mar 2024 21:00:00 -0300</lastBuildDate>
+    <lastBuildDate>Tue, 05 Jul 2022 12:00:00 -0300</lastBuildDate>
     <atom:link href="https://blog.midnighthackings.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Notas sobre Penetration Testing 0x00</title>
+      <link>https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x00/</link>
+      <pubDate>Mon, 01 Jul 2024 09:00:00 -0300</pubDate>
+      <guid>https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x00/</guid>
+      <description>Introdução às notas de estudo Sexta (28/06/2024) comecei minha jornada rumo à Segurança Ofensiva, visando mudar minha área profissional de 4 anos em Blue e Purple Team. O motivo para essa mudança, além de busca de mais vagas de trabalho, é para fortalecer meu conhecimento em cybersecurity através do hacking propriamente dito. Então, let&amp;rsquo;s hack!&#xA;Atualmente estou estudando para a certificação eJPT, da iNE Security. É uma certificação entry-level de custo baixo (pelo menos fora do Brasil), que abrange desde as fases iniciais de um pentest até o pós exploratório, com uma prova de 35 questões sobre um laboratório de 5 máquinas, que deve ser realizado em até 48 horas.</description>
+    </item>
     <item>
       <title>ARM64: Hello World! - Parte 1</title>
       <link>https://blog.midnighthackings.com/posts/hello-world-arm-pt1/</link>
