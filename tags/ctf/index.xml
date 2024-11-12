@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ctf on Midnight Hackings</title>
+    <title>Ctf on Midnight Hackings - #FimDaEscala6x1</title>
     <link>https://blog.midnighthackings.com/tags/ctf/</link>
-    <description>Recent content in Ctf on Midnight Hackings</description>
+    <description>Recent content in Ctf on Midnight Hackings - #FimDaEscala6x1</description>
     <generator>Hugo</generator>
     <language>pt-br</language>
-    <copyright>GPL is life, contribute to copyleft projects!</copyright>
+    <copyright>Midnight Hackings apoia GPL e o fim da escala 6x1!</copyright>
     <lastBuildDate>Thu, 29 Jun 2023 07:00:00 -0300</lastBuildDate>
     <atom:link href="https://blog.midnighthackings.com/tags/ctf/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -14,14 +14,14 @@
       <link>https://blog.midnighthackings.com/posts/crackme-0x01/</link>
       <pubDate>Thu, 29 Jun 2023 07:00:00 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/crackme-0x01/</guid>
-      <description>Introdução Nesse artigo, iremos resolver o desafio crackme#7 do usuário timotei_, disponibilizado na plataforma crackmes.one. Trataremos nas seções que seguem das análises estática e dinâmica de um código que modifica sua própria estrutura dependendo de certas condições.&#xA;Triagem inicial O binário trata-se de um EXE (32-bit) escrito em Assembly x86, montado pelo software assembler MASM. Há apenas três seções, sendo duas de dados e uma de código, e todas têm entropia baixa, indicando que não há dados comprimidos/ofuscados.</description>
+      <description>&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Nesse artigo, iremos resolver o desafio &lt;a href=&#34;https://crackmes.one/crackme/64764cee33c5d439389134f2&#34;&gt;crackme#7&lt;/a&gt; do usuário &lt;a href=&#34;https://crackmes.one/user/timotei_&#34;&gt;timotei_&lt;/a&gt;, disponibilizado na plataforma crackmes.one. Trataremos nas seções que seguem das análises estática e dinâmica de um código que modifica sua própria estrutura dependendo de certas condições.&lt;/p&gt;&#xA;&lt;h1 id=&#34;triagem-inicial&#34;&gt;Triagem inicial&lt;/h1&gt;&#xA;&lt;p&gt;O binário trata-se de um &lt;em&gt;EXE (32-bit)&lt;/em&gt; escrito em &lt;em&gt;Assembly x86&lt;/em&gt;, montado pelo software assembler &lt;em&gt;MASM&lt;/em&gt;. Há apenas três seções, sendo duas de dados e uma de código, e todas têm entropia baixa, indicando que não há dados comprimidos/ofuscados. Isso significa que podemos ir direto para o código, sem necessidade de analisar e executar stubs.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Crackme 0x00 - BruteVerse: Análise estática com radare2</title>
       <link>https://blog.midnighthackings.com/posts/crackme-0x00/</link>
       <pubDate>Tue, 15 Nov 2022 20:11:51 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/crackme-0x00/</guid>
-      <description>Introdução Como toda pessoa que atua com engenharia reversa, sempre senti vontade de aprofundar meus conhecimentos no framework radare2, e talvez utilizá-lo como framework padrão para minhas análises e CTFs. Por esse motivo, resolvi esse crackme, chamado BruteVerse, postado no site crackmes.one utilizando o radare2. Esse post também dará início a uma série de postagens de resolução de CTFs.&#xA;A quem interessar, o link para o desafio está aqui. Créditos para o ThePhilosopher, por ter criado e postado o desafio.</description>
+      <description>&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Como toda pessoa que atua com engenharia reversa, sempre senti vontade de aprofundar meus conhecimentos no framework radare2, e talvez utilizá-lo como framework padrão para minhas análises e CTFs. Por esse motivo, resolvi esse crackme, chamado BruteVerse, postado no site &lt;a href=&#34;https://crackmes.one&#34;&gt;crackmes.one&lt;/a&gt; utilizando o radare2. Esse post também dará início a uma série de postagens de resolução de CTFs.&lt;/p&gt;&#xA;&lt;p&gt;A quem interessar, &lt;a href=&#34;https://crackmes.one/crackme/634bdec633c5d4425e2cd8ee&#34;&gt;o link para o desafio está aqui.&lt;/a&gt; Créditos para o &lt;a href=&#34;https://crackmes.one/user/ThePhilosopher&#34;&gt;ThePhilosopher&lt;/a&gt;, por ter criado e postado o desafio.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

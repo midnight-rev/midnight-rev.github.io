@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Midnight Hackings: cybersecurity &amp; software livre on Midnight Hackings</title>
+    <title>Midnight Hackings: pelo fim da escala 6x1! on Midnight Hackings - #FimDaEscala6x1</title>
     <link>https://blog.midnighthackings.com/</link>
-    <description>Recent content in Midnight Hackings: cybersecurity &amp; software livre on Midnight Hackings</description>
+    <description>Recent content in Midnight Hackings: pelo fim da escala 6x1! on Midnight Hackings - #FimDaEscala6x1</description>
     <generator>Hugo</generator>
     <language>pt-br</language>
-    <copyright>GPL is life, contribute to copyleft projects!</copyright>
+    <copyright>Midnight Hackings apoia GPL e o fim da escala 6x1!</copyright>
     <lastBuildDate>Thu, 25 Jul 2024 12:00:00 -0300</lastBuildDate>
     <atom:link href="https://blog.midnighthackings.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -14,70 +14,70 @@
       <link>https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x01/</link>
       <pubDate>Thu, 25 Jul 2024 12:00:00 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x01/</guid>
-      <description>Introdução E prosseguimos na jornada rumo à eJPT! Agora, vamos ver como prosseguir nas atividades após o firmamento de um contrato de pentest.&#xA;Information Gathering A primeira etapa técnica de um Pentest é a busca de mais informações sobre o alvo, também chamada de Information Gathering (que também é chamada/engloba a fase de Enumeração, em algumas literaturas). Um pentest de sucesso tem sua base em uma boa coleta de informações do alvo, sendo esses tipos de informação os mais diversos possíveis: IPs, domínios, softwares, e-mails, senhas, trabalhos, pesquisas, pessoas, organização da empresa etc.</description>
+      <description>&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;E prosseguimos na jornada rumo à eJPT! Agora, vamos ver como prosseguir nas atividades após o firmamento de um contrato de pentest.&lt;/p&gt;&#xA;&lt;h1 id=&#34;information-gathering&#34;&gt;Information Gathering&lt;/h1&gt;&#xA;&lt;p&gt;A primeira etapa técnica de um Pentest é a busca de mais informações sobre o alvo, também chamada de Information Gathering (que também é chamada/engloba a fase de Enumeração, em algumas literaturas). Um pentest de sucesso tem sua base em uma boa coleta de informações do alvo, sendo esses tipos de informação os mais diversos possíveis: IPs, domínios, softwares, e-mails, senhas, trabalhos, pesquisas, pessoas, organização da empresa etc.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Notas sobre Penetration Testing 0x00</title>
       <link>https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x00/</link>
       <pubDate>Mon, 01 Jul 2024 09:00:00 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x00/</guid>
-      <description>Introdução às notas de estudo Sexta (28/06/2024) comecei minha jornada rumo à Segurança Ofensiva, visando mudar minha área profissional de 4 anos em Blue e Purple Team. O motivo para essa mudança, além de busca de mais vagas de trabalho, é para fortalecer meu conhecimento em cybersecurity através do hacking propriamente dito. Então, let&amp;rsquo;s hack!&#xA;Atualmente estou estudando para a certificação eJPT, da iNE Security. É uma certificação entry-level de custo baixo (pelo menos fora do Brasil), que abrange desde as fases iniciais de um pentest até o pós exploratório, com uma prova de 35 questões sobre um laboratório de 5 máquinas, que deve ser realizado em até 48 horas.</description>
+      <description>&lt;h1 id=&#34;introdução-às-notas-de-estudo&#34;&gt;Introdução às notas de estudo&lt;/h1&gt;&#xA;&lt;p&gt;Sexta (28/06/2024) comecei minha jornada rumo à Segurança Ofensiva, visando mudar minha área profissional de 4 anos em Blue e Purple Team. O motivo para essa mudança, além de busca de mais vagas de trabalho, é para fortalecer meu conhecimento em cybersecurity através do hacking propriamente dito. Então, let&amp;rsquo;s hack!&lt;/p&gt;&#xA;&lt;p&gt;Atualmente estou estudando para a certificação &lt;a href=&#34;https://security.ine.com/certifications/ejpt-certification/&#34;&gt;eJPT&lt;/a&gt;, da iNE Security. É uma certificação entry-level de custo baixo (pelo menos fora do Brasil), que abrange desde as fases iniciais de um pentest até o pós exploratório, com uma prova de 35 questões sobre um laboratório de 5 máquinas, que deve ser realizado em até 48 horas.&lt;/p&gt;</description>
     </item>
     <item>
       <title>ARM64: Hello World! - Parte 1</title>
       <link>https://blog.midnighthackings.com/posts/hello-world-arm-pt1/</link>
       <pubDate>Fri, 22 Mar 2024 21:00:00 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/hello-world-arm-pt1/</guid>
-      <description>Introdução Esse artigo tratará dos primeiros passos para realizar engenharia reversa em softwares escritos para a arquitetura ARMv8 (64-bits). Para esse objetivo, primeiramente precisamos entender o que é ARM, suas características principais, como executar, entre outros conceitos básicos. Após isso, serão descritos passos para a configuração de um ambiente próprio para executar instruções e programas produzidos para a plataforma Linux/ARM64.&#xA;O que é ARM? Por que estudar essa arquitetura em específico?</description>
+      <description>&lt;p&gt;&lt;img src=&#34;img/arm.png&#34; alt=&#34;arm&#34;&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Esse artigo tratará dos primeiros passos para realizar engenharia reversa em softwares escritos para a arquitetura ARMv8 (64-bits). Para esse objetivo, primeiramente precisamos entender o que é ARM, suas características principais, como executar, entre outros conceitos básicos.&#xA;Após isso, serão descritos passos para a configuração de um ambiente próprio para executar instruções e programas produzidos para a plataforma Linux/ARM64.&lt;/p&gt;&#xA;&lt;h1 id=&#34;o-que-é-arm-por-que-estudar-essa-arquitetura-em-específico&#34;&gt;O que é ARM? Por que estudar essa arquitetura em específico?&lt;/h1&gt;&#xA;&lt;p&gt;ARM, um acrônimo para &lt;em&gt;Advanced RISC Machine&lt;/em&gt;, é uma arquitetura de computadores bastante utilizada em dispositivos móveis, IoT (incluíndo roteadores e dispositivos inteligentes), placas Raspberry Pi e até laptops, como os novos Macbooks. Versões de 32-bits da arquitetura geralmente são chamados de ARMv7 ou apenas ARM, enquanto que as versões de 64-bits são chamados de ARMv8, A64, ARM64 ou AARCH64. Nesse artigo, ARM será tratado como AARCH64, a não ser quando explicitamente avisado.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Base 0x00 - Procedimento de linking &amp; seus tipos</title>
       <link>https://blog.midnighthackings.com/posts/base-0x00/</link>
       <pubDate>Fri, 22 Mar 2024 21:00:00 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/base-0x00/</guid>
-      <description>Introdução Softwares são compostos, em sua maioria, por códigos próprios, escritos pelo programador daquele software, e por códigos de bibliotecas, feito por outros programadores. Bibliotecas podem ser entendidas como códigos já escritos, reusáveis, que fornecem implementações de funções a serem utilizadas por diversos outros programas. Por exemplo, uma biblioteca de matemática fornece funções que podem ser utilizadas por um programa simples de somar dois números, um software de calculadora ou até mesmo programas para auxiliar estudos científicos em áreas que dependem de precisão de várias casas decimais.</description>
+      <description>&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Softwares são compostos, em sua maioria, por códigos próprios, escritos pelo programador daquele software, e por códigos de bibliotecas, feito por outros programadores. Bibliotecas podem ser entendidas como códigos já escritos, reusáveis, que fornecem implementações de funções a serem utilizadas por diversos outros programas. Por exemplo, uma biblioteca de matemática fornece funções que podem ser utilizadas por um programa simples de somar dois números, um software de calculadora ou até mesmo programas para auxiliar estudos científicos em áreas que dependem de precisão de várias casas decimais.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Crackme 0x01 - timotei crackme#7: código mutante e porque não devemos confiar apenas na descompilação</title>
       <link>https://blog.midnighthackings.com/posts/crackme-0x01/</link>
       <pubDate>Thu, 29 Jun 2023 07:00:00 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/crackme-0x01/</guid>
-      <description>Introdução Nesse artigo, iremos resolver o desafio crackme#7 do usuário timotei_, disponibilizado na plataforma crackmes.one. Trataremos nas seções que seguem das análises estática e dinâmica de um código que modifica sua própria estrutura dependendo de certas condições.&#xA;Triagem inicial O binário trata-se de um EXE (32-bit) escrito em Assembly x86, montado pelo software assembler MASM. Há apenas três seções, sendo duas de dados e uma de código, e todas têm entropia baixa, indicando que não há dados comprimidos/ofuscados.</description>
+      <description>&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Nesse artigo, iremos resolver o desafio &lt;a href=&#34;https://crackmes.one/crackme/64764cee33c5d439389134f2&#34;&gt;crackme#7&lt;/a&gt; do usuário &lt;a href=&#34;https://crackmes.one/user/timotei_&#34;&gt;timotei_&lt;/a&gt;, disponibilizado na plataforma crackmes.one. Trataremos nas seções que seguem das análises estática e dinâmica de um código que modifica sua própria estrutura dependendo de certas condições.&lt;/p&gt;&#xA;&lt;h1 id=&#34;triagem-inicial&#34;&gt;Triagem inicial&lt;/h1&gt;&#xA;&lt;p&gt;O binário trata-se de um &lt;em&gt;EXE (32-bit)&lt;/em&gt; escrito em &lt;em&gt;Assembly x86&lt;/em&gt;, montado pelo software assembler &lt;em&gt;MASM&lt;/em&gt;. Há apenas três seções, sendo duas de dados e uma de código, e todas têm entropia baixa, indicando que não há dados comprimidos/ofuscados. Isso significa que podemos ir direto para o código, sem necessidade de analisar e executar stubs.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Crackme 0x00 - BruteVerse: Análise estática com radare2</title>
       <link>https://blog.midnighthackings.com/posts/crackme-0x00/</link>
       <pubDate>Tue, 15 Nov 2022 20:11:51 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/crackme-0x00/</guid>
-      <description>Introdução Como toda pessoa que atua com engenharia reversa, sempre senti vontade de aprofundar meus conhecimentos no framework radare2, e talvez utilizá-lo como framework padrão para minhas análises e CTFs. Por esse motivo, resolvi esse crackme, chamado BruteVerse, postado no site crackmes.one utilizando o radare2. Esse post também dará início a uma série de postagens de resolução de CTFs.&#xA;A quem interessar, o link para o desafio está aqui. Créditos para o ThePhilosopher, por ter criado e postado o desafio.</description>
+      <description>&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Como toda pessoa que atua com engenharia reversa, sempre senti vontade de aprofundar meus conhecimentos no framework radare2, e talvez utilizá-lo como framework padrão para minhas análises e CTFs. Por esse motivo, resolvi esse crackme, chamado BruteVerse, postado no site &lt;a href=&#34;https://crackmes.one&#34;&gt;crackmes.one&lt;/a&gt; utilizando o radare2. Esse post também dará início a uma série de postagens de resolução de CTFs.&lt;/p&gt;&#xA;&lt;p&gt;A quem interessar, &lt;a href=&#34;https://crackmes.one/crackme/634bdec633c5d4425e2cd8ee&#34;&gt;o link para o desafio está aqui.&lt;/a&gt; Créditos para o &lt;a href=&#34;https://crackmes.one/user/ThePhilosopher&#34;&gt;ThePhilosopher&lt;/a&gt;, por ter criado e postado o desafio.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Malware-Dev 0x00 - APC Injection &amp; EarlyBird, ou: Bypassando Windows Defender por diversão e lucro</title>
       <link>https://blog.midnighthackings.com/posts/maldev-0x00/</link>
       <pubDate>Mon, 01 Aug 2022 19:15:14 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/maldev-0x00/</guid>
-      <description>Introdução Nesse artigo, iremos discutir o funcionamento de APCs em sistemas Windows e como podemos utilizá-las ao nosso favor em cenários de evasão de defesas e red teaming.&#xA;Durante o artigo iremos construir alguns artefatos na linguagem C++, sendo dois deles diretamente relacionados à injeção maliciosa de APCs. Na última seção, após todo o arcabouço teórico e prático adquirido, iremos testar um caso de uso real para evasão do Windows Defender.</description>
+      <description>&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Nesse artigo, iremos discutir o funcionamento de APCs em sistemas Windows e como podemos utilizá-las ao nosso favor em cenários de evasão de defesas e red teaming.&lt;/p&gt;&#xA;&lt;p&gt;Durante o artigo iremos construir alguns artefatos na linguagem C++, sendo dois deles diretamente relacionados à injeção maliciosa de APCs. Na última seção, após todo o arcabouço teórico e prático adquirido, iremos testar um caso de uso real para evasão do Windows Defender.&lt;/p&gt;</description>
     </item>
     <item>
       <title>About</title>
       <link>https://blog.midnighthackings.com/privacy/</link>
       <pubDate>Tue, 05 Jul 2022 12:00:00 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/privacy/</guid>
-      <description>Mateus Gualberto Fortaleza - CE / Brazil&#xA;Reverse Engineer, Malware Analyst, Low Level Lover! Of course, Malware Dev sometimes :)&#xA;Midnight Hackings is a small project focused in showing some security information knowledge to the community.&#xA;The contents here are not limited to any specific security-related field (e.g. pentest only, malware dev only).</description>
+      <description>&lt;h3 id=&#34;mateus-gualberto&#34;&gt;Mateus Gualberto&lt;/h3&gt;&#xA;&lt;p&gt;&lt;strong&gt;Fortaleza - CE / Brazil&lt;/strong&gt;&lt;br&gt;&#xA;Reverse Engineer, Malware Analyst, Low Level Lover! Of course, Malware Dev sometimes :)&lt;/p&gt;&#xA;&lt;p&gt;Midnight Hackings is a small project focused in showing some security information knowledge to the community.&lt;br&gt;&#xA;The contents here are not limited to any specific security-related field (e.g. pentest only, malware dev only).&lt;/p&gt;</description>
     </item>
     <item>
       <title>Contact</title>
       <link>https://blog.midnighthackings.com/contact/</link>
       <pubDate>Tue, 05 Jul 2022 12:00:00 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/contact/</guid>
-      <description>Linkedin https://br.linkedin.com/in/mateus-gualberto-santos&#xA;E-mail profissional.mateus.gualberto@gmail.com midnight.reverser@outlook.com&#xA;Github https://github.com/midnight-rev</description>
+      <description>&lt;h1 id=&#34;linkedin&#34;&gt;Linkedin&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://br.linkedin.com/in/mateus-gualberto-santos&#34;&gt;https://br.linkedin.com/in/mateus-gualberto-santos&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;e-mail&#34;&gt;E-mail&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;mailto:profissional.mateus.gualberto@gmail.com&#34;&gt;profissional.mateus.gualberto@gmail.com&lt;/a&gt;&#xA;&lt;a href=&#34;mailto:midnight.reverser@outlook.com&#34;&gt;midnight.reverser@outlook.com&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;github&#34;&gt;Github&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/midnight-rev&#34;&gt;https://github.com/midnight-rev&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Pentest 0x00 - Netcat: O canivete suíço dos hackers</title>
       <link>https://blog.midnighthackings.com/posts/pentest-0x00/</link>
       <pubDate>Tue, 05 Jul 2022 12:00:00 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/pentest-0x00/</guid>
-      <description>Introdução Nessa série de postagens, iremos descrever ferramentas essenciais que serão úteis para diversos cenários de pentest.&#xA;Essas ferramentas servirão principalmente para execução de comandos, estabelecimento de shells, envio de arquivos e análise de pacotes de redes.&#xA;Hoje trataremos no Netcat, ou nc. O IP utilizado pode sofrer alterações de exemplo para exemplo, logo é importante que o leitor entenda as diferenças entre o IP da vítima e do atacante ao longo do texto.</description>
+      <description>&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Nessa série de postagens, iremos descrever ferramentas essenciais que serão úteis para diversos cenários de pentest.&lt;/p&gt;&#xA;&lt;p&gt;Essas ferramentas servirão principalmente para execução de comandos, estabelecimento de &lt;em&gt;shells&lt;/em&gt;, envio de arquivos e análise de pacotes de redes.&lt;/p&gt;&#xA;&lt;p&gt;Hoje trataremos no Netcat, ou &lt;code&gt;nc&lt;/code&gt;. O IP utilizado pode sofrer alterações de exemplo para exemplo, logo é importante que o leitor entenda as diferenças entre o IP da vítima e do atacante ao longo do texto.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

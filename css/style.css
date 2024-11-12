@@ -20,7 +20,7 @@ html, body {
     line-height: 1.6;
     height: 100%;
     margin: 0px;
-    background-color:#011635;
+    background-color:#000000;
     color : #D8D6D0;
 }
 
@@ -34,7 +34,8 @@ a:hover {
 }
 
 aside {
-    background-image:linear-gradient(to top,#011635,black);
+    /*background-image:linear-gradient(to top,#011635,black);*/
+    background-color: darkgreen;
     height: 100%;
     width: 200px;
     z-index: 1;
@@ -182,9 +183,10 @@ button{
 }
 
 .content {
-    width : 90%;
+    width : 100%;
     margin:0px auto auto auto;
     word-break: break-word;
+    text-align: justify;
 }
 
 table {
@@ -312,7 +314,7 @@ footer{
     padding: 30px;
     margin-top: 40px;
     border-top: 1px solid #3D3D3D;
-    background-color:#011635;
+    background: color #133713;;
 }
 
 .footer-content{
