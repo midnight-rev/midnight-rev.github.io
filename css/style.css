@@ -156,7 +156,6 @@ aside nav a:hover {
 main {
     display: flex;
     flex-direction: column;
-    margin-left: 200px;
     padding: 0px;
     height: 100%;
     transition: 0.3s; 
