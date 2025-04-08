@@ -157,7 +157,8 @@
 <p><img src="img/09e2e4ef131c116cf85bb2e935581de6.png" alt="09e2e4ef131c116cf85bb2e935581de6.png"></p>
 <p><em>Figura 13: bytes a serem modificados em ciano, bytes até a chamada da resolução do desafio em vermelho.</em></p>
 <blockquote>
-<p>Uma outra forma de contabilizar a quantidade de bytes seria subtrair os endereços: <code>0x0040107c - 0x0040106d = 15</code></p></blockquote>
+<p>Uma outra forma de contabilizar a quantidade de bytes seria subtrair os endereços: <code>0x0040107c - 0x0040106d = 15</code></p>
+</blockquote>
 <p>Agora sabemos que os 2 bytes a sofrerem o XOR devem se transformar nos bytes <code>EB 0F</code>. Trivialmente, aplicando uma operação de XOR em cada byte, obtemos a string <code>tI</code>, que é senha do desafio, conforme <em>Figura 14</em> e <em>Figura 15</em>.</p>
 <p><img src="img/d0ab64a91988446f7fbe872128b0dc2c.png" alt="d0ab64a91988446f7fbe872128b0dc2c.png"></p>
 <p><em>Figura 14: senha do desafio.</em></p>

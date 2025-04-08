@@ -2,17 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.midnighthackings.com/posts/malware-analysis-0x01/</loc>
+    <lastmod>2025-04-08T18:00:00-03:00</lastmod>
+  </url><url>
     <loc>https://blog.midnighthackings.com/tags/malware-research/</loc>
-    <lastmod>2025-02-26T20:00:00-03:00</lastmod>
+    <lastmod>2025-04-08T18:00:00-03:00</lastmod>
   </url><url>
     <loc>https://blog.midnighthackings.com/posts/</loc>
-    <lastmod>2025-02-26T20:00:00-03:00</lastmod>
+    <lastmod>2025-04-08T18:00:00-03:00</lastmod>
   </url><url>
     <loc>https://blog.midnighthackings.com/tags/</loc>
-    <lastmod>2025-02-26T20:00:00-03:00</lastmod>
+    <lastmod>2025-04-08T18:00:00-03:00</lastmod>
   </url><url>
     <loc>https://blog.midnighthackings.com/tags/trojans/</loc>
-    <lastmod>2025-02-26T20:00:00-03:00</lastmod>
+    <lastmod>2025-04-08T18:00:00-03:00</lastmod>
   </url><url>
     <loc>https://blog.midnighthackings.com/posts/malware-analysis-0x00/</loc>
     <lastmod>2025-02-26T20:00:00-03:00</lastmod>
