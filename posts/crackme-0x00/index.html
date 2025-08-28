@@ -1,151 +1,359 @@
 <!DOCTYPE html>
-<html><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Security Researcher in Reversing/Malware/Low Level fields">
-    <meta name="Author" content="Midnight Reverser">
-    <meta name="keywords" content="midnighthackings midnight-rev midnight">
-    <link rel="stylesheet" href=https://blog.midnighthackings.com/css/syntax.css>
-    <link rel="stylesheet" href=https://blog.midnighthackings.com/css/style.css>
-    <script src="https://kit.fontawesome.com/1b7478c139.js" crossorigin="anonymous"></script>
-    <title>Midnight Hackings - #FimDaEscala6x1</title>
-  </head><body><aside id="sidenav">
-    <header>
-    
-        <a href=https://blog.midnighthackings.com/><img src="https://blog.midnighthackings.com/avatar.png" alt="avatar"></a>
-        
-    
+<html lang="br">
+<head>
+  
+    <title>Crackme 0x00 - BruteVerse: Análise estática com radare2 :: Midnight Hackings</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" Escrito por: Mateus Gualberto (Midnight Reverser) - orgulho de escrever sem IA envolvida no processo!
+Licença: livre, como todo conhecimento deve ser.
+Introdução Como toda pessoa que atua com engenharia reversa, sempre senti vontade de aprofundar meus conhecimentos no framework radare2, e talvez utilizá-lo como framework padrão para minhas análises e CTFs. Por esse motivo, resolvi esse crackme, chamado BruteVerse, postado no site crackmes.one utilizando o radare2. Esse post também dará início a uma série de postagens de resolução de CTFs.
+" />
+<meta name="keywords" content="midnight,blog,reverse-engineer,reversing" />
 
-    <a id="branding" href=https://blog.midnighthackings.com/>
-        
-            Midnight's Home
-        
-    </a>
-    </header>
+  <meta name="robots" content="noodp" />
 
-    <nav>
-        
-            		
-            <a href="/posts"
-                
-            >
-                <i class="fas fa-keyboard fa-ms"></i>
-                <span>posts</span>
-            </a>
-        
-            		
-            <a href="/tags"
-                
-            >
-                <i class="fas fa-tags fa-ms"></i>
-                <span>tags</span>
-            </a>
-        
-            		
-            <a href="https://github.com/midnight-rev"
-                
-                    target="_blank"
-                
-            >
-                <i class="fab fa-github fa-ms"></i>
-                <span>github</span>
-            </a>
-        
-            		
-            <a href="/index.xml"
-                
-            >
-                <i class="fas fa-rss fa-ms"></i>
-                <span>RSS</span>
-            </a>
-        
-            		
-            <a href="/contact"
-                
-            >
-                <i class="far fa-envelope"></i>
-                <span>contact</span>
-            </a>
-        
-    </nav>
-</aside>
-<main id="main">
-            <a href="javascript:void(0)" id="closebtn" onclick="navToggle()"><i class="fas fa-bars fa-lg"></i></a>
-            <div class="content">
-<code>
-    <center>
-    <p style="font-weight: bolder;color: red;"> Midnight Hackings apoia o fim da escala 6x1. </p>
-    <p style="font-weight: bolder;color: red;">Todos nós trabalhadores devemos ter direito à vida além do trabalho! Trabalhadores unidos mudam o mundo.</p>
-    </center>
-</code>
+<link rel="canonical" href="https://blog.midnighthackings.com/posts/crackme-0x00/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="https://blog.midnighthackings.com/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="https://blog.midnighthackings.com/favicon.png">
+<link rel="apple-touch-icon" href="https://blog.midnighthackings.com/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="br" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Crackme 0x00 - BruteVerse: Análise estática com radare2">
+<meta property="og:description" content=" Escrito por: Mateus Gualberto (Midnight Reverser) - orgulho de escrever sem IA envolvida no processo!
+Licença: livre, como todo conhecimento deve ser.
+Introdução Como toda pessoa que atua com engenharia reversa, sempre senti vontade de aprofundar meus conhecimentos no framework radare2, e talvez utilizá-lo como framework padrão para minhas análises e CTFs. Por esse motivo, resolvi esse crackme, chamado BruteVerse, postado no site crackmes.one utilizando o radare2. Esse post também dará início a uma série de postagens de resolução de CTFs.
+" />
+<meta property="og:url" content="https://blog.midnighthackings.com/posts/crackme-0x00/" />
+<meta property="og:site_name" content="Midnight Hackings" />
+
+  <meta property="og:image" content="https://blog.midnighthackings.com/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2022-11-15 20:11:51 -0300 -03" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Midnight Hackings
+  </div>
+</a>
+
+    </div>
     
-    <h1 id="title">Crackme 0x00 - BruteVerse: Análise estática com radare2</h1>
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/posts">Postagens</a></li>
+        
+      
+        
+          <li><a href="/tags">Tags</a></li>
+        
+      
+        
+          <li><a href="https://github.com/midnight-rev">Github</a></li>
+        
+      
+        
+          <li><a href="/index.xml">RSS</a></li>
+        
+      
+        
+          <li><a href="/contact">Sobre</a></li>
+        
+      
+      
+        <hr />
+        
+          <li>
+            <a href="https://blog.midnighthackings.com/">🇧🇷 Brasileiro</a>
+          </li>
+        
+      
+    </ul>
+  </li>
+</ul>
+
     
+    
+      <ul class="menu menu--desktop menu--language-selector">
+  <li class="menu__trigger">🇧🇷 Brasileiro&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        <li><a href="https://blog.midnighthackings.com/">🇧🇷 Brasileiro</a></li>
+      
+    </ul>
+  </li>
+</ul>
+
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
     
       
-    <nav id="TableOfContents">
+        
+          <li><a href="/posts" >Postagens</a></li>
+        
+      
+        
+          <li><a href="/tags" >Tags</a></li>
+        
+      
+        
+          <li><a href="https://github.com/midnight-rev" >Github</a></li>
+        
+      
+        
+          <li><a href="/index.xml" >RSS</a></li>
+        
+      
+        
+          <li><a href="/contact" >Sobre</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://blog.midnighthackings.com/posts/crackme-0x00/">Crackme 0x00 - BruteVerse: Análise estática com radare2</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">15/11/2022&nbsp;[Atualizado em 15/11/2022]</time><span class="post-reading-time">7 minuto(s) de leitura (1301 palavras)</span></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://blog.midnighthackings.com/tags/ctf/">ctf</a>&nbsp;
+      
+      #<a href="https://blog.midnighthackings.com/tags/crackme/">crackme</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+    <div class="table-of-contents">
+      <h2>
+        Sumário
+      </h2>
+      <nav id="TableOfContents">
   <ul>
     <li><a href="#primeiro-bloco">Primeiro bloco</a></li>
     <li><a href="#segundo-bloco">Segundo bloco</a></li>
     <li><a href="#terceiro-bloco">Terceiro bloco</a></li>
   </ul>
 </nav>
-    <h1 id="introdução">Introdução</h1>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <blockquote>
+<p>Escrito por: Mateus Gualberto (Midnight Reverser) - <strong>orgulho de escrever sem IA envolvida no processo!</strong><br>
+Licença: livre, como todo conhecimento deve ser.</p>
+</blockquote>
+<h1 id="introdução">Introdução<a href="#introdução" class="hanchor" ariaLabel="Anchor">#</a> </h1>
 <p>Como toda pessoa que atua com engenharia reversa, sempre senti vontade de aprofundar meus conhecimentos no framework radare2, e talvez utilizá-lo como framework padrão para minhas análises e CTFs. Por esse motivo, resolvi esse crackme, chamado BruteVerse, postado no site <a href="https://crackmes.one">crackmes.one</a> utilizando o radare2. Esse post também dará início a uma série de postagens de resolução de CTFs.</p>
 <p>A quem interessar, <a href="https://crackmes.one/crackme/634bdec633c5d4425e2cd8ee">o link para o desafio está aqui.</a> Créditos para o <a href="https://crackmes.one/user/ThePhilosopher">ThePhilosopher</a>, por ter criado e postado o desafio.</p>
-<h1 id="primeiras-impressões">Primeiras impressões</h1>
+<h1 id="primeiras-impressões">Primeiras impressões<a href="#primeiras-impressões" class="hanchor" ariaLabel="Anchor">#</a> </h1>
 <p>A análise do comando file informa que o binário trata-se de um ELF de 64 bits, para Linux e com símbolos de debugging (not stripped). Além disso, o próprio criador do desafio informou na plataforma crackmes.one que a linguagem utilizada para criação foi o Assembly.</p>
-<p><img src="img/3f30400342dff512c44ee99b0c1938e6.png" alt="3f30400342dff512c44ee99b0c1938e6.png"></p>
+
+<img src="img/3f30400342dff512c44ee99b0c1938e6.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Mesmo em casos nos quais não há informações do programador com relação ao uso de linguagem de montagem diretamente, é possível suspeitar do uso de Assembly para criação de um software, especialmente desafios de CTF, devido ao tamanho do binário gerado, como indicado na imagem abaixo. Assembly gera um código enxuto, no qual cada mnemônico é traduzido para um código de máquina específico.</p>
-<p><img src="img/63bffb74b57fff54d76ba372cd894390.png" alt="63bffb74b57fff54d76ba372cd894390.png"></p>
+
+<img src="img/63bffb74b57fff54d76ba372cd894390.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Um outro ponto é importante verificar são as cadeias de caracteres (strings) que estão contidas em um binário. Existem diversas codificações para strings - ASCII, UTF8, entre outras - e as mais comuns podem ser identificadas com o uso do argumento <code>-z</code> no binário <code>rabin2</code>. Abaixo, podemos verificar que nesse desafio consta apenas uma string interessante em texto plano no endereço virtual <code>0x0040202c</code>.</p>
-<p><img src="img/6481ea71d3df5255262f770a99439f81.png" alt="6481ea71d3df5255262f770a99439f81.png"></p>
+
+<img src="img/6481ea71d3df5255262f770a99439f81.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Outro ponto importante de binários pequenos e <em>not stripped</em> são os símbolos, que tratam-se de um mapeamento de strings legíveis para certos endereços de memória. Símbolos podem referenciar endereços de variáveis globais, endereços de funções, entre outras informações contidas nos binários ELF.</p>
 <p>No desafio, é possível encontrar certos símbolos locais interessantes. Por exemplo, os símbolos &ldquo;msg&rdquo; e &ldquo;data&rdquo; sugerem dados que poderão sofrer interação por alguma função, como escrever na tela ou descriptografar.</p>
 <p>Já os símbolos <code>l1</code>, <code>l2</code>, <code>l3</code> e <code>exit</code> sugerem referências a determinado endereços de código.</p>
-<p><img src="img/30b80f58ef145d0fd4ca41c9fe87ccb5.png" alt="30b80f58ef145d0fd4ca41c9fe87ccb5.png"></p>
+
+<img src="img/30b80f58ef145d0fd4ca41c9fe87ccb5.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Tendo em vista essas informações iniciais, vamos executar o programa.</p>
 <p>Na execução, não é pedido nenhuma entrada do usuário e o programa simplesmente escreve na tela a frase &ldquo;You need another path to get the precious flag!&rdquo;, terminando logo em seguida.</p>
-<p><img src="img/8ae574c4cedfd97454620925d2426f8a.png" alt="8ae574c4cedfd97454620925d2426f8a.png"></p>
+
+<img src="img/8ae574c4cedfd97454620925d2426f8a.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Já estando na shell do radare2, após uma análise profunda do arquivo com o comando <code>aaa</code>, é possível buscar funções na <em>flagspace</em> &ldquo;functions&rdquo;. Nenhuma função identificada na análise é retornada, logo o binário não têm funções definidas.</p>
-<p><img src="img/ad9111349835854126a59ad6857ad1c8.png" alt="ad9111349835854126a59ad6857ad1c8.png"></p>
+
+<img src="img/ad9111349835854126a59ad6857ad1c8.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Buscando por cross references da string &ldquo;You need another path to get the precious flag!&rdquo;, com o comando <code>axt</code>, é retornado apenas uma referência para a <code>entry0</code>, que é o entrypoint do binário ELF. Logo, devemos analisá-lo para entender o fluxo de execução do desafio.</p>
-<p><img src="img/e1abe9450bd112adbd4479a50b858833.png" alt="e1abe9450bd112adbd4479a50b858833.png"></p>
-<h1 id="o-poder-da-análise-estática-com-radare2">O poder da análise estática com radare2</h1>
+
+<img src="img/e1abe9450bd112adbd4479a50b858833.png"  class="center"  style="border-radius: 1px;"    />
+
+
+<h1 id="o-poder-da-análise-estática-com-radare2">O poder da análise estática com radare2<a href="#o-poder-da-análise-estática-com-radare2" class="hanchor" ariaLabel="Anchor">#</a> </h1>
 <p>Após realizar um seek para o endereço do entrypoint (<code>s entry0</code>) e entrar no modo visual com <code>VV</code>, foi possível identificar três conjuntos de blocos de códigos que chamam syscalls. Eles são fundamentais para entender o funcionamento do binário.</p>
-<h2 id="primeiro-bloco">Primeiro bloco</h2>
-<p><img src="img/b6d786ea8911dc72cc8945776afa33ff.png" alt="b6d786ea8911dc72cc8945776afa33ff.png"></p>
+<h2 id="primeiro-bloco">Primeiro bloco<a href="#primeiro-bloco" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+
+<img src="img/b6d786ea8911dc72cc8945776afa33ff.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Nesse bloco, é possível perceber que o número da syscall, identificado por RAX, é o valor 1, que se traduz para a syscall write. Seus argumentos são:</p>
 <pre tabindex="0"><code>RDI = File Descriptor
 RSI = Buffer a ser escrito no File Descriptor
 RDX = Quantidade de bytes a serem escritos
 </code></pre><p>Analisando o bloco, sabemos que RDI tem valor 1, ou <em>stdout</em>, RDX tem valor 1 e RSI recebe o valor guardado em R9. O valor de R9 é modificado pela última vez no endereço <code>0x00401000</code>, pela instrução <code>movabs</code>, atribuindo um ponteiro para <code>loc.msg</code>. Isso efetivamente está escrevendo em <em>stdout</em> um byte de <code>loc.msg</code>. Na imagem abaixo está o valor apontado por <code>loc.msg</code>:</p>
-<p><img src="img/b20d1b662d1b4756d3adf7b046caf701.png" alt="b20d1b662d1b4756d3adf7b046caf701.png"></p>
+
+<img src="img/b20d1b662d1b4756d3adf7b046caf701.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Logo após a syscall, o ponteiro de R9 é incrementado e há uma comparação em <code>0x00401021</code> para verificar se o valor apontado por R9 é nulo. Caso negativo, o RIP apontará para o início do loop <code>l1</code>, em <code>0x0040100a</code>, escrevendo o próximo byte de <code>loc.msg</code> na tela.</p>
-<h2 id="segundo-bloco">Segundo bloco</h2>
-<p><img src="img/dc322a1a8969949db962a0317cf706fc.png" alt="dc322a1a8969949db962a0317cf706fc.png"></p>
+<h2 id="segundo-bloco">Segundo bloco<a href="#segundo-bloco" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+
+<img src="img/dc322a1a8969949db962a0317cf706fc.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Esse segundo bloco, que começa em <code>0x00401031</code> (<code>loc.data</code>) é executada logo após o loop <code>l1</code>. A syscall <code>0x3c</code>, junto com o valor 0 em RDI, se traduz para <code>exit(0)</code>. Isso efetivamente irá fazer com que o programa termine sua execução. No entanto, logo após a chamada da syscall, há o início do label <code>l2</code>, carregando o valor de <code>loc.data</code> no registrador R9. Note que esse código nunca será executado normalmente.</p>
-<h2 id="terceiro-bloco">Terceiro bloco</h2>
-<p><img src="img/6239849e5e1c87b34b2d94a34707f276.png" alt="6239849e5e1c87b34b2d94a34707f276.png"></p>
+<h2 id="terceiro-bloco">Terceiro bloco<a href="#terceiro-bloco" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+
+<img src="img/6239849e5e1c87b34b2d94a34707f276.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>O terceiro bloco começa no endereço <code>0x00401033</code>, ou <code>l2</code>, movendo o o valor de <code>loc.data</code> para o registrador R9.</p>
 <p>Logo após, há a chamada da syscall <code>write</code>, só que dessa vez, para o byte apontado por R9. Note que o valor apontado por R9 é modificado por um XOR com 0xa3, no endereço <code>0x00401047</code>.</p>
 <p>Após a execução da syscall, o ponteiro de R9 é incrementado e há uma comparação com o valor do byte apontado por R9 com 0. Caso seja positivo, a execução será redirecionada para <code>loc.exit</code>, ou seja, o segundo bloco, que irá terminar o programa.</p>
 <p>Caso negativo, o próximo valor de R9 será escrito em <code>stdout</code>. Com o comando <code>px</code>, é possível verificar os bytes que estão em <code>loc.data</code>, conforme imagem abaixo.</p>
-<p><img src="img/9371ef8bf5ead8e8c12a8d6e420036ae.png" alt="9371ef8bf5ead8e8c12a8d6e420036ae.png"></p>
-<h1 id="patching-e-resolução">Patching e resolução</h1>
+
+<img src="img/9371ef8bf5ead8e8c12a8d6e420036ae.png"  class="center"  style="border-radius: 1px;"    />
+
+
+<h1 id="patching-e-resolução">Patching e resolução<a href="#patching-e-resolução" class="hanchor" ariaLabel="Anchor">#</a> </h1>
 <p>Uma forma de resolução simples desse desafio é realizar um <em>binary patching</em> no arquivo. Podemos alterar o valor do endereço na instrução JNE em <code>0x00401025</code> para pular para <code>l2</code> (<code>0x00401033</code>). Para isso, devemos obedecer as condições de um <em>jump short</em> em x86/amd64, que deverá contabilizar a quantidade de bytes entre a instrução <em>Jcc/JMP</em> até o endereço especificado.</p>
 <p>Calculando a quantidade de bytes entre o JNE até o endereço de <code>l2</code>, temos 0x0c bytes. Abaixo está o patching que queremos realizar.</p>
-<p><img src="img/cb3230c1a4d48bc8210e59c46fa8d3e8.png" alt="cb3230c1a4d48bc8210e59c46fa8d3e8.png"></p>
+
+<img src="img/cb3230c1a4d48bc8210e59c46fa8d3e8.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Para aplicarmos o patch, devemos reabrir o arquivo em modo de escrita (<code>oo+</code>) e configurar a variável io.cache para false (<code>e io.cache=false</code>). Essa configuração permitirá que o radare2 escreva alterações diretamente no binário, e não em um cache.</p>
 <p>Por fim, podemos aplicar o patch utilizando o comando <code>wx 750c @ 0x00401025</code>, que irá escrever a word 0x750c (<code>JNE</code> para <code>0x00401033</code>) no endereço do JNE.</p>
-<p><img src="img/f1341e8157e0ad408eaf9164b10a7c13.png" alt="f1341e8157e0ad408eaf9164b10a7c13.png"></p>
+
+<img src="img/f1341e8157e0ad408eaf9164b10a7c13.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Dessa forma, a execução irá escrever a string identificada em <code>loc.data</code>, com XOR 0xA3, na tela. Note que da forma que foi realizado o patch, o primeiro byte da string original &ldquo;You need another path to get the precious flag!&rdquo; ainda será escrito na tela. Vamos levar isso em consideração ao tentar executar o arquivo.</p>
 <p>Para isso, podemos utilizar o utiltário <code>cut</code> para retornar apenas o valor após o &lsquo;Y&rsquo;. Note que mesmo na execução sem o <code>cut</code>, o valor retornado não se parece com uma flag.</p>
 <p>Para coveniência da próxima fase, foi utilizado o utilitário <code>base64</code> para codificar a string.
-<img src="img/e27ac4c72d24f0239fac224e8ba85716.png" alt="e27ac4c72d24f0239fac224e8ba85716.png"></p>
+
+<img src="img/e27ac4c72d24f0239fac224e8ba85716.png"  class="center"  style="border-radius: 1px;"    />
+
+</p>
 <p>Como o nome do desafio é &ldquo;BruteVerse&rdquo;, e utilizamos uma criptografia com XOR no código, podemos pensar em testar a string obtida utilizando XOR com valores de 0x00 a 0xFF. Para isso, podemos construir um script ou utilizar o cyberchef, com as operações &ldquo;From Base64&rdquo; e &ldquo;XOR Brute Force&rdquo;.</p>
-<p>Como mostrado na imagem abaixo, o valor 0x50 decodifica com sucesso a flag. <a href="https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)XOR_Brute_Force(1,100,0,'Standard',false,true,false,'')&amp;input=R0RVaU5YQTVJM0FwUHlVaWNEWThNVGR3YW5BQ1lnWmlBbVVaSG1VUFpBTVBBbVJpSEJ4bkR4WmlIZ289">Clique aqui para a resolução no CyberChef</a>.</p>
-<p><img src="img/f35d3ecf1c8325902783194ac144970d.png" alt="f35d3ecf1c8325902783194ac144970d.png"></p>
+<p>Como mostrado na imagem abaixo, o valor 0x50 decodifica com sucesso a flag. <a href="https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)XOR_Brute_Force(1,100,0,'Standard',false,true,false,'')&input=R0RVaU5YQTVJM0FwUHlVaWNEWThNVGR3YW5BQ1lnWmlBbVVaSG1VUFpBTVBBbVJpSEJ4bkR4WmlIZ289">Clique aqui para a resolução no CyberChef</a>.</p>
+
+<img src="img/f35d3ecf1c8325902783194ac144970d.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Sabendo do valor 0x50, também é possível utilizar o radare2 para escrever o valor em texto plano da flag:</p>
 <ul>
 <li>carregar o binário e analisá-lo (<code>aaa</code>);</li>
@@ -156,42 +364,73 @@ RDX = Quantidade de bytes a serem escritos
 <li>realizar uma nova operação XOR em <code>loc.data</code>, agora com o valor 0x50 (<code>wox 0x50 @ loc.data</code>);</li>
 <li>usar <code>px 0x2b @ loc.data</code> para printar a flag.</li>
 </ul>
-<p><img src="img/5ae090e20ae94690509ce476bb3b5ecb.png" alt="5ae090e20ae94690509ce476bb3b5ecb.png"></p>
 
+<img src="img/5ae090e20ae94690509ce476bb3b5ecb.png"  class="center"  style="border-radius: 1px;"    />
+
+
+
+      </div></div>
+
+  
     
-    <div class="nav-next-prev">
-        <div class="nav-prev">
-            
-                <a href="https://blog.midnighthackings.com/posts/maldev-0x00/"><i class="fas fa-chevron-left"></i></a>
-            
-        </div>
-        <a class="nav-top" href="#">top</i></a>
-        <div class="nav-next">
-            
-                <a href="https://blog.midnighthackings.com/posts/crackme-0x01/"><i class="fas fa-chevron-right"></i></a>
-            
-        </div>
-    </div>
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Ler outras postagens</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="https://blog.midnighthackings.com/posts/crackme-0x01/" class="button inline prev">
+        &lt; [<span class="button__text">Crackme 0x01 - timotei crackme#7: código mutante e porque não devemos confiar apenas na descompilação</span>]
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="https://blog.midnighthackings.com/posts/maldev-0x00/" class="button inline next">
+         [<span class="button__text">Malware-Dev 0x00 - APC Injection &amp; EarlyBird, ou: Bypassando Windows Defender por diversão e lucro</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
     
 
-            </div><footer>
-<div class="footer-content">
+  
+</article>
 
-  <div class="contact-info">
-      
-          <div class="footer-mail">
-          <i class="far fa-envelope"></i> <a href="mailto:midnight.reverser@outlook.com">midnight.reverser@outlook.com</a> </div>
-      
-      
   </div>
 
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright copyright--user">
+        <span>Midnight Hackings apoia o fim da escala 6x1!</span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
 
-<img src="https://www.gnu.org/graphics/gplv3-with-text-136x68.png"/>
-&nbsp;&nbsp;
-<p class="copyright meta"> Midnight Hackings apoia GPL e o fim da escala 6x1!</p>
 
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
 </div>
-</footer></main>
-    </body>
-    <script src=https://blog.midnighthackings.com/js/navbutton.js></script>
+
+</body>
 </html>

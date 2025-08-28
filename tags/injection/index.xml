@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Injection on Midnight Hackings - #FimDaEscala6x1</title>
+    <title>Injection on Midnight Hackings</title>
     <link>https://blog.midnighthackings.com/tags/injection/</link>
-    <description>Recent content in Injection on Midnight Hackings - #FimDaEscala6x1</description>
+    <description>Recent content in Injection on Midnight Hackings</description>
     <generator>Hugo</generator>
-    <language>pt-br</language>
-    <copyright>Midnight Hackings apoia GPL e o fim da escala 6x1!</copyright>
+    <language>br</language>
+    <copyright>Midnight Hackings apoia o fim da escala 6x1!</copyright>
     <lastBuildDate>Mon, 01 Aug 2022 19:15:14 -0300</lastBuildDate>
     <atom:link href="https://blog.midnighthackings.com/tags/injection/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -14,7 +14,7 @@
       <link>https://blog.midnighthackings.com/posts/maldev-0x00/</link>
       <pubDate>Mon, 01 Aug 2022 19:15:14 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/maldev-0x00/</guid>
-      <description>&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Nesse artigo, iremos discutir o funcionamento de APCs em sistemas Windows e como podemos utilizá-las ao nosso favor em cenários de evasão de defesas e red teaming.&lt;/p&gt;&#xA;&lt;p&gt;Durante o artigo iremos construir alguns artefatos na linguagem C++, sendo dois deles diretamente relacionados à injeção maliciosa de APCs. Na última seção, após todo o arcabouço teórico e prático adquirido, iremos testar um caso de uso real para evasão do Windows Defender.&lt;/p&gt;</description>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Escrito por: Mateus Gualberto (Midnight Reverser) - &lt;strong&gt;orgulho de escrever sem IA envolvida no processo!&lt;/strong&gt;&lt;br&gt;&#xA;Licença: livre, como todo conhecimento deve ser.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Nesse artigo, iremos discutir o funcionamento de APCs em sistemas Windows e como podemos utilizá-las ao nosso favor em cenários de evasão de defesas e red teaming.&lt;/p&gt;&#xA;&lt;p&gt;Durante o artigo iremos construir alguns artefatos na linguagem C++, sendo dois deles diretamente relacionados à injeção maliciosa de APCs. Na última seção, após todo o arcabouço teórico e prático adquirido, iremos testar um caso de uso real para evasão do Windows Defender.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

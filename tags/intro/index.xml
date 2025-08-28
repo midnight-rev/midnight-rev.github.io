@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Intro on Midnight Hackings - #FimDaEscala6x1</title>
+    <title>Intro on Midnight Hackings</title>
     <link>https://blog.midnighthackings.com/tags/intro/</link>
-    <description>Recent content in Intro on Midnight Hackings - #FimDaEscala6x1</description>
+    <description>Recent content in Intro on Midnight Hackings</description>
     <generator>Hugo</generator>
-    <language>pt-br</language>
-    <copyright>Midnight Hackings apoia GPL e o fim da escala 6x1!</copyright>
+    <language>br</language>
+    <copyright>Midnight Hackings apoia o fim da escala 6x1!</copyright>
     <lastBuildDate>Thu, 25 Jul 2024 12:00:00 -0300</lastBuildDate>
     <atom:link href="https://blog.midnighthackings.com/tags/intro/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -14,14 +14,14 @@
       <link>https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x01/</link>
       <pubDate>Thu, 25 Jul 2024 12:00:00 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x01/</guid>
-      <description>&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;E prosseguimos na jornada rumo à eJPT! Agora, vamos ver como prosseguir nas atividades após o firmamento de um contrato de pentest.&lt;/p&gt;&#xA;&lt;h1 id=&#34;information-gathering&#34;&gt;Information Gathering&lt;/h1&gt;&#xA;&lt;p&gt;A primeira etapa técnica de um Pentest é a busca de mais informações sobre o alvo, também chamada de Information Gathering (que também é chamada/engloba a fase de Enumeração, em algumas literaturas). Um pentest de sucesso tem sua base em uma boa coleta de informações do alvo, sendo esses tipos de informação os mais diversos possíveis: IPs, domínios, softwares, e-mails, senhas, trabalhos, pesquisas, pessoas, organização da empresa etc.&lt;/p&gt;</description>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Escrito por: Mateus Gualberto (Midnight Reverser) - &lt;strong&gt;orgulho de escrever sem IA envolvida no processo!&lt;/strong&gt;&lt;br&gt;&#xA;Licença: livre, como todo conhecimento deve ser.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;E prosseguimos na jornada rumo à eJPT! Agora, vamos ver como prosseguir nas atividades após o firmamento de um contrato de pentest.&lt;/p&gt;&#xA;&lt;h1 id=&#34;information-gathering&#34;&gt;Information Gathering&lt;/h1&gt;&#xA;&lt;p&gt;A primeira etapa técnica de um Pentest é a busca de mais informações sobre o alvo, também chamada de Information Gathering (que também é chamada/engloba a fase de Enumeração, em algumas literaturas). Um pentest de sucesso tem sua base em uma boa coleta de informações do alvo, sendo esses tipos de informação os mais diversos possíveis: IPs, domínios, softwares, e-mails, senhas, trabalhos, pesquisas, pessoas, organização da empresa etc.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Notas sobre Penetration Testing 0x00</title>
       <link>https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x00/</link>
       <pubDate>Mon, 01 Jul 2024 09:00:00 -0300</pubDate>
       <guid>https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x00/</guid>
-      <description>&lt;h1 id=&#34;introdução-às-notas-de-estudo&#34;&gt;Introdução às notas de estudo&lt;/h1&gt;&#xA;&lt;p&gt;Sexta (28/06/2024) comecei minha jornada rumo à Segurança Ofensiva, visando mudar minha área profissional de 4 anos em Blue e Purple Team. O motivo para essa mudança, além de busca de mais vagas de trabalho, é para fortalecer meu conhecimento em cybersecurity através do hacking propriamente dito. Então, let&amp;rsquo;s hack!&lt;/p&gt;&#xA;&lt;p&gt;Atualmente estou estudando para a certificação &lt;a href=&#34;https://security.ine.com/certifications/ejpt-certification/&#34;&gt;eJPT&lt;/a&gt;, da iNE Security. É uma certificação entry-level de custo baixo (pelo menos fora do Brasil), que abrange desde as fases iniciais de um pentest até o pós exploratório, com uma prova de 35 questões sobre um laboratório de 5 máquinas, que deve ser realizado em até 48 horas.&lt;/p&gt;</description>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Escrito por: Mateus Gualberto (Midnight Reverser) - &lt;strong&gt;orgulho de escrever sem IA envolvida no processo!&lt;/strong&gt;&lt;br&gt;&#xA;Licença: livre, como todo conhecimento deve ser.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h1 id=&#34;introdução-às-notas-de-estudo&#34;&gt;Introdução às notas de estudo&lt;/h1&gt;&#xA;&lt;p&gt;Sexta (28/06/2024) comecei minha jornada rumo à Segurança Ofensiva, visando mudar minha área profissional de 4 anos em Blue e Purple Team. O motivo para essa mudança, além de busca de mais vagas de trabalho, é para fortalecer meu conhecimento em cybersecurity através do hacking propriamente dito. Então, let&amp;rsquo;s hack!&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

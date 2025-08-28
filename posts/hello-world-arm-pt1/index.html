@@ -1,89 +1,241 @@
 <!DOCTYPE html>
-<html><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Security Researcher in Reversing/Malware/Low Level fields">
-    <meta name="Author" content="Midnight Reverser">
-    <meta name="keywords" content="midnighthackings midnight-rev midnight">
-    <link rel="stylesheet" href=https://blog.midnighthackings.com/css/syntax.css>
-    <link rel="stylesheet" href=https://blog.midnighthackings.com/css/style.css>
-    <script src="https://kit.fontawesome.com/1b7478c139.js" crossorigin="anonymous"></script>
-    <title>Midnight Hackings - #FimDaEscala6x1</title>
-  </head><body><aside id="sidenav">
-    <header>
-    
-        <a href=https://blog.midnighthackings.com/><img src="https://blog.midnighthackings.com/avatar.png" alt="avatar"></a>
-        
-    
+<html lang="br">
+<head>
+  
+    <title>ARM64: Hello World! - Parte 1 :: Midnight Hackings</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" Escrito por: Mateus Gualberto (Midnight Reverser) - orgulho de escrever sem IA envolvida no processo!
+Licença: livre, como todo conhecimento deve ser.
+Introdução Esse artigo tratará dos primeiros passos para realizar engenharia reversa em softwares escritos para a arquitetura ARMv8 (64-bits). Para esse objetivo, primeiramente precisamos entender o que é ARM, suas características principais, como executar, entre outros conceitos básicos. Após isso, serão descritos passos para a configuração de um ambiente próprio para executar instruções e programas produzidos para a plataforma Linux/ARM64.
+" />
+<meta name="keywords" content="midnight,blog,reverse-engineer,reversing" />
 
-    <a id="branding" href=https://blog.midnighthackings.com/>
-        
-            Midnight's Home
-        
-    </a>
-    </header>
+  <meta name="robots" content="noodp" />
 
-    <nav>
-        
-            		
-            <a href="/posts"
-                
-            >
-                <i class="fas fa-keyboard fa-ms"></i>
-                <span>posts</span>
-            </a>
-        
-            		
-            <a href="/tags"
-                
-            >
-                <i class="fas fa-tags fa-ms"></i>
-                <span>tags</span>
-            </a>
-        
-            		
-            <a href="https://github.com/midnight-rev"
-                
-                    target="_blank"
-                
-            >
-                <i class="fab fa-github fa-ms"></i>
-                <span>github</span>
-            </a>
-        
-            		
-            <a href="/index.xml"
-                
-            >
-                <i class="fas fa-rss fa-ms"></i>
-                <span>RSS</span>
-            </a>
-        
-            		
-            <a href="/contact"
-                
-            >
-                <i class="far fa-envelope"></i>
-                <span>contact</span>
-            </a>
-        
-    </nav>
-</aside>
-<main id="main">
-            <a href="javascript:void(0)" id="closebtn" onclick="navToggle()"><i class="fas fa-bars fa-lg"></i></a>
-            <div class="content">
-<code>
-    <center>
-    <p style="font-weight: bolder;color: red;"> Midnight Hackings apoia o fim da escala 6x1. </p>
-    <p style="font-weight: bolder;color: red;">Todos nós trabalhadores devemos ter direito à vida além do trabalho! Trabalhadores unidos mudam o mundo.</p>
-    </center>
-</code>
+<link rel="canonical" href="https://blog.midnighthackings.com/posts/hello-world-arm-pt1/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="https://blog.midnighthackings.com/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="https://blog.midnighthackings.com/favicon.png">
+<link rel="apple-touch-icon" href="https://blog.midnighthackings.com/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="br" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="ARM64: Hello World! - Parte 1">
+<meta property="og:description" content=" Escrito por: Mateus Gualberto (Midnight Reverser) - orgulho de escrever sem IA envolvida no processo!
+Licença: livre, como todo conhecimento deve ser.
+Introdução Esse artigo tratará dos primeiros passos para realizar engenharia reversa em softwares escritos para a arquitetura ARMv8 (64-bits). Para esse objetivo, primeiramente precisamos entender o que é ARM, suas características principais, como executar, entre outros conceitos básicos. Após isso, serão descritos passos para a configuração de um ambiente próprio para executar instruções e programas produzidos para a plataforma Linux/ARM64.
+" />
+<meta property="og:url" content="https://blog.midnighthackings.com/posts/hello-world-arm-pt1/" />
+<meta property="og:site_name" content="Midnight Hackings" />
+
+  <meta property="og:image" content="https://blog.midnighthackings.com/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2024-03-22 21:00:00 -0300 -03" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Midnight Hackings
+  </div>
+</a>
+
+    </div>
     
-    <h1 id="title">ARM64: Hello World! - Parte 1</h1>
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/posts">Postagens</a></li>
+        
+      
+        
+          <li><a href="/tags">Tags</a></li>
+        
+      
+        
+          <li><a href="https://github.com/midnight-rev">Github</a></li>
+        
+      
+        
+          <li><a href="/index.xml">RSS</a></li>
+        
+      
+        
+          <li><a href="/contact">Sobre</a></li>
+        
+      
+      
+        <hr />
+        
+          <li>
+            <a href="https://blog.midnighthackings.com/">🇧🇷 Brasileiro</a>
+          </li>
+        
+      
+    </ul>
+  </li>
+</ul>
+
     
+    
+      <ul class="menu menu--desktop menu--language-selector">
+  <li class="menu__trigger">🇧🇷 Brasileiro&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        <li><a href="https://blog.midnighthackings.com/">🇧🇷 Brasileiro</a></li>
+      
+    </ul>
+  </li>
+</ul>
+
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
     
       
-    <nav id="TableOfContents">
+        
+          <li><a href="/posts" >Postagens</a></li>
+        
+      
+        
+          <li><a href="/tags" >Tags</a></li>
+        
+      
+        
+          <li><a href="https://github.com/midnight-rev" >Github</a></li>
+        
+      
+        
+          <li><a href="/index.xml" >RSS</a></li>
+        
+      
+        
+          <li><a href="/contact" >Sobre</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://blog.midnighthackings.com/posts/hello-world-arm-pt1/">ARM64: Hello World! - Parte 1</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">22/03/2024&nbsp;[Atualizado em 22/03/2024]</time><span class="post-reading-time">7 minuto(s) de leitura (1289 palavras)</span></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://blog.midnighthackings.com/tags/arm/">arm</a>&nbsp;
+      
+      #<a href="https://blog.midnighthackings.com/tags/reversing/">reversing</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+    <div class="table-of-contents">
+      <h2>
+        Sumário
+      </h2>
+      <nav id="TableOfContents">
   <ul>
     <li><a href="#em-uma-máquina-aarch64">Em uma máquina AARCH64</a></li>
     <li><a href="#em-máquinas-não-compatíveis">Em máquinas não compatíveis</a>
@@ -94,11 +246,18 @@
     </li>
   </ul>
 </nav>
-    <p><img src="img/arm.png" alt="arm"></p>
-<h1 id="introdução">Introdução</h1>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <blockquote>
+<p>Escrito por: Mateus Gualberto (Midnight Reverser) - <strong>orgulho de escrever sem IA envolvida no processo!</strong><br>
+Licença: livre, como todo conhecimento deve ser.</p>
+</blockquote>
+<h1 id="introdução">Introdução<a href="#introdução" class="hanchor" ariaLabel="Anchor">#</a> </h1>
 <p>Esse artigo tratará dos primeiros passos para realizar engenharia reversa em softwares escritos para a arquitetura ARMv8 (64-bits). Para esse objetivo, primeiramente precisamos entender o que é ARM, suas características principais, como executar, entre outros conceitos básicos.
 Após isso, serão descritos passos para a configuração de um ambiente próprio para executar instruções e programas produzidos para a plataforma Linux/ARM64.</p>
-<h1 id="o-que-é-arm-por-que-estudar-essa-arquitetura-em-específico">O que é ARM? Por que estudar essa arquitetura em específico?</h1>
+<h1 id="o-que-é-arm-por-que-estudar-essa-arquitetura-em-específico">O que é ARM? Por que estudar essa arquitetura em específico?<a href="#o-que-é-arm-por-que-estudar-essa-arquitetura-em-específico" class="hanchor" ariaLabel="Anchor">#</a> </h1>
 <p>ARM, um acrônimo para <em>Advanced RISC Machine</em>, é uma arquitetura de computadores bastante utilizada em dispositivos móveis, IoT (incluíndo roteadores e dispositivos inteligentes), placas Raspberry Pi e até laptops, como os novos Macbooks. Versões de 32-bits da arquitetura geralmente são chamados de ARMv7 ou apenas ARM, enquanto que as versões de 64-bits são chamados de ARMv8, A64, ARM64 ou AARCH64. Nesse artigo, ARM será tratado como AARCH64, a não ser quando explicitamente avisado.</p>
 <p>Ser RISC (<em>Reduced Instruction Set Computer</em>) significa ter um conjunto de instruções reduzido, mais simples em comparação com arquiteturas CISC (<em>Complex Instruction Set Computer</em>), como x86 ou amd64. Entretanto, essa &ldquo;desvantagem&rdquo; permite que a arquitetura necessite de menos energia para funcionar, permitindo seu uso em dispositivos embarcados e de limitação de processamento.</p>
 <p>Abaixo estão algumas informações importantes sobre a arquitetura:</p>
@@ -110,7 +269,10 @@ Após isso, serão descritos passos para a configuração de um ambiente própri
 <li><strong>Diferentemente da x86/amd64</strong>, é baseada em <a href="https://en.wikipedia.org/wiki/Load%E2%80%93store_architecture">load/store</a>, ou seja, há uma divisão das instruções em instruções que fazem acesso à memória e as que realizam operações da ALU. Na prática, isso significa que não é possível realizar um ADD, SUB ou quaisquer outras operações utilizando operandos da memória, necessitando de instruções load para carregar antes os valores da memória em um registrador e após um store para armazenar o resultado na memória.</li>
 </ul>
 <p>Na imagem abaixo, extraída de <a href="https://developer.arm.com/documentation/107829/0200?lang=en">Getting Started with Arm Assembly Language</a>, estão descritos alguns dos usos principais dos registradores de propósito geral.</p>
-<p><img src="img/fbf3ee65d446ef886150fd0998e9b8eb.png" alt="fbf3ee65d446ef886150fd0998e9b8eb.png"></p>
+
+<img src="img/fbf3ee65d446ef886150fd0998e9b8eb.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Especialmente para o profissional da área de análise de malware, o estudo e o domínio de conhecimento da ARM, tanto em 32-bits quanto 64-bits, é algo necessário. Um grande número de smartphones rodam na plataforma Android ou iOS sobre ARM, e a cada dia mais novos malwares são disponibilizados (inclusive nas lojas oficiais!) para download. A análise de tais artefatos pode necessitar, além da análise do código-fonte, uma análise mais profunda a nível de código de máquina, exigindo do analista um conhecimento sobre a arquitetura.</p>
 <p>Tal necessidade de aprendizado também é necessário para um pesquisador de vulnerabilidades. Em um mundo conectado via roteadores e dispositivos embarcados/IoT, esses proveem uma ampla gama de máquinas que podem conter sérias vulnerabilidades, como <em>Denial of Service</em> (DoS) e até <em>Remote Code Execution</em> (RCE).</p>
 <p>Para rodar instruções ARM no contexto do uso de um sistema operacional, é necessário criar um programa em um formato específico que o <em>loader</em>, um software especial que permite criar processos, consiga entender - ou seja, um executável. Para isso, é necessário seguir os passos:</p>
@@ -120,98 +282,165 @@ Após isso, serão descritos passos para a configuração de um ambiente própri
 <li>utilização de um software linker (ld) para gerar o executável final (source).</li>
 </ol>
 <p>Na imagem abaixo está representado esse procedimento:</p>
-<p><img src="img/d3ba5b40ee8b99e5e2c06cd392b196bf.png" alt="d3ba5b40ee8b99e5e2c06cd392b196bf.png"></p>
+
+<img src="img/d3ba5b40ee8b99e5e2c06cd392b196bf.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Na próxima seção será abordado a forma de executar código ARM em diversos contextos.</p>
-<h1 id="formas-de-rodar-arm">Formas de rodar ARM</h1>
+<h1 id="formas-de-rodar-arm">Formas de rodar ARM<a href="#formas-de-rodar-arm" class="hanchor" ariaLabel="Anchor">#</a> </h1>
 <p>Há diversas formas de rodar instruções ARM, inclusive via web, como o site <em>CPUlator</em> <a href="https://cpulator.01xz.net/?sys=arm"> (apenas 32-bits)</a>. Aqui serão apresentadas duas formas: para quem já tem uma máquina AARCH64 e para quem não possui.</p>
 <p>Em todos os casos os seguintes pacotes deverão constar no sistema:</p>
 <ul>
 <li>binutils é o pacote que conterá o GNU Assembler (as) e o linker (ld);</li>
 <li>vim é um editor de texto que será utilizado para escrever o código-fonte. Porém, a escolha de qualquer outro editor é possível e fica a cargo do leitor.</li>
 </ul>
-<h2 id="em-uma-máquina-aarch64">Em uma máquina AARCH64</h2>
+<h2 id="em-uma-máquina-aarch64">Em uma máquina AARCH64<a href="#em-uma-máquina-aarch64" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <p>Se o leitor já possui uma máquina AARCH64, como um Raspberry Pi (versões mais recentes, como o 4) ou Macbooks mais recentes, não são necessárias ações adicionais de emulação do sistema. Apenas é recomendado a instalação de uma máquina virtual Linux, caso seu host não seja uma distro GNU/Linux, para prosseguir com a instalação dos seguintes pacotes:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo apt update -y
 </span></span><span class="line"><span class="cl">sudo apt install vim binutils
 </span></span></code></pre></div><blockquote>
 <p>No caso do Raspberry Pi OS, não é necessário instalar uma máquina virtual, apenas rodar os comandos acima.</p>
 </blockquote>
-<h2 id="em-máquinas-não-compatíveis">Em máquinas não compatíveis</h2>
+<h2 id="em-máquinas-não-compatíveis">Em máquinas não compatíveis<a href="#em-máquinas-não-compatíveis" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <p>Para máquinas Desktop atuais, com sistemas x86/amd64, o procedimento fica um pouco mais complicado, visto que esses computadores não entendem as instruções ARM nativamente. Nesse caso, o usuário têm duas opções a princípio: emular a plataforma ou criar uma instância na nuvem.</p>
 <p>Abaixo estão os procedimentos para cada uma dessas abordagens.</p>
-<h3 id="emulação-de-aarch64-via-qemu">Emulação de AARCH64 via QEMU</h3>
+<h3 id="emulação-de-aarch64-via-qemu">Emulação de AARCH64 via QEMU<a href="#emulação-de-aarch64-via-qemu" class="hanchor" ariaLabel="Anchor">#</a> </h3>
 <p>Nesse caso, será necessário o uso de um emulador, como o <a href="https://www.qemu.org/">QEMU</a> e uma imagem Linux, como o <a href="https://www.raspberrypi.com/software/operating-systems/">Raspberry Pi OS</a>. Essa imagem já vêm preinstalada, mas é necessário fazer algumas alterações para acesso à rede e ao SD Card virtual. É possível seguir o tutorial disponível no blog <a href="https://interrupt.memfault.com/blog/emulating-raspberry-pi-in-qemu">Interrupt</a>.</p>
 <p>Para facilitar essa configuração (bem técnica e complicada), utilizaremos a imagem Docker citada no artigo. Para isso, seu sistema deve ter o Docker instalado, <a href="https://docs.docker.com/engine/install/ubuntu/">clique aqui para ver o tutorial oficial de instalação no Ubuntu</a>. Em seguida, realize um pull na imagem e crie o container com os seguintes comandos:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo docker pull docker pull stawiski/qemu-raspberrypi-3b:2023-05-03-raspios-bullseye-arm64
 </span></span><span class="line"><span class="cl">sudo docker run -it --rm -p 2222:2222 stawiski/qemu-raspberrypi-3b:2023-05-03-raspios-bullseye-arm64
 </span></span></code></pre></div><p>O output esperado é semelhante ao das imagens abaixo:</p>
-<p><img src="img/a403a3565f86157215bff37bb74b67a7.png" alt="a403a3565f86157215bff37bb74b67a7.png"></p>
-<p><img src="img/bb81d7b5bc0427135114c30b180d745b.png" alt="bb81d7b5bc0427135114c30b180d745b.png"></p>
+
+<img src="img/a403a3565f86157215bff37bb74b67a7.png"  class="center"  style="border-radius: 1px;"    />
+
+
+
+<img src="img/bb81d7b5bc0427135114c30b180d745b.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Após o sistema carregar completamente, em outro terminal no seu host realize o login em <em>localhost:2222</em> via SSH, conforme imagem abaixo. O usuário é <code>pi</code> e a senha é <code>raspberry</code>:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh -p <span class="m">2222</span> pi@localhost
-</span></span></code></pre></div><p><img src="img/6c0c2f77a76d088c9a238fbc3e9bf229.png" alt="6c0c2f77a76d088c9a238fbc3e9bf229.png"></p>
+</span></span></code></pre></div>
+<img src="img/6c0c2f77a76d088c9a238fbc3e9bf229.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Essa imagem já contém os utilitários do <em>binutils</em> instalados, não necessitando de pós instalação. Caso o leitor queira instalar um editor de texto, como o vim, deve seguir os seguintes passos:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo apt update -y
 </span></span><span class="line"><span class="cl">sudo apt install vim
-</span></span></code></pre></div><h3 id="aws">AWS</h3>
+</span></span></code></pre></div><h3 id="aws">AWS<a href="#aws" class="hanchor" ariaLabel="Anchor">#</a> </h3>
 <p>Essa abordagem não irá gerar lentidão de processamento, mas necessita de investimento monetário. É possível subir uma máquina Linux/AARCH64 em alguns cliques na AWS.</p>
 <p>Para isso, realize login na AWS e acesse a <a href="https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Home:">EC2 Dashboard</a> e clique em &ldquo;Launch Instance&rdquo;:</p>
-<p><img src="img/76b3be78260298d21174b933ad71a6a3.png" alt="76b3be78260298d21174b933ad71a6a3.png"></p>
+
+<img src="img/76b3be78260298d21174b933ad71a6a3.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Dê um nome para a máquina, como &ldquo;ubuntu-arm64&rdquo;, selecione a AMI &ldquo;Ubuntu&rdquo; e selecione a arquitetura &ldquo;64-bit (ARM)&rdquo;:</p>
-<p><img src="img/3bfacaa840e1f49e12d88300e0e78690.png" alt="3bfacaa840e1f49e12d88300e0e78690.png"></p>
-<p><img src="img/37f87bb1c182f96b05bb513c99fb2fd1.png" alt="37f87bb1c182f96b05bb513c99fb2fd1.png"></p>
+
+<img src="img/3bfacaa840e1f49e12d88300e0e78690.png"  class="center"  style="border-radius: 1px;"    />
+
+
+
+<img src="img/37f87bb1c182f96b05bb513c99fb2fd1.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>No campo &ldquo;Instance Type&rdquo;, selecione o tamanho requerido pela aplicação que deseja rodar e que caiba no seu investimento. No caso desse artigo, o tipo de menor preço (t4g.nano) já é suficiente.
 Adicione também uma chave de acesso - ela será utilizada para realizar login via SSH na máquina criada.</p>
-<p><img src="img/5374bb483829b6480e2595f7124537d6.png" alt="5374bb483829b6480e2595f7124537d6.png"></p>
+
+<img src="img/5374bb483829b6480e2595f7124537d6.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Adicione um storage de pelo menos 8GB para abrigar o sistema operacional e os dados.</p>
-<p><img src="img/e953f5b4aacf5c357acb246dbf387a6b.png" alt="e953f5b4aacf5c357acb246dbf387a6b.png"></p>
+
+<img src="img/e953f5b4aacf5c357acb246dbf387a6b.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Ao fim, clique em &ldquo;Launch instance&rdquo; e aguarde a inicialização total da máquina.</p>
-<p><img src="img/d82ba51dda08c7d5c33a75218808605d.png" alt="d82ba51dda08c7d5c33a75218808605d.png"></p>
+
+<img src="img/d82ba51dda08c7d5c33a75218808605d.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Clique no ID da instância apresentado na tela e copie o endereço IPv4 público:</p>
-<p><img src="img/9d41dccbde527fad2e3b8d83eb27dc2c.png" alt="9d41dccbde527fad2e3b8d83eb27dc2c.png"></p>
-<p><img src="img/e55fba3b2185ec28a51621c7f45089ac.png" alt="e55fba3b2185ec28a51621c7f45089ac.png"></p>
+
+<img src="img/9d41dccbde527fad2e3b8d83eb27dc2c.png"  class="center"  style="border-radius: 1px;"    />
+
+
+
+<img src="img/e55fba3b2185ec28a51621c7f45089ac.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Após isso, é possível logar na máquina usando a chave <em>.pem</em> baixada, mas antes é necessário utilizar o comando <code>chmod 700 &lt;chave&gt;.pem</code> para diminuir suas permissões e permitir que o SSH realize a conexão com sucesso via <code>ssh ubuntu@&lt;IPv4 público&gt; -i &lt;chave&gt;.pem</code>:</p>
-<p><img src="img/3244a5a40ba057f8345cdefd0ff2cec3.png" alt="3244a5a40ba057f8345cdefd0ff2cec3.png"></p>
+
+<img src="img/3244a5a40ba057f8345cdefd0ff2cec3.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Por fim, realize a instalação do binutils e um editor de texto com o comando:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo apt update -y
 </span></span><span class="line"><span class="cl">sudo apt install vim binutils
-</span></span></code></pre></div><h1 id="conclusão">Conclusão</h1>
+</span></span></code></pre></div><h1 id="conclusão">Conclusão<a href="#conclusão" class="hanchor" ariaLabel="Anchor">#</a> </h1>
 <p>Nesse artigo foram explicados conceitos básicos da arquitetura ARM os passos para a criação de um ambiente mínimo para a execução de instruções em máquinas nativas e em máquinas não compatíveis. No próximo artigo será mostrado a construção de um primeiro programa, um &ldquo;Hello World&rdquo; em ARM64.</p>
 
+      </div></div>
+
+  
     
-    <div class="nav-next-prev">
-        <div class="nav-prev">
-            
-                <a href="https://blog.midnighthackings.com/posts/base-0x00/"><i class="fas fa-chevron-left"></i></a>
-            
-        </div>
-        <a class="nav-top" href="#">top</i></a>
-        <div class="nav-next">
-            
-                <a href="https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x00/"><i class="fas fa-chevron-right"></i></a>
-            
-        </div>
-    </div>
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Ler outras postagens</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="https://blog.midnighthackings.com/posts/my-journey-into-pentest-0x00/" class="button inline prev">
+        &lt; [<span class="button__text">Notas sobre Penetration Testing 0x00</span>]
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="https://blog.midnighthackings.com/posts/base-0x00/" class="button inline next">
+         [<span class="button__text">Base 0x00 - Procedimento de linking &amp; seus tipos</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
     
 
-            </div><footer>
-<div class="footer-content">
+  
+</article>
 
-  <div class="contact-info">
-      
-          <div class="footer-mail">
-          <i class="far fa-envelope"></i> <a href="mailto:midnight.reverser@outlook.com">midnight.reverser@outlook.com</a> </div>
-      
-      
   </div>
 
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright copyright--user">
+        <span>Midnight Hackings apoia o fim da escala 6x1!</span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
 
-<img src="https://www.gnu.org/graphics/gplv3-with-text-136x68.png"/>
-&nbsp;&nbsp;
-<p class="copyright meta"> Midnight Hackings apoia GPL e o fim da escala 6x1!</p>
 
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
 </div>
-</footer></main>
-    </body>
-    <script src=https://blog.midnighthackings.com/js/navbutton.js></script>
+
+</body>
 </html>

