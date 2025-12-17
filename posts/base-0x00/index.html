@@ -329,7 +329,7 @@ Licença: livre, como todo conhecimento deve ser.</p>
 <blockquote>
 <p>hello.o: ELF 64-bit LSB relocatable, x86-64, version 1 (SYSV), not stripped</p>
 </blockquote>
-<p>O atributo relocável traz o significado de &ldquo;móvel&rdquo;. Um arquivo-objeto não está ligado a outros códigos-objeto e bibliotecas, eles se referem apenas àquela <a href="https://en.wikipedia.org/wiki/Translation_unit_(programming)">unidade de tradução</a>. Logo, ele não contém códigos externos àquela unidade de tradução (ou arquivo fonte + diretivas #include), não podendo rodar corretamente. Porém, isso permite que ele seja ligado a outros arquivos-objeto para montar um executável final - por isso o nome &ldquo;relocável&rdquo;.</p>
+<p>O atributo relocável traz o significado de &ldquo;móvel&rdquo;. Um arquivo-objeto não está ligado a outros códigos-objeto e bibliotecas, eles se referem apenas àquela <a href="https://en.wikipedia.org/wiki/Translation_unit_%28programming%29">unidade de tradução</a>. Logo, ele não contém códigos externos àquela unidade de tradução (ou arquivo fonte + diretivas #include), não podendo rodar corretamente. Porém, isso permite que ele seja ligado a outros arquivos-objeto para montar um executável final - por isso o nome &ldquo;relocável&rdquo;.</p>
 <p>Entretanto, não é possível executar o arquivo-objeto até mesmo de um código mínimo que não possui ligações externas. O motivo é que um arquivo-objeto, devido a ser relocável, não contém endereçamento virtual definido. Podemos checar isso realizando o disassembly da função mais com um software disassembler, como o <em>objdump</em>:</p>
 
 <img src="img/a03c337a0a2025b2a1d277cee919d7a5.png"  class="center"  style="border-radius: 1px;"    />
@@ -671,7 +671,7 @@ Licença: livre, como todo conhecimento deve ser.</p>
   <div class="footer__inner">
     
       <div class="copyright copyright--user">
-        <span>Midnight Hackings apoia o fim da escala 6x1!</span>
+        <span>Midnight Hackings Industries</span>
     
       <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
       </div>
