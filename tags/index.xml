@@ -2,123 +2,123 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Midnight Hackings</title>
-    <link>https://blog.midnighthackings.com/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on Midnight Hackings</description>
     <generator>Hugo</generator>
     <language>br</language>
     <copyright>Midnight Hackings Industries</copyright>
     <lastBuildDate>Tue, 08 Apr 2025 18:00:00 -0300</lastBuildDate>
-    <atom:link href="https://blog.midnighthackings.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Malware-Research</title>
-      <link>https://blog.midnighthackings.com/tags/malware-research/</link>
+      <link>http://localhost:1313/tags/malware-research/</link>
       <pubDate>Tue, 08 Apr 2025 18:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/malware-research/</guid>
+      <guid>http://localhost:1313/tags/malware-research/</guid>
       <description></description>
     </item>
     <item>
       <title>Trojans</title>
-      <link>https://blog.midnighthackings.com/tags/trojans/</link>
+      <link>http://localhost:1313/tags/trojans/</link>
       <pubDate>Tue, 08 Apr 2025 18:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/trojans/</guid>
+      <guid>http://localhost:1313/tags/trojans/</guid>
       <description></description>
     </item>
     <item>
       <title>Ejpt</title>
-      <link>https://blog.midnighthackings.com/tags/ejpt/</link>
+      <link>http://localhost:1313/tags/ejpt/</link>
       <pubDate>Thu, 25 Jul 2024 12:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/ejpt/</guid>
+      <guid>http://localhost:1313/tags/ejpt/</guid>
       <description></description>
     </item>
     <item>
       <title>Intro</title>
-      <link>https://blog.midnighthackings.com/tags/intro/</link>
+      <link>http://localhost:1313/tags/intro/</link>
       <pubDate>Thu, 25 Jul 2024 12:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/intro/</guid>
+      <guid>http://localhost:1313/tags/intro/</guid>
       <description></description>
     </item>
     <item>
       <title>Pentest</title>
-      <link>https://blog.midnighthackings.com/tags/pentest/</link>
+      <link>http://localhost:1313/tags/pentest/</link>
       <pubDate>Thu, 25 Jul 2024 12:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/pentest/</guid>
+      <guid>http://localhost:1313/tags/pentest/</guid>
       <description></description>
     </item>
     <item>
       <title>Study-Notes</title>
-      <link>https://blog.midnighthackings.com/tags/study-notes/</link>
+      <link>http://localhost:1313/tags/study-notes/</link>
       <pubDate>Thu, 25 Jul 2024 12:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/study-notes/</guid>
+      <guid>http://localhost:1313/tags/study-notes/</guid>
       <description></description>
     </item>
     <item>
       <title>Arm</title>
-      <link>https://blog.midnighthackings.com/tags/arm/</link>
+      <link>http://localhost:1313/tags/arm/</link>
       <pubDate>Fri, 22 Mar 2024 21:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/arm/</guid>
+      <guid>http://localhost:1313/tags/arm/</guid>
       <description></description>
     </item>
     <item>
       <title>Base-Knowledge</title>
-      <link>https://blog.midnighthackings.com/tags/base-knowledge/</link>
+      <link>http://localhost:1313/tags/base-knowledge/</link>
       <pubDate>Fri, 22 Mar 2024 21:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/base-knowledge/</guid>
+      <guid>http://localhost:1313/tags/base-knowledge/</guid>
       <description></description>
     </item>
     <item>
       <title>Linking</title>
-      <link>https://blog.midnighthackings.com/tags/linking/</link>
+      <link>http://localhost:1313/tags/linking/</link>
       <pubDate>Fri, 22 Mar 2024 21:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/linking/</guid>
+      <guid>http://localhost:1313/tags/linking/</guid>
       <description></description>
     </item>
     <item>
       <title>Programming</title>
-      <link>https://blog.midnighthackings.com/tags/programming/</link>
+      <link>http://localhost:1313/tags/programming/</link>
       <pubDate>Fri, 22 Mar 2024 21:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/programming/</guid>
+      <guid>http://localhost:1313/tags/programming/</guid>
       <description></description>
     </item>
     <item>
       <title>Reversing</title>
-      <link>https://blog.midnighthackings.com/tags/reversing/</link>
+      <link>http://localhost:1313/tags/reversing/</link>
       <pubDate>Fri, 22 Mar 2024 21:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/reversing/</guid>
+      <guid>http://localhost:1313/tags/reversing/</guid>
       <description></description>
     </item>
     <item>
       <title>Crackme</title>
-      <link>https://blog.midnighthackings.com/tags/crackme/</link>
+      <link>http://localhost:1313/tags/crackme/</link>
       <pubDate>Thu, 29 Jun 2023 07:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/crackme/</guid>
+      <guid>http://localhost:1313/tags/crackme/</guid>
       <description></description>
     </item>
     <item>
       <title>Ctf</title>
-      <link>https://blog.midnighthackings.com/tags/ctf/</link>
+      <link>http://localhost:1313/tags/ctf/</link>
       <pubDate>Thu, 29 Jun 2023 07:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/ctf/</guid>
+      <guid>http://localhost:1313/tags/ctf/</guid>
       <description></description>
     </item>
     <item>
       <title>Injection</title>
-      <link>https://blog.midnighthackings.com/tags/injection/</link>
+      <link>http://localhost:1313/tags/injection/</link>
       <pubDate>Mon, 01 Aug 2022 19:15:14 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/injection/</guid>
+      <guid>http://localhost:1313/tags/injection/</guid>
       <description></description>
     </item>
     <item>
       <title>Malware-Dev</title>
-      <link>https://blog.midnighthackings.com/tags/malware-dev/</link>
+      <link>http://localhost:1313/tags/malware-dev/</link>
       <pubDate>Mon, 01 Aug 2022 19:15:14 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/malware-dev/</guid>
+      <guid>http://localhost:1313/tags/malware-dev/</guid>
       <description></description>
     </item>
     <item>
       <title>Tools</title>
-      <link>https://blog.midnighthackings.com/tags/tools/</link>
+      <link>http://localhost:1313/tags/tools/</link>
       <pubDate>Tue, 05 Jul 2022 12:00:00 -0300</pubDate>
-      <guid>https://blog.midnighthackings.com/tags/tools/</guid>
+      <guid>http://localhost:1313/tags/tools/</guid>
       <description></description>
     </item>
   </channel>
