@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Packing on Midnight Hackings</title>
+    <link>https://blog.midnighthackings.com/tags/packing/</link>
+    <description>Recent content in Packing on Midnight Hackings</description>
+    <generator>Hugo</generator>
+    <language>br</language>
+    <copyright>Midnight Hackings Industries</copyright>
+    <lastBuildDate>Tue, 21 Jul 2026 19:00:00 -0300</lastBuildDate>
+    <atom:link href="https://blog.midnighthackings.com/tags/packing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Desofuscando malwares com unpacking - Parte 1</title>
+      <link>https://blog.midnighthackings.com/posts/malware-analysis-0x02/</link>
+      <pubDate>Tue, 21 Jul 2026 19:00:00 -0300</pubDate>
+      <guid>https://blog.midnighthackings.com/posts/malware-analysis-0x02/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Escrito por: Mateus Gualberto (Midnight Reverser) - &lt;strong&gt;humanamente original&lt;/strong&gt;&lt;br&gt;&#xA;Licença: livre, como todo conhecimento deve ser.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Neste artigo serão tratados temas relacionados a ofuscação de binários através do processo de &lt;em&gt;packing&lt;/em&gt;, bem como explicação de técnicas para realizar a desofuscação - &lt;em&gt;unpacking&lt;/em&gt;. Esse assunto é de especial interesse para engenheiros reversos e analistas de malware, visto que muitos artefatos utilizam esse tipo de procedimento pelos mais variados motivos.&lt;/p&gt;&#xA;&lt;p&gt;Devido a densidade do conteúdo, será necessário dividi-lo em 2 partes:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

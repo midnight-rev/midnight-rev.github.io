@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tools on Midnight Hackings</title>
-    <link>http://localhost:1313/tags/tools/</link>
+    <link>https://blog.midnighthackings.com/tags/tools/</link>
     <description>Recent content in Tools on Midnight Hackings</description>
     <generator>Hugo</generator>
     <language>br</language>
     <copyright>Midnight Hackings Industries</copyright>
     <lastBuildDate>Tue, 05 Jul 2022 12:00:00 -0300</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/tools/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.midnighthackings.com/tags/tools/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pentest 0x00 - Netcat: O canivete suíço dos hackers</title>
-      <link>http://localhost:1313/posts/pentest-0x00/</link>
+      <link>https://blog.midnighthackings.com/posts/pentest-0x00/</link>
       <pubDate>Tue, 05 Jul 2022 12:00:00 -0300</pubDate>
-      <guid>http://localhost:1313/posts/pentest-0x00/</guid>
+      <guid>https://blog.midnighthackings.com/posts/pentest-0x00/</guid>
       <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Escrito por: Mateus Gualberto (Midnight Reverser) - &lt;strong&gt;humanamente original&lt;/strong&gt;&lt;br&gt;&#xA;Licença: livre, como todo conhecimento deve ser.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h1 id=&#34;introdução&#34;&gt;Introdução&lt;/h1&gt;&#xA;&lt;p&gt;Nessa série de postagens, iremos descrever ferramentas essenciais que serão úteis para diversos cenários de pentest.&lt;/p&gt;&#xA;&lt;p&gt;Essas ferramentas servirão principalmente para execução de comandos, estabelecimento de &lt;em&gt;shells&lt;/em&gt;, envio de arquivos e análise de pacotes de redes.&lt;/p&gt;&#xA;&lt;p&gt;Hoje trataremos no Netcat, ou &lt;code&gt;nc&lt;/code&gt;. O IP utilizado pode sofrer alterações de exemplo para exemplo, logo é importante que o leitor entenda as diferenças entre o IP da vítima e do atacante ao longo do texto.&lt;/p&gt;</description>
     </item>
   </channel>
